@@ -33,6 +33,7 @@ dependencies:
   dio: ^4.0.0
   map_picker: ^0.0.3
 #  google_map_location_picker: any
+  geolocator: ^8.0.0
   conditional_builder: ^1.0.2
   shared_preferences: any
   flutter_native_splash: ^1.2.1

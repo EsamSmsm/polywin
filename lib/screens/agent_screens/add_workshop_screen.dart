@@ -15,10 +15,8 @@ import 'package:polywin/shared/cubit/workshop_states.dart';
 class AddWorkshopScreen extends StatelessWidget {
   const AddWorkshopScreen({Key key}) : super(key: key);
 
-
   @override
   Widget build(BuildContext context) {
-
     final TextEditingController nameController = TextEditingController();
     final TextEditingController addressController = TextEditingController();
     final TextEditingController phoneController = TextEditingController();
@@ -26,18 +24,18 @@ class AddWorkshopScreen extends StatelessWidget {
     final TextEditingController userNameController = TextEditingController();
     final TextEditingController passwordController = TextEditingController();
     final TextEditingController governorateController = TextEditingController();
-    return BlocConsumer<AgentCubit,AgentStates>(
+    return BlocConsumer<AgentCubit, AgentStates>(
       listener: (context, state) {
         AgentCubit cubit = AgentCubit.get(context);
-        if(state is AddWorkshopSuccessState){
-          if(cubit.addAccountResponse.status=='success'){
+        if (state is AddWorkshopSuccessState) {
+          if (cubit.addAccountResponse.status == 'success') {
             cubit.getAllWorkshops();
             showAlertDialogWithAction(
                 message: 'تمت الاضافة بنجاح',
                 buttonText: 'تم',
                 context: context,
                 imagePath: 'assets/images/deal.png',
-                action: (){
+                action: () {
                   cubit.imageFile = null;
                   nameController.text = null;
                   addressController.text = null;
@@ -46,10 +44,11 @@ class AddWorkshopScreen extends StatelessWidget {
                   passwordController.text = null;
                   Navigator.pop(context);
                   Navigator.pop(context);
-                }
-            );
-          }else{
-            showToast(text:cubit.addAccountResponse.message, color: Colors.redAccent);
+                });
+          } else {
+            showToast(
+                text: cubit.addAccountResponse.message,
+                color: Colors.redAccent);
           }
         }
       },
@@ -57,9 +56,11 @@ class AddWorkshopScreen extends StatelessWidget {
         AgentCubit cubit = AgentCubit.get(context);
         return Scaffold(
           backgroundColor: Colors.white,
-          appBar: CustomAppBar(title: 'اضافة الورشة',isSigned: true,),
+          appBar: CustomAppBar(
+            title: 'اضافة الورشة',
+            isSigned: true,
+          ),
           body: SingleChildScrollView(
-
             child: Padding(
               padding: const EdgeInsets.all(22),
               child: Column(
@@ -67,11 +68,19 @@ class AddWorkshopScreen extends StatelessWidget {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
-                      Text('بيانات الورشة',textDirection: TextDirection.rtl,
-                        style: TextStyle(fontSize: 20,color: kOrangeColor,fontWeight: FontWeight.bold),),
+                      Text(
+                        'بيانات الورشة',
+                        textDirection: TextDirection.rtl,
+                        style: TextStyle(
+                            fontSize: 20,
+                            color: kOrangeColor,
+                            fontWeight: FontWeight.bold),
+                      ),
                     ],
                   ),
-                  SizedBox(height: 20,),
+                  SizedBox(
+                    height: 20,
+                  ),
                   GestureDetector(
                     onTap: () {
                       cubit.showPhotoDialog(context);
@@ -84,34 +93,34 @@ class AddWorkshopScreen extends StatelessWidget {
                         decoration: BoxDecoration(
                             image: cubit.imageFile != null
                                 ? DecorationImage(
-                                image: FileImage(
-                                  cubit.imageFile,
-                                ),
-                                fit: BoxFit.cover)
+                                    image: FileImage(
+                                      cubit.imageFile,
+                                    ),
+                                    fit: BoxFit.cover)
                                 : null,
                             color: Color(0xffF8F8F8),
                             borderRadius: BorderRadius.circular(20),
                             border: Border.all(color: Colors.grey)),
                         child: cubit.imageFile == null
                             ? Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Text(
-                              'رفع صورة / لوجو',
-                              style: TextStyle(
-                                  fontSize: 16,
-                                  color: Colors.grey,
-                                  fontWeight: FontWeight.bold),
-                            ),
-                            SizedBox(
-                              width: 20,
-                            ),
-                            Icon(
-                              Icons.cloud_upload_outlined,
-                              color: Colors.grey,
-                            )
-                          ],
-                        )
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Text(
+                                    'رفع صورة / لوجو',
+                                    style: TextStyle(
+                                        fontSize: 16,
+                                        color: Colors.grey,
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                  SizedBox(
+                                    width: 20,
+                                  ),
+                                  Icon(
+                                    Icons.cloud_upload_outlined,
+                                    color: Colors.grey,
+                                  )
+                                ],
+                              )
                             : null,
                       ),
                     ),
@@ -119,18 +128,26 @@ class AddWorkshopScreen extends StatelessWidget {
                   SizedBox(
                     height: 24,
                   ),
+
                   ///user data form
                   Column(
                     children: [
                       ///name
-                      Label(text: 'اسم الورشة',),
-                      SizedBox(height: 16,),
+                      Label(
+                        text: 'اسم الورشة',
+                      ),
+                      SizedBox(
+                        height: 16,
+                      ),
                       CustomTextField(
                         controller: nameController,
                         hintText: 'اسم الورشة',
                         isPassword: false,
-                        textDirection: TextDirection.rtl,),
-                      SizedBox(height: 24,),
+                        textDirection: TextDirection.rtl,
+                      ),
+                      SizedBox(
+                        height: 24,
+                      ),
                       Label(
                         text: 'المحافظة',
                       ),
@@ -146,61 +163,101 @@ class AddWorkshopScreen extends StatelessWidget {
                       SizedBox(
                         height: 24,
                       ),
+
                       ///phone
-                      Label(text: 'رقم الهاتف المتصل بالواتس',),
-                      SizedBox(height: 16,),
+                      Label(
+                        text: 'رقم الهاتف المتصل بالواتس',
+                      ),
+                      SizedBox(
+                        height: 16,
+                      ),
                       CustomTextField(
                         controller: phoneController,
                         hintText: 'رقم الهاتف',
                         isPassword: false,
                         textDirection: TextDirection.rtl,
-                        inputType: TextInputType.phone,),
-                      SizedBox(height: 24,),
+                        inputType: TextInputType.phone,
+                      ),
+                      SizedBox(
+                        height: 24,
+                      ),
+
                       ///email
-                      Label(text: 'البريد الالكتروني',),
-                      SizedBox(height: 16,),
+                      Label(
+                        text: 'البريد الالكتروني',
+                      ),
+                      SizedBox(
+                        height: 16,
+                      ),
                       CustomTextField(
                         controller: emailController,
                         hintText: 'info@gmail.com',
                         isPassword: false,
                         textDirection: TextDirection.rtl,
-                        inputType: TextInputType.emailAddress,),
-                      SizedBox(height: 24,),
+                        inputType: TextInputType.emailAddress,
+                      ),
+                      SizedBox(
+                        height: 24,
+                      ),
+
                       ///userName
-                      Label(text: 'اسم المستخدم',),
-                      SizedBox(height: 16,),
+                      Label(
+                        text: 'اسم المستخدم',
+                      ),
+                      SizedBox(
+                        height: 16,
+                      ),
                       CustomTextField(
                         controller: userNameController,
                         hintText: 'example',
                         isPassword: false,
                         textDirection: TextDirection.rtl,
-                        inputType: TextInputType.emailAddress,),
-                      SizedBox(height: 24,),
+                        inputType: TextInputType.emailAddress,
+                      ),
+                      SizedBox(
+                        height: 24,
+                      ),
+
                       ///password
-                      Label(text: 'كلمة المرور',),
-                      SizedBox(height: 16,),
+                      Label(
+                        text: 'كلمة المرور',
+                      ),
+                      SizedBox(
+                        height: 16,
+                      ),
                       CustomTextField(
                         controller: passwordController,
                         hintText: '******',
                         textDirection: TextDirection.rtl,
                         inputType: TextInputType.text,
-                        isPassword: true,),
-                      SizedBox(height: 16,),
+                        isPassword: true,
+                      ),
+                      SizedBox(
+                        height: 16,
+                      ),
                       // ///confirm password
                       // Label(text: 'تأكيد كلمة المرور',),
                       // SizedBox(height: 16,),
                       // CustomTextField(hintText: '******',textDirection: TextDirection.rtl,inputType: TextInputType.text,isPassword: true,),
                       // SizedBox(height: 24,),
                       /// location
-                      Label(text: 'موقع الورشة',),
-                      SizedBox(height: 16,),
+                      Label(
+                        text: 'عنوان الورشة',
+                      ),
+                      SizedBox(
+                        height: 16,
+                      ),
                       CustomTextField(
                         controller: addressController,
                         hintText: 'عنوان الورشة',
                         isPassword: false,
                         textDirection: TextDirection.rtl,
-                        inputType: TextInputType.emailAddress,),
-                      SizedBox(height: 30,),
+                        inputType: TextInputType.emailAddress,
+                      ),
+                      SizedBox(
+                        height: 30,
+                      ),
+
                       ///save button
                       ConditionalBuilder(
                         condition: state is! AddWorkshopLoadingState,
@@ -208,19 +265,18 @@ class AddWorkshopScreen extends StatelessWidget {
                           color: kBlueColor,
                           label: 'اضافة ورشة',
                           onTab: () async {
-                            if(
-                            cubit.imageFile == null ||
-                                nameController.text == ''||
-                                addressController.text == ''||
-                                governorateController.text==''||
-                                phoneController.text==''||
-                                passwordController.text == ''||
-                                userNameController.text ==''
-                            ){
-                              showToast(text: 'تأكد من ملئ البيانات بشكل صحيح', color: Colors.red);
+                            if (cubit.imageFile == null ||
+                                nameController.text == '' ||
+                                addressController.text == '' ||
+                                governorateController.text == '' ||
+                                phoneController.text == '' ||
+                                passwordController.text == '' ||
+                                userNameController.text == '') {
+                              showToast(
+                                  text: 'تأكد من ملئ البيانات بشكل صحيح',
+                                  color: Colors.red);
                               cubit.emit(AddWorkshopErrorState());
-                            }
-                           else{
+                            } else {
                               await cubit.addWorkshopAccount(
                                 email: emailController.text,
                                 userName: userNameController.text,
@@ -239,7 +295,9 @@ class AddWorkshopScreen extends StatelessWidget {
                           color: kBlueColor,
                         ),
                       ),
-                      SizedBox(height: 30,),
+                      SizedBox(
+                        height: 30,
+                      ),
                     ],
                   )
                 ],
