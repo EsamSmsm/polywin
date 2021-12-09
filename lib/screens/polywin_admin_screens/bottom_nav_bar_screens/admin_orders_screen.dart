@@ -14,9 +14,9 @@ class AdminOrdersScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<AppCubit,AppStates>(
+    return BlocConsumer<AppCubit, AppStates>(
       listener: (context, state) {
-        if(state is GetPolywinInvoicesErrorState){
+        if (state is GetPolywinInvoicesErrorState) {
           showToast(text: 'حدث خطأفي تحميل البيانات', color: Colors.redAccent);
         }
       },
@@ -38,27 +38,33 @@ class AdminOrdersScreen extends StatelessWidget {
                     children: [
                       Text(
                         'الطلبيات',
-                        style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500),
+                        style: TextStyle(
+                            fontSize: 20, fontWeight: FontWeight.w500),
                         textDirection: TextDirection.rtl,
                       )
                     ],
                   ),
                 ),
+
                 ///listview
                 ConditionalBuilder(
                   condition: cubit.getPolywinInvoicesModel != null,
-                  fallback:(context) => LinearProgressIndicator(backgroundColor: kOrangeColor,),
+                  fallback: (context) => LinearProgressIndicator(
+                    backgroundColor: kOrangeColor,
+                  ),
                   builder: (context) => ListView.builder(
                     shrinkWrap: true,
                     physics: NeverScrollableScrollPhysics(),
                     itemCount: cubit.getPolywinInvoicesModel.payload.length,
                     itemBuilder: (context, index) => Container(
                       margin: EdgeInsets.symmetric(vertical: 10),
-                      padding: EdgeInsets.symmetric(horizontal: 16, vertical: 10),
-                      height: MediaQuery.of(context).size.height * 0.20,
-                      decoration: BoxDecoration(color: Color(0xffF8F8F8),boxShadow: [
-                        BoxShadow(color: Colors.grey, blurRadius: 0.5)
-                      ]),
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                      decoration: BoxDecoration(
+                          color: Color(0xffF8F8F8),
+                          boxShadow: [
+                            BoxShadow(color: Colors.grey, blurRadius: 0.5)
+                          ]),
                       child: RefreshIndicator(
                         onRefresh: () async {
                           cubit.getPolywinInvoices();
@@ -69,12 +75,14 @@ class AdminOrdersScreen extends StatelessWidget {
                             Column(
                               children: [
                                 Row(
-                                  mainAxisAlignment: MainAxisAlignment.end,
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
                                   children: [
                                     Text(
                                       '${index + 1}',
                                       style: TextStyle(
-                                          color: Color(0xff707070), fontSize: 17),
+                                          color: Color(0xff707070),
+                                          fontSize: 17),
                                     ),
                                     SizedBox(width: 80),
                                     Text(
@@ -88,12 +96,15 @@ class AdminOrdersScreen extends StatelessWidget {
                                   height: 10,
                                 ),
                                 Row(
-                                  mainAxisAlignment: MainAxisAlignment.end,
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
                                   children: [
                                     Text(
-                                      cubit.getPolywinInvoicesModel.payload[index].agent,
+                                      cubit.getPolywinInvoicesModel
+                                          .payload[index].agent,
                                       style: TextStyle(
-                                          color: Color(0xff707070), fontSize: 17),
+                                          color: Color(0xff707070),
+                                          fontSize: 17),
                                     ),
                                     SizedBox(width: 50),
                                     Text(
@@ -107,14 +118,17 @@ class AdminOrdersScreen extends StatelessWidget {
                                   height: 10,
                                 ),
                                 Row(
-                                  mainAxisAlignment: MainAxisAlignment.end,
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
                                   children: [
                                     Text(
-                                      cubit.getPolywinInvoicesModel.payload[index]
-                                          .invoicesDate.toString()
-                                      .substring(0,10),
+                                      cubit.getPolywinInvoicesModel
+                                          .payload[index].invoicesDate
+                                          .toString()
+                                          .substring(0, 10),
                                       style: TextStyle(
-                                          color: Color(0xff707070), fontSize: 17),
+                                          color: Color(0xff707070),
+                                          fontSize: 17),
                                     ),
                                     SizedBox(width: 50),
                                     Text(
@@ -127,6 +141,31 @@ class AdminOrdersScreen extends StatelessWidget {
                                 SizedBox(
                                   height: 10,
                                 ),
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text(
+                                      cubit.getPolywinInvoicesModel
+                                              .payload[index].totalWithInvoices
+                                              .toString() +
+                                          '  ج.م',
+                                      textDirection: TextDirection.rtl,
+                                      style: TextStyle(
+                                          color: Color(0xff707070),
+                                          fontSize: 17),
+                                    ),
+                                    SizedBox(width: 50),
+                                    Text(
+                                      'الاجمالي ',
+                                      style: TextStyle(fontSize: 17),
+                                      textDirection: TextDirection.rtl,
+                                    )
+                                  ],
+                                ),
+                                SizedBox(
+                                  height: 20,
+                                ),
                               ],
                             ),
                             Row(
@@ -135,7 +174,11 @@ class AdminOrdersScreen extends StatelessWidget {
                                   color: Color(0xffFFA41B),
                                   label: 'عرض الطلبية',
                                   onTab: () {
-                                    navigateTo(context, SendOrderScreen(invoiceIndex: index,));
+                                    navigateTo(
+                                        context,
+                                        SendOrderScreen(
+                                          invoiceIndex: index,
+                                        ));
                                   },
                                 ),
                               ],

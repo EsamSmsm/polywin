@@ -1,48 +1,34 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:polywin/shared/components/custom_appbar.dart';
 import 'package:polywin/shared/components/custom_button_2.dart';
+import 'package:polywin/shared/components/defaults.dart';
+import 'package:polywin/shared/cubit/workshop_cubit.dart';
+import 'package:polywin/shared/cubit/workshop_states.dart';
+
+import 'choose_workshop_invoice_screen.dart';
 
 class SavedPriceScreen extends StatelessWidget {
   const SavedPriceScreen({Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: CustomAppBar(
-        title: 'عروض اسعار محفوظة',
-        isSigned: true,
-      ),
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            Padding(
-              padding: const EdgeInsets.all(22),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Icon(
-                    Icons.sort,
-                    color: Colors.black,
-                    size: 26,
-                  ),
-                  Text(
-                    'عروض اسعار محفوظة',
-                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500),
-                    textDirection: TextDirection.rtl,
-                  )
-                ],
-              ),
-            ),
-
-            ///listview
-            ListView.builder(
+    return BlocBuilder<WorkshopCubit, WorkshopStates>(
+      builder: (context, state) {
+        WorkshopCubit cubit = WorkshopCubit.get(context);
+        return Scaffold(
+          appBar: CustomAppBar(
+            title: 'عروض اسعار محفوظة',
+            isSigned: true,
+          ),
+          body: SingleChildScrollView(
+            child: ListView.builder(
               shrinkWrap: true,
               physics: NeverScrollableScrollPhysics(),
-              itemCount: 5,
+              itemCount: cubit.getAllClientsModel.payload.length,
               itemBuilder: (context, index) => Container(
-                margin: EdgeInsets.symmetric(vertical: 10),
+                margin: EdgeInsets.symmetric(vertical: 8),
                 padding: EdgeInsets.symmetric(horizontal: 16, vertical: 10),
-                height: MediaQuery.of(context).size.height * 0.20,
                 decoration: BoxDecoration(color: Color(0xffF8F8F8), boxShadow: [
                   BoxShadow(color: Colors.grey, blurRadius: 0.5)
                 ]),
@@ -52,62 +38,97 @@ class SavedPriceScreen extends StatelessWidget {
                     Column(
                       children: [
                         Row(
-                          mainAxisAlignment: MainAxisAlignment.end,
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Text(
-                              '${index + 1}',
-                              style: TextStyle(
-                                  color: Color(0xff707070), fontSize: 15),
+                            Row(
+                              //mainAxisAlignment: MainAxisAlignment.end,
+                              children: [
+                                Text(
+                                  cubit.getAllClientsModel.payload[index].name,
+                                  style: TextStyle(
+                                    color: Color(0xff707070),
+                                    fontSize: 16,
+                                  ),
+                                  overflow: TextOverflow.ellipsis,
+                                  textDirection: TextDirection.rtl,
+                                ),
+                                SizedBox(width: 15),
+                                Text('اسم العميل',
+                                    style: TextStyle(
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.w500),
+                                    textDirection: TextDirection.rtl,
+                                    overflow: TextOverflow.ellipsis)
+                              ],
                             ),
-                            SizedBox(width: 80),
-                            Text(
-                              'تسلسل',
-                              style: TextStyle(fontSize: 15),
-                              textDirection: TextDirection.rtl,
-                            )
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              children: [
+                                Text(
+                                  '${index + 1}',
+                                  style: TextStyle(
+                                    color: Color(0xff707070),
+                                    fontSize: 16,
+                                  ),
+                                  overflow: TextOverflow.ellipsis,
+                                  textDirection: TextDirection.rtl,
+                                ),
+                                SizedBox(width: 20),
+                                Text('تسلسل',
+                                    style: TextStyle(
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.w500),
+                                    textDirection: TextDirection.rtl,
+                                    overflow: TextOverflow.ellipsis)
+                              ],
+                            ),
                           ],
                         ),
-                        SizedBox(
-                          height: 10,
-                        ),
+                        Padding(padding: EdgeInsets.symmetric(vertical: 5)),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.end,
                           children: [
                             Text(
-                              'خالد علي',
+                              cubit.getAllClientsModel.payload[index]
+                                  .clientPhone,
                               style: TextStyle(
-                                  color: Color(0xff707070), fontSize: 15),
-                            ),
-                            SizedBox(width: 50),
-                            Text(
-                              'اسم العميل',
-                              style: TextStyle(fontSize: 15),
+                                color: Color(0xff707070),
+                                fontSize: 16,
+                              ),
+                              overflow: TextOverflow.ellipsis,
                               textDirection: TextDirection.rtl,
-                            )
+                            ),
+                            SizedBox(width: 15),
+                            Text('تليفون',
+                                style: TextStyle(
+                                    fontSize: 16, fontWeight: FontWeight.w500),
+                                textDirection: TextDirection.rtl,
+                                overflow: TextOverflow.ellipsis)
                           ],
                         ),
-                        SizedBox(
-                          height: 10,
-                        ),
+                        Padding(padding: EdgeInsets.symmetric(vertical: 5)),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.end,
                           children: [
                             Text(
-                              '8/2/2021',
+                              cubit.getAllClientsModel.payload[index]
+                                  .clientAddress,
                               style: TextStyle(
-                                  color: Color(0xff707070), fontSize: 15),
-                            ),
-                            SizedBox(width: 50),
-                            Text(
-                              'تاريخ الطلب',
-                              style: TextStyle(fontSize: 15),
+                                color: Color(0xff707070),
+                                fontSize: 16,
+                              ),
+                              overflow: TextOverflow.ellipsis,
                               textDirection: TextDirection.rtl,
-                            )
+                            ),
+                            SizedBox(width: 15),
+                            Text('العنوان',
+                                style: TextStyle(
+                                    fontSize: 16, fontWeight: FontWeight.w500),
+                                textDirection: TextDirection.rtl,
+                                overflow: TextOverflow.ellipsis)
                           ],
                         ),
-                        SizedBox(
-                          height: 10,
-                        ),
+                        Padding(padding: EdgeInsets.symmetric(vertical: 5)),
                       ],
                     ),
                     SizedBox(
@@ -117,17 +138,25 @@ class SavedPriceScreen extends StatelessWidget {
                       children: [
                         CustomButton2(
                           color: Color(0xffFFA41B),
-                          label: 'ارسال عرض السعر',
+                          label: 'تقديم عقد للعميل',
+                          onTab: () {
+                            cubit.costList = [];
+                            cubit.getCostsByClient(
+                                clientId:
+                                    cubit.getAllClientsModel.payload[index].id);
+                            print(cubit.getAllClientsModel.payload[index].id);
+                            navigateTo(context, ChooseInvoiceScreen());
+                          },
                         ),
                       ],
-                    )
+                    ),
                   ],
                 ),
               ),
             ),
-          ],
-        ),
-      ),
+          ),
+        );
+      },
     );
   }
 }

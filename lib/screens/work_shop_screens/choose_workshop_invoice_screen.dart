@@ -199,7 +199,10 @@ class ChooseInvoiceScreen extends StatelessWidget {
                                   fontSize: 20,
                                   color: Colors.black54,
                                   fontWeight: FontWeight.bold),
-                            )
+                            ),
+                      SizedBox(
+                        height: 30,
+                      )
                     ],
                   )
                 : LinearProgressIndicator(

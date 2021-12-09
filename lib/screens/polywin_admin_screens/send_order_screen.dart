@@ -29,29 +29,26 @@ class SendOrderScreen extends StatelessWidget {
               message: 'تم التسليم بنجاح',
               imagePath: 'assets/images/vector1.png',
               buttonText: 'شكرا',
-              action:(){
+              action: () {
                 cubit.invoiceDetails = [];
                 cubit.getPolywinInvoices();
                 Navigator.pop(context);
                 Navigator.pop(context);
                 Navigator.pop(context);
-              }
-        );
-        }
-        else if(state is RefuseInvoiceSuccessState){
+              });
+        } else if (state is RefuseInvoiceSuccessState) {
           showAlertDialogWithAction(
               context: context,
               messageColor: Colors.redAccent,
               message: 'تم رفض الطلبية',
               imagePath: 'assets/images/vector1.png',
               buttonText: 'شكرا',
-              action:(){
+              action: () {
                 cubit.invoiceDetails = [];
                 Navigator.pop(context);
                 Navigator.pop(context);
                 cubit.fetchData();
-              }
-          );
+              });
         }
       },
       builder: (context, state) {
@@ -82,11 +79,25 @@ class SendOrderScreen extends StatelessWidget {
                     children: [
                       Row(
                         textDirection: TextDirection.rtl,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text('محتويات الطلبية',
+                          Text('اجمالي الطلبية',
                               textDirection: TextDirection.rtl,
                               style: TextStyle(
-                                  fontSize: 18, fontWeight: FontWeight.bold)),
+                                  color: Colors.black54,
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.bold)),
+                          Text(
+                              cubit.getPolywinInvoicesModel
+                                      .payload[invoiceIndex].totalWithInvoices
+                                      .toString() +
+                                  ' ج.م',
+                              textDirection: TextDirection.rtl,
+                              style: TextStyle(
+                                  color: Colors.black54,
+                                  fontSize: 18,
+                                  fontFamily: 'Roboto',
+                                  fontWeight: FontWeight.bold)),
                         ],
                       ),
                       SizedBox(

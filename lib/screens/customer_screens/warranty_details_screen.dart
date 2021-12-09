@@ -203,10 +203,35 @@ class WarrantyDetailsScreen extends StatelessWidget {
                     gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                       mainAxisSpacing: 10,
                       crossAxisSpacing: 10,
+                      childAspectRatio: 2 / 2,
                       crossAxisCount: 4,
                     ),
-                    itemBuilder: (context, index) => Image.network(
-                        '$kBaseURL${cubit.clientWarrantiesModel[warrantyIndex].listImage[index]}'),
+                    itemBuilder: (context, index) => GestureDetector(
+                      onTap: () {
+                        showDialog(
+                            context: context,
+                            builder: (context) => Container(
+                                  width: MediaQuery.of(context).size.width - 60,
+                                  height:
+                                      MediaQuery.of(context).size.height * 0.6,
+                                  decoration: BoxDecoration(
+                                      image: DecorationImage(
+                                    image: NetworkImage(
+                                      '$kBaseURL${cubit.clientWarrantiesModel[warrantyIndex].listImage[index]}',
+                                    ),
+                                  )),
+                                ));
+                      },
+                      child: Container(
+                        decoration: BoxDecoration(
+                            image: DecorationImage(
+                          fit: BoxFit.cover,
+                          image: NetworkImage(
+                            '$kBaseURL${cubit.clientWarrantiesModel[warrantyIndex].listImage[index]}',
+                          ),
+                        )),
+                      ),
+                    ),
                   ),
                   SizedBox(
                     height: 30,

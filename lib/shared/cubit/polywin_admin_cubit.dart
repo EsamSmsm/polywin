@@ -5,11 +5,13 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:polywin/models/add_account_response.dart';
+import 'package:polywin/models/admin_models/client_type_details_model.dart';
 import 'package:polywin/models/admin_models/get_agents_count_model.dart';
 import 'package:polywin/models/admin_models/get_agents_stats.dart';
 import 'package:polywin/models/admin_models/get_discounts_model.dart';
 import 'package:polywin/models/admin_models/get_workshops_count_model.dart';
 import 'package:polywin/models/admin_models/edit_discounts_values.dart';
+import 'package:polywin/models/admin_models/workshop_details_screen.dart';
 import 'package:polywin/models/get_client_type_count.dart';
 import 'package:polywin/models/store_data_model.dart';
 import 'package:polywin/network/remote/dio_helper.dart';
@@ -111,6 +113,18 @@ class PolywinAdminCubit extends Cubit<PolywinAdminStates> {
     });
   }
 
+  ClientTypeDetailsModel clientTypeDetailsModel;
+  void getClientTypeDetails() {
+    emit(GetClientTypeDetailsLoadingState());
+    DioHelper.getData(url: 'api/UserInfo/GetClientTypeDetails').then((value) {
+      clientTypeDetailsModel = ClientTypeDetailsModel.fromJson(value.data);
+      emit(GetClientTypeDetailsSuccessState());
+    }).catchError((error) {
+      emit(GetClientTypeDetailsErrorState());
+      print(error);
+    });
+  }
+
   GetAgentsStatisticsModel getAgentsStatisticsModel;
   void getAgentsStatistics() {
     emit(GetAgentsStatsLoadingState());
@@ -125,6 +139,19 @@ class PolywinAdminCubit extends Cubit<PolywinAdminStates> {
     });
   }
 
+  WorkshopsDetailsModel workshopsDetailsModel;
+  void getWorkshopsDetails() {
+    emit(GetWorkshopsDetailsLoadingState());
+    DioHelper.getData(url: 'api/UserInfo/GetAllUserTypeWorkShopDetails')
+        .then((value) {
+      workshopsDetailsModel = WorkshopsDetailsModel.fromJson(value.data);
+      emit(GetWorkshopsDetailsSuccessState());
+    }).catchError((error) {
+      emit(GetWorkshopsDetailsErrorState());
+      print(error);
+    });
+  }
+
   void fetchData() {
     getAllDiscounts();
     getAgentsCount();
@@ -133,6 +160,8 @@ class PolywinAdminCubit extends Cubit<PolywinAdminStates> {
     getClientTypeCount();
     getAgentsStatistics();
     getAllGovernments();
+    getClientTypeDetails();
+    getWorkshopsDetails();
   }
 
   String longitude, latitude;
