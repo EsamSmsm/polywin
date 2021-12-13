@@ -57,6 +57,7 @@ class OrderDetailsScreen extends StatelessWidget {
         double discount = getTotal() - getTotalWithDiscount();
 
         return Scaffold(
+          backgroundColor: Colors.white,
           appBar: CustomAppBar(
             isSigned: true,
             title: 'تفاصيل الطلبية',
@@ -91,67 +92,70 @@ class OrderDetailsScreen extends StatelessWidget {
                   height: 20,
                 ),
                 ListView.separated(
-                  itemCount: cubit.order.length,
-                  shrinkWrap: true,
-                  physics: NeverScrollableScrollPhysics(),
-                  itemBuilder: (context, index) => Directionality(
-                    textDirection: TextDirection.rtl,
-                    child: ListTile(
-                      leading: Container(
-                        width: MediaQuery.of(context).size.width * 0.2,
-                        decoration: BoxDecoration(
-                          color: Colors.grey.shade200,
-                          image: DecorationImage(
-                            fit: BoxFit.cover,
-                            image: NetworkImage(
-                                '$kBaseURL${cubit.order[index]['imgURL']}'),
-                          ),
-                        ),
-                      ),
-                      title: Text(
-                        cubit.order[index]['productName'],
-                      ),
-                      trailing: SizedBox(
-                        width: MediaQuery.of(context).size.width * 0.28,
-                        child: Row(
-                          textDirection: TextDirection.ltr,
-                          children: [
-                            IconButton(
-                                onPressed: () {
-                                  cubit.order.removeAt(index);
-                                  cubit.emit(RefreshState());
-                                },
-                                icon: Icon(
-                                  Icons.delete_forever_outlined,
-                                  color: Colors.red,
-                                  size: 32,
-                                )),
-                            SizedBox(
-                              width: 5,
-                            ),
-                            Container(
-                              width: 32,
-                              height: 28,
+                    itemCount: cubit.order.length,
+                    shrinkWrap: true,
+                    physics: NeverScrollableScrollPhysics(),
+                    itemBuilder: (context, index) => Directionality(
+                          textDirection: TextDirection.rtl,
+                          child: ListTile(
+                            leading: Container(
+                              width: MediaQuery.of(context).size.width * 0.2,
                               decoration: BoxDecoration(
-                                border: Border.all(color: Color(0xffFA912E)),
-                                borderRadius: BorderRadius.circular(5),
-                              ),
-                              child: Center(
-                                child: Text(
-                                  cubit.order[index]['quantity'].toString(),
-                                  style: TextStyle(fontFamily: 'roboto'),
+                                color: Colors.grey.shade200,
+                                image: DecorationImage(
+                                  fit: BoxFit.cover,
+                                  image: NetworkImage(
+                                      '$kBaseURL${cubit.order[index]['imgURL']}'),
                                 ),
                               ),
-                            )
-                          ],
+                            ),
+                            title: Text(
+                              cubit.order[index]['productName'],
+                            ),
+                            subtitle: Text(cubit.order[index]['totalOrder']
+                                    .toStringAsFixed(2) +
+                                ' جنيه'),
+                            tileColor: Colors.white,
+                            trailing: SizedBox(
+                              width: MediaQuery.of(context).size.width * 0.28,
+                              child: Row(
+                                textDirection: TextDirection.ltr,
+                                children: [
+                                  IconButton(
+                                      onPressed: () {
+                                        cubit.order.removeAt(index);
+                                        cubit.emit(RefreshState());
+                                      },
+                                      icon: Icon(
+                                        Icons.delete_forever_outlined,
+                                        color: Colors.red,
+                                        size: 32,
+                                      )),
+                                  SizedBox(
+                                    width: 5,
+                                  ),
+                                  Container(
+                                    width: 32,
+                                    height: 28,
+                                    decoration: BoxDecoration(
+                                      border:
+                                          Border.all(color: Color(0xffFA912E)),
+                                      borderRadius: BorderRadius.circular(5),
+                                    ),
+                                    child: Center(
+                                      child: Text(
+                                        cubit.order[index]['quantity']
+                                            .toString(),
+                                        style: TextStyle(fontFamily: 'roboto'),
+                                      ),
+                                    ),
+                                  )
+                                ],
+                              ),
+                            ),
+                          ),
                         ),
-                      ),
-                    ),
-                  ),
-                  separatorBuilder: (context, index) => SizedBox(
-                    height: 20,
-                  ),
-                ),
+                    separatorBuilder: (context, index) => Divider()),
                 SizedBox(
                   height: 40,
                 ),

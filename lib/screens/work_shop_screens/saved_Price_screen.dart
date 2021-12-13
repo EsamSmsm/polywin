@@ -145,7 +145,12 @@ class SavedPriceScreen extends StatelessWidget {
                                 clientId:
                                     cubit.getAllClientsModel.payload[index].id);
                             print(cubit.getAllClientsModel.payload[index].id);
-                            navigateTo(context, ChooseInvoiceScreen());
+                            navigateTo(
+                                context,
+                                ChooseInvoiceScreen(
+                                  client:
+                                      cubit.getAllClientsModel.payload[index],
+                                ));
                           },
                         ),
                       ],

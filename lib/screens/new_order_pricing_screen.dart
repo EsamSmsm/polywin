@@ -2,6 +2,7 @@ import 'package:conditional_builder/conditional_builder.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:nil/nil.dart';
 import 'package:polywin/models/get_parent_category.dart';
 import 'package:polywin/screens/order_details_screen.dart';
 import 'package:polywin/shared/components/custom_appbar.dart';
@@ -162,301 +163,54 @@ class CategoryTile extends StatelessWidget {
             ? List<Widget>.generate(
                 cubit.getParentCategory.payload[index].listCategory[ndx]
                     .products.length,
-                (i) => Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 4),
-                  child: ListTile(
-                    contentPadding: EdgeInsets.symmetric(horizontal: 0),
-                    shape: Border.all(color: Colors.grey.shade200),
-                    leading: Container(
-                      width: MediaQuery.of(context).size.width * 0.2,
-                      decoration: BoxDecoration(
-                        color: Colors.grey.shade200,
-                        image: DecorationImage(
-                          fit: BoxFit.cover,
-                          image: NetworkImage(
-                              '$kBaseURL${cubit.getParentCategory.payload[index].listCategory[ndx].products[i].imgUrl}'),
+                (i) {
+                  Product product = cubit.getParentCategory.payload[index]
+                      .listCategory[ndx].products[i];
+                  return Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 4),
+                    child: ListTile(
+                      contentPadding: EdgeInsets.symmetric(horizontal: 0),
+                      shape: Border.all(color: Colors.grey.shade200),
+                      leading: Container(
+                        width: MediaQuery.of(context).size.width * 0.2,
+                        decoration: BoxDecoration(
+                          color: Colors.grey.shade200,
+                          image: DecorationImage(
+                            fit: BoxFit.cover,
+                            image: NetworkImage(
+                                '$kBaseURL${cubit.getParentCategory.payload[index].listCategory[ndx].products[i].imgUrl}'),
+                          ),
                         ),
                       ),
-                    ),
-                    title: Text(
-                      cubit.getParentCategory.payload[index].listCategory[ndx]
-                          .products[i].name,
-                      style: TextStyle(
-                        fontSize: 13,
-                        fontWeight: FontWeight.bold,
+                      title: Text(
+                        cubit.getParentCategory.payload[index].listCategory[ndx]
+                            .products[i].name,
+                        style: TextStyle(
+                          fontSize: 13,
+                          fontWeight: FontWeight.bold,
+                        ),
+                        textDirection: TextDirection.rtl,
                       ),
-                      textDirection: TextDirection.rtl,
+                      subtitle: Text((product.pricePerOne -
+                                  (product.pricePerOne *
+                                      (product.descount / 100)))
+                              .toStringAsFixed(2) +
+                          ' جنيه '),
+                      onTap: () {
+                        showDialog(
+                          context: context,
+                          builder: (context) {
+                            String title = product.name;
+                            int productQuantity = 0;
+                            int ironQuantity = 0;
+                            return showInputDialogue(
+                                title, productQuantity, ironQuantity, product);
+                          },
+                        );
+                      },
                     ),
-                    onTap: () {
-                      showDialog(
-                        context: context,
-                        builder: (context) {
-                          Product product = cubit.getParentCategory
-                              .payload[index].listCategory[ndx].products[i];
-                          String title = product.name;
-                          int productQuantity = 0;
-                          int ironQuantity = 0;
-                          return StatefulBuilder(
-                            builder: (context, setState) {
-                              return AlertDialog(
-                                title: Text(
-                                  title,
-                                  style: TextStyle(
-                                    fontSize: 15,
-                                    color: kBlueColor,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                  textDirection: TextDirection.rtl,
-                                ),
-                                content: Column(
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: [
-                                    ///add quantity
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      textDirection: TextDirection.rtl,
-                                      children: [
-                                        Text(
-                                          'الكمية',
-                                          textDirection: TextDirection.rtl,
-                                        ),
-                                        SizedBox(
-                                          width: 50,
-                                        ),
-                                        Container(
-                                          height: 30,
-                                          width: 90,
-                                          decoration: BoxDecoration(
-                                              borderRadius:
-                                                  BorderRadius.circular(5),
-                                              border: Border.all(
-                                                  color: Color(0xffFA912E))),
-
-                                          ///  COUNTER CONTAINER
-                                          child: Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceBetween,
-                                            children: [
-                                              ///decrease count
-                                              GestureDetector(
-                                                onTap: () {
-                                                  setState(() {
-                                                    if (productQuantity > 0)
-                                                      productQuantity--;
-                                                  });
-                                                },
-                                                child: Container(
-                                                  height: double.infinity,
-                                                  width: 30,
-                                                  decoration: BoxDecoration(
-                                                    color: Color(0xffFA912E),
-                                                    borderRadius:
-                                                        BorderRadius.only(
-                                                      bottomLeft:
-                                                          Radius.circular(4),
-                                                      topLeft:
-                                                          Radius.circular(4),
-                                                    ),
-                                                    border: Border.all(
-                                                        color:
-                                                            Color(0xffFA912E)),
-                                                  ),
-                                                  child: Icon(
-                                                    Icons.remove,
-                                                    color: Colors.white,
-                                                  ),
-                                                ),
-                                              ),
-                                              Container(
-                                                child: Text(
-                                                  productQuantity.toString(),
-                                                  style: TextStyle(
-                                                      fontFamily: 'roboto'),
-                                                ),
-                                              ),
-
-                                              ///increase quantity
-                                              GestureDetector(
-                                                onTap: () {
-                                                  setState(() {
-                                                    productQuantity++;
-                                                  });
-                                                },
-                                                child: Container(
-                                                  height: double.infinity,
-                                                  width: 30,
-                                                  decoration: BoxDecoration(
-                                                      color: Color(0xffFA912E),
-                                                      borderRadius:
-                                                          BorderRadius.only(
-                                                        bottomRight:
-                                                            Radius.circular(4),
-                                                        topRight:
-                                                            Radius.circular(4),
-                                                      ),
-                                                      border: Border.all(
-                                                          color: Color(
-                                                              0xffFA912E))),
-                                                  child: Icon(
-                                                    Icons.add,
-                                                    color: Colors.white,
-                                                  ),
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                        )
-                                      ],
-                                    ),
-                                    // SizedBox(
-                                    //   height: 20,
-                                    // ),
-                                    ///iron number
-                                    // Row(
-                                    //   mainAxisAlignment:
-                                    //       MainAxisAlignment.spaceBetween,
-                                    //   textDirection: TextDirection.rtl,
-                                    //   children: [
-                                    //     Text(
-                                    //       'عدد الحديد',
-                                    //       textDirection: TextDirection.rtl,
-                                    //     ),
-                                    //     SizedBox(
-                                    //       width: 50,
-                                    //     ),
-                                    //     Container(
-                                    //       height: 30,
-                                    //       width: 90,
-                                    //       decoration: BoxDecoration(
-                                    //           borderRadius:
-                                    //               BorderRadius.circular(5),
-                                    //           border: Border.all(
-                                    //               color: Color(0xffFA912E))),
-                                    //
-                                    //       ///  COUNTER CONTAINER
-                                    //       child: Row(
-                                    //         mainAxisAlignment:
-                                    //             MainAxisAlignment.spaceBetween,
-                                    //         children: [
-                                    //           ///decrease count
-                                    //           GestureDetector(
-                                    //             onTap: () {
-                                    //               setState(() {
-                                    //                 if (ironQuantity > 0)
-                                    //                   ironQuantity--;
-                                    //               });
-                                    //             },
-                                    //             child: Container(
-                                    //               height: double.infinity,
-                                    //               width: 30,
-                                    //               decoration: BoxDecoration(
-                                    //                 color: Color(0xffFA912E),
-                                    //                 borderRadius:
-                                    //                     BorderRadius.only(
-                                    //                   bottomLeft:
-                                    //                       Radius.circular(4),
-                                    //                   topLeft:
-                                    //                       Radius.circular(4),
-                                    //                 ),
-                                    //                 border: Border.all(
-                                    //                     color:
-                                    //                         Color(0xffFA912E)),
-                                    //               ),
-                                    //               child: Icon(
-                                    //                 Icons.remove,
-                                    //                 color: Colors.white,
-                                    //               ),
-                                    //             ),
-                                    //           ),
-                                    //           Container(
-                                    //             child: Text(
-                                    //               ironQuantity.toString(),
-                                    //               style: TextStyle(
-                                    //                   fontFamily: 'roboto'),
-                                    //             ),
-                                    //           ),
-                                    //
-                                    //           ///increase quantity
-                                    //           GestureDetector(
-                                    //             onTap: () {
-                                    //               setState(() {
-                                    //                 ironQuantity++;
-                                    //               });
-                                    //             },
-                                    //             child: Container(
-                                    //               height: double.infinity,
-                                    //               width: 30,
-                                    //               decoration: BoxDecoration(
-                                    //                   color: Color(0xffFA912E),
-                                    //                   borderRadius:
-                                    //                       BorderRadius.only(
-                                    //                     bottomRight:
-                                    //                         Radius.circular(4),
-                                    //                     topRight:
-                                    //                         Radius.circular(4),
-                                    //                   ),
-                                    //                   border: Border.all(
-                                    //                       color: Color(
-                                    //                           0xffFA912E))),
-                                    //               child: Icon(
-                                    //                 Icons.add,
-                                    //                 color: Colors.white,
-                                    //               ),
-                                    //             ),
-                                    //           ),
-                                    //         ],
-                                    //       ),
-                                    //     )
-                                    //   ],
-                                    // ),
-                                  ],
-                                ),
-                                actions: [
-                                  Center(
-                                      child: Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 8.0, vertical: 10),
-                                    child: CustomButton2(
-                                      color: Color(0xffFA912E),
-                                      label: 'اضافة',
-                                      onTab: () {
-                                        if (product.descount == null) {
-                                          product.descount = 0;
-                                        }
-                                        double priceWithDiscount = double.parse(
-                                            (product.pricePerOne -
-                                                    (product.pricePerOne *
-                                                        (product.descount /
-                                                            100)))
-                                                .toStringAsFixed(2));
-                                        cubit.addProduct(
-                                          id: product.id,
-                                          name: product.name,
-                                          imgURL: product.imgUrl,
-                                          categoryId: product.categoryId,
-                                          quantity: productQuantity,
-                                          pricePerOne: product.pricePerOne,
-                                          pricePerMeter: product.pricePerMeter,
-                                          discount: product.descount,
-                                          priceWithDiscount: priceWithDiscount,
-                                          totalOrder: priceWithDiscount *
-                                              productQuantity,
-                                          numberIron: ironQuantity,
-                                        );
-                                        Navigator.pop(context);
-                                      },
-                                    ),
-                                  ))
-                                ],
-                              );
-                            },
-                          );
-                        },
-                      );
-                    },
-                  ),
-                ),
+                  );
+                },
               )
             : [
                 Padding(
@@ -467,4 +221,312 @@ class CategoryTile extends StatelessWidget {
       ),
     );
   }
+
+  StatefulBuilder showInputDialogue(
+      String title, int productQuantity, int ironQuantity, Product product) {
+    return StatefulBuilder(
+      builder: (context, setState) {
+        bool perPack = false;
+        MeasureUnit measureUnit = MeasureUnit.perOne;
+        return AlertDialog(
+          title: Column(
+            children: [
+              Text(
+                title,
+                style: TextStyle(
+                  fontSize: 15,
+                  color: kBlueColor,
+                  fontWeight: FontWeight.bold,
+                ),
+                textDirection: TextDirection.rtl,
+              ),
+              // Container(
+              //   width: 80,
+              //   height: 80,
+              //   decoration: BoxDecoration(
+              //       image: DecorationImage(
+              //           image: NetworkImage('$kBaseURL${product.imgUrl}'))),
+              // )
+            ],
+          ),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              ///add quantity
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                textDirection: TextDirection.rtl,
+                children: [
+                  Text(
+                    'الكمية',
+                    textDirection: TextDirection.rtl,
+                  ),
+                  SizedBox(
+                    width: 50,
+                  ),
+                  Container(
+                    height: 30,
+                    width: 90,
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(5),
+                        border: Border.all(color: Color(0xffFA912E))),
+
+                    ///  COUNTER CONTAINER
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        ///decrease count
+                        GestureDetector(
+                          onTap: () {
+                            setState(() {
+                              if (productQuantity > 0) productQuantity--;
+                            });
+                          },
+                          child: Container(
+                            height: double.infinity,
+                            width: 30,
+                            decoration: BoxDecoration(
+                              color: Color(0xffFA912E),
+                              borderRadius: BorderRadius.only(
+                                bottomLeft: Radius.circular(4),
+                                topLeft: Radius.circular(4),
+                              ),
+                              border: Border.all(color: Color(0xffFA912E)),
+                            ),
+                            child: Icon(
+                              Icons.remove,
+                              color: Colors.white,
+                            ),
+                          ),
+                        ),
+                        Container(
+                          child: Text(
+                            productQuantity.toString(),
+                            style: TextStyle(fontFamily: 'roboto'),
+                          ),
+                        ),
+
+                        ///increase quantity
+                        GestureDetector(
+                          onTap: () {
+                            setState(() {
+                              productQuantity++;
+                            });
+                          },
+                          child: Container(
+                            height: double.infinity,
+                            width: 30,
+                            decoration: BoxDecoration(
+                                color: Color(0xffFA912E),
+                                borderRadius: BorderRadius.only(
+                                  bottomRight: Radius.circular(4),
+                                  topRight: Radius.circular(4),
+                                ),
+                                border: Border.all(color: Color(0xffFA912E))),
+                            child: Icon(
+                              Icons.add,
+                              color: Colors.white,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  )
+                ],
+              ),
+
+              SizedBox(
+                height: 5,
+              ),
+              cubit.getParentCategory.payload[index].haveIron != true ||
+                      cubit.getParentCategory.payload[index].haveIron == null
+                  ? SizedBox(
+                      height: 0,
+                    )
+                  : StatefulBuilder(
+                      builder: (context, setState) => Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Row(
+                            textDirection: TextDirection.rtl,
+                            children: [
+                              Radio<MeasureUnit>(
+                                value: MeasureUnit.perOne,
+                                activeColor: kOrangeColor,
+                                groupValue: measureUnit,
+                                onChanged: (MeasureUnit value) {
+                                  setState(() {
+                                    measureUnit = value;
+                                    perPack = false;
+                                  });
+                                },
+                              ),
+                              Text(
+                                'عود',
+                                textDirection: TextDirection.rtl,
+                                style: TextStyle(color: Colors.grey),
+                              ),
+                            ],
+                          ),
+                          Row(
+                            textDirection: TextDirection.rtl,
+                            children: [
+                              Radio<MeasureUnit>(
+                                value: MeasureUnit.perPack,
+                                activeColor: kOrangeColor,
+                                groupValue: measureUnit,
+                                onChanged: (MeasureUnit value) {
+                                  setState(() {
+                                    measureUnit = value;
+                                    perPack = true;
+                                  });
+                                },
+                              ),
+                              Text(
+                                ' لفة  ( اللفة = ${product.totalQuota} عود )',
+                                textDirection: TextDirection.rtl,
+                                style: TextStyle(color: Colors.grey),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ),
+              SizedBox(
+                height: 5,
+              ),
+
+              ///iron number
+              cubit.getParentCategory.payload[index].haveIron != true ||
+                      cubit.getParentCategory.payload[index].haveIron == null
+                  ? SizedBox(
+                      height: 0,
+                    )
+                  : Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      textDirection: TextDirection.rtl,
+                      children: [
+                        Text(
+                          'عدد الحديد',
+                          textDirection: TextDirection.rtl,
+                        ),
+                        SizedBox(
+                          width: 50,
+                        ),
+                        Container(
+                          height: 30,
+                          width: 90,
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(5),
+                              border: Border.all(color: Color(0xffFA912E))),
+
+                          ///  COUNTER CONTAINER
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              ///decrease count
+                              GestureDetector(
+                                onTap: () {
+                                  setState(() {
+                                    if (ironQuantity > 0) ironQuantity--;
+                                  });
+                                },
+                                child: Container(
+                                  height: double.infinity,
+                                  width: 30,
+                                  decoration: BoxDecoration(
+                                    color: Color(0xffFA912E),
+                                    borderRadius: BorderRadius.only(
+                                      bottomLeft: Radius.circular(4),
+                                      topLeft: Radius.circular(4),
+                                    ),
+                                    border:
+                                        Border.all(color: Color(0xffFA912E)),
+                                  ),
+                                  child: Icon(
+                                    Icons.remove,
+                                    color: Colors.white,
+                                  ),
+                                ),
+                              ),
+                              Container(
+                                child: Text(
+                                  ironQuantity.toString(),
+                                  style: TextStyle(fontFamily: 'roboto'),
+                                ),
+                              ),
+
+                              ///increase quantity
+                              GestureDetector(
+                                onTap: () {
+                                  setState(() {
+                                    ironQuantity++;
+                                  });
+                                },
+                                child: Container(
+                                  height: double.infinity,
+                                  width: 30,
+                                  decoration: BoxDecoration(
+                                      color: Color(0xffFA912E),
+                                      borderRadius: BorderRadius.only(
+                                        bottomRight: Radius.circular(4),
+                                        topRight: Radius.circular(4),
+                                      ),
+                                      border:
+                                          Border.all(color: Color(0xffFA912E))),
+                                  child: Icon(
+                                    Icons.add,
+                                    color: Colors.white,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        )
+                      ],
+                    )
+            ],
+          ),
+          actions: [
+            Center(
+                child: Padding(
+              padding:
+                  const EdgeInsets.symmetric(horizontal: 8.0, vertical: 10),
+              child: CustomButton2(
+                color: Color(0xffFA912E),
+                label: 'اضافة',
+                onTab: () {
+                  if (perPack) {
+                    productQuantity = productQuantity * product.totalQuota;
+                  }
+                  if (product.descount == null) {
+                    product.descount = 0;
+                  }
+                  double priceWithDiscount = double.parse((product.pricePerOne -
+                          (product.pricePerOne * (product.descount / 100)))
+                      .toStringAsFixed(2));
+                  cubit.addProduct(
+                    id: product.id,
+                    name: product.name,
+                    imgURL: product.imgUrl,
+                    categoryId: product.categoryId,
+                    quantity: productQuantity,
+                    pricePerOne: product.pricePerOne,
+                    pricePerMeter: product.pricePerMeter,
+                    discount: product.descount,
+                    priceWithDiscount: priceWithDiscount,
+                    totalOrder: priceWithDiscount * productQuantity,
+                    numberIron: ironQuantity,
+                  );
+                  Navigator.pop(context);
+                },
+              ),
+            ))
+          ],
+        );
+      },
+    );
+  }
 }
+
+enum MeasureUnit { perOne, perPack }

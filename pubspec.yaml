@@ -52,6 +52,7 @@ dependencies:
   geocoding: ^2.0.1
   location: ^4.2.0
   map_pin_picker: any
+  nil: ^1.1.1
 
 
 flutter_icons:

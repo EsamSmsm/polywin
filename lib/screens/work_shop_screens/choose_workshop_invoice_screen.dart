@@ -1,9 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:polywin/screens/update_profile_screen.dart';
 import 'package:polywin/shared/components/custom_appbar.dart';
 import 'package:polywin/shared/components/custom_button.dart';
 import 'package:polywin/shared/components/custom_button_2.dart';
+import 'package:polywin/shared/components/custom_label.dart';
 import 'package:polywin/shared/components/defaults.dart';
 import 'package:polywin/shared/constants.dart';
 import 'package:polywin/shared/cubit/workshop_cubit.dart';
@@ -11,7 +13,9 @@ import 'package:polywin/shared/cubit/workshop_cubit.dart';
 import 'package:polywin/shared/cubit/workshop_states.dart';
 
 class ChooseInvoiceScreen extends StatelessWidget {
-  ChooseInvoiceScreen({Key key}) : super(key: key);
+  final client;
+
+  ChooseInvoiceScreen({Key key, @required this.client}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -127,7 +131,7 @@ class ChooseInvoiceScreen extends StatelessWidget {
       builder: (context, state) {
         WorkshopCubit cubit = WorkshopCubit.get(context);
         return Scaffold(
-          backgroundColor: Color(0xfff8f8f8),
+          backgroundColor: Colors.white,
           appBar: CustomAppBar(
             title: 'الفواتير',
             isHomeScreen: false,
@@ -138,15 +142,117 @@ class ChooseInvoiceScreen extends StatelessWidget {
                     state is! GetCostByClientLoadingState
                 ? Column(
                     children: [
-                      SizedBox(
-                        height: 20,
+                      Padding(
+                        padding: const EdgeInsets.all(20),
+                        child: Label(text: 'انشاء العقد'),
+                      ),
+                      Container(
+                        decoration: BoxDecoration(color: Color(0xffF8F8F8)),
+                        padding:
+                            EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                        child: Column(
+                          children: [
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  client.name,
+                                  style: TextStyle(
+                                    color: Color(0xff707070),
+                                    fontSize: 16,
+                                  ),
+                                  overflow: TextOverflow.ellipsis,
+                                  textDirection: TextDirection.rtl,
+                                ),
+                                Text('اسم العميل',
+                                    style: TextStyle(
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.w500),
+                                    textDirection: TextDirection.rtl,
+                                    overflow: TextOverflow.ellipsis)
+                              ],
+                            ),
+                            Padding(padding: EdgeInsets.symmetric(vertical: 5)),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  client.clientPhone,
+                                  style: TextStyle(
+                                    color: Color(0xff707070),
+                                    fontSize: 16,
+                                  ),
+                                  overflow: TextOverflow.ellipsis,
+                                  textDirection: TextDirection.rtl,
+                                ),
+                                Text('تليفون',
+                                    style: TextStyle(
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.w500),
+                                    textDirection: TextDirection.rtl,
+                                    overflow: TextOverflow.ellipsis)
+                              ],
+                            ),
+                            Padding(padding: EdgeInsets.symmetric(vertical: 5)),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  client.clientAddress,
+                                  style: TextStyle(
+                                    color: Color(0xff707070),
+                                    fontSize: 16,
+                                  ),
+                                  overflow: TextOverflow.ellipsis,
+                                  textDirection: TextDirection.rtl,
+                                ),
+                                Text('العنوان',
+                                    style: TextStyle(
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.w500),
+                                    textDirection: TextDirection.rtl,
+                                    overflow: TextOverflow.ellipsis)
+                              ],
+                            ),
+                            Padding(padding: EdgeInsets.symmetric(vertical: 5)),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  client.email ?? '',
+                                  style: TextStyle(
+                                    color: Color(0xff707070),
+                                    fontSize: 16,
+                                  ),
+                                  overflow: TextOverflow.ellipsis,
+                                  textDirection: TextDirection.rtl,
+                                ),
+                                Text('الايميل',
+                                    style: TextStyle(
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.w500),
+                                    textDirection: TextDirection.rtl,
+                                    overflow: TextOverflow.ellipsis)
+                              ],
+                            ),
+                            Padding(padding: EdgeInsets.symmetric(vertical: 5)),
+                          ],
+                        ),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.all(
+                          20,
+                        ),
+                        child: Label(
+                          text: 'بيانات الطلب',
+                        ),
                       ),
                       ListView.separated(
                           shrinkWrap: true,
                           physics: NeverScrollableScrollPhysics(),
                           itemCount: cubit.costsByClientModel.length,
                           separatorBuilder: (context, index) => SizedBox(
-                                height: 10,
+                                height: 20,
                               ),
                           itemBuilder: (context, index) => CostCard(
                                 index: index,
@@ -178,7 +284,7 @@ class ChooseInvoiceScreen extends StatelessWidget {
                                       horizontal: 20),
                                   child: CustomButton(
                                     color: kDarkBlueColor,
-                                    label: 'تقديم العقد للعميل',
+                                    label: 'انشاء العقد',
                                     onTab: () {
                                       cubit.getCostsId();
                                       cubit.getTotalCost();
@@ -227,9 +333,11 @@ class CostCard extends StatelessWidget {
     this.totalCost,
     this.isChecked = false,
     this.index,
+    this.productImage,
   }) : super(key: key);
 
   final String productName;
+  final String productImage;
   final String color;
   final String width;
   final String height;
@@ -255,8 +363,20 @@ class CostCard extends StatelessWidget {
                 textDirection: TextDirection.rtl,
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Container(
-                    width: MediaQuery.of(context).size.width * 0.5,
+                  // Container(
+                  //   width: MediaQuery.of(context).size.width * 0.2,
+                  //   height: MediaQuery.of(context).size.width * 0.2,
+                  //   decoration: BoxDecoration(
+                  //       image: DecorationImage(
+                  //     fit: BoxFit.cover,
+                  //     image: NetworkImage('$kBaseURL'
+                  //         '${cubit.subCategoryId.filePath}'),
+                  //   )),
+                  // ),
+                  // SizedBox(
+                  //   width: 20,
+                  // ),
+                  Expanded(
                     child: Text(
                       productName,
                       textDirection: TextDirection.rtl,
@@ -377,7 +497,7 @@ class CostCard extends StatelessWidget {
         Container(
           padding: EdgeInsets.symmetric(horizontal: 20),
           height: MediaQuery.of(context).size.height * 0.065,
-          color: kOrangeColor,
+          color: kOrangeColor.withAlpha(200),
           child: Row(
             textDirection: TextDirection.rtl,
             children: [

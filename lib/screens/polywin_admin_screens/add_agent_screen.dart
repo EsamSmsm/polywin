@@ -8,6 +8,7 @@ import 'package:polywin/screens/update_profile_screen.dart';
 import 'package:polywin/shared/components/custom_dropdown_field.dart';
 import 'package:polywin/shared/components/custom_appbar.dart';
 import 'package:polywin/shared/components/custom_button.dart';
+import 'package:polywin/shared/components/custom_label.dart';
 import 'package:polywin/shared/components/custom_location_picker.dart';
 import 'package:polywin/shared/components/custom_text_field.dart';
 import 'package:polywin/shared/components/defaults.dart';
@@ -146,13 +147,14 @@ class AddAgentScreen extends StatelessWidget {
 
                       ///name
                       Label(
-                        text: 'اسم الوكيل',
+                        text: 'الاسم رباعي',
+                        isRequired: true,
                       ),
                       SizedBox(
                         height: 16,
                       ),
                       CustomTextField(
-                        hintText: 'محمد احمد',
+                        hintText: 'محمد احمد حسين التابعي',
                         controller: agentNameController,
                         isPassword: false,
                         textDirection: TextDirection.rtl,
@@ -163,7 +165,7 @@ class AddAgentScreen extends StatelessWidget {
 
                       ///الرقم القومي للوكيل ///
                       Label(
-                        text: 'الرقم القومي ',
+                        text: 'الرقم القومي مكون من 14 رقم',
                       ),
                       SizedBox(
                         height: 16,
@@ -182,6 +184,7 @@ class AddAgentScreen extends StatelessWidget {
                       /// المحافظة ///
                       Label(
                         text: 'المحافظة',
+                        isRequired: true,
                       ),
                       SizedBox(
                         height: 16,
@@ -213,6 +216,7 @@ class AddAgentScreen extends StatelessWidget {
                       ///COMPANY name
                       Label(
                         text: 'اسم الشركة',
+                        isRequired: true,
                       ),
                       SizedBox(
                         height: 16,
@@ -230,6 +234,7 @@ class AddAgentScreen extends StatelessWidget {
                       ///COMPANY ADDRESS
                       Label(
                         text: 'العنوان ',
+                        isRequired: true,
                       ),
                       SizedBox(
                         height: 16,
@@ -247,6 +252,7 @@ class AddAgentScreen extends StatelessWidget {
                       ///phone
                       Label(
                         text: 'رقم الهاتف ',
+                        isRequired: true,
                       ),
                       SizedBox(
                         height: 16,
@@ -283,6 +289,7 @@ class AddAgentScreen extends StatelessWidget {
                       ///userName
                       Label(
                         text: 'اسم المستخدم',
+                        isRequired: true,
                       ),
                       SizedBox(
                         height: 16,
@@ -301,6 +308,7 @@ class AddAgentScreen extends StatelessWidget {
                       ///password
                       Label(
                         text: 'كلمة المرور',
+                        isRequired: true,
                       ),
                       SizedBox(
                         height: 16,

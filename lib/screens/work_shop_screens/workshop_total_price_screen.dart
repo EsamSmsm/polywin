@@ -13,11 +13,12 @@ import 'package:screenshot/screenshot.dart';
 import 'package:share/share.dart';
 import 'package:path_provider/path_provider.dart';
 
-
-
 class WorkshopTotalPriceScreen extends StatelessWidget {
-  const WorkshopTotalPriceScreen({Key key, this.width, this.height,})
-      : super(key: key);
+  const WorkshopTotalPriceScreen({
+    Key key,
+    this.width,
+    this.height,
+  }) : super(key: key);
 
   final String width, height;
 
@@ -33,15 +34,20 @@ class WorkshopTotalPriceScreen extends StatelessWidget {
             fileName: fileName);
         Share.shareFiles(['$directory/$fileName']);
       }
+
       return Scaffold(
-        appBar: CustomAppBar(title: 'عرض التكلفة',),
+        appBar: CustomAppBar(
+          title: 'عرض التكلفة',
+        ),
         body: SingleChildScrollView(
           child: BlocBuilder<WorkshopCubit, WorkshopStates>(
             builder: (context, state) {
               WorkshopCubit cubit = WorkshopCubit.get(context);
               return Column(
                 children: [
-                  SizedBox(height: 30,),
+                  SizedBox(
+                    height: 30,
+                  ),
                   Screenshot(
                     controller: screenshotController,
                     child: Column(
@@ -50,111 +56,127 @@ class WorkshopTotalPriceScreen extends StatelessWidget {
                           padding: EdgeInsets.all(16),
                           decoration: BoxDecoration(
                               color: Colors.white,
-                              boxShadow: [BoxShadow(color: Colors.grey)]
-                          ),
+                              boxShadow: [BoxShadow(color: Colors.grey)]),
                           child: Column(
                             children: [
-                              Row(textDirection: TextDirection.rtl,
+                              Row(
+                                textDirection: TextDirection.rtl,
                                 children: [
                                   Container(
-                                    width: MediaQuery
-                                        .of(context)
-                                        .size
-                                        .width * 0.2,
-                                    height: MediaQuery
-                                        .of(context)
-                                        .size
-                                        .width * 0.2,
+                                    width:
+                                        MediaQuery.of(context).size.width * 0.2,
+                                    height:
+                                        MediaQuery.of(context).size.width * 0.2,
                                     decoration: BoxDecoration(
                                         image: DecorationImage(
-                                          fit: BoxFit.cover,
-                                          image: NetworkImage('$kBaseURL'
-                                              '${cubit.subCategoryId.filePath}'
-                                          ),
-                                        )
-                                    ),
+                                      fit: BoxFit.cover,
+                                      image: NetworkImage('$kBaseURL'
+                                          '${cubit.subCategoryId.filePath}'),
+                                    )),
                                   ),
-                                  SizedBox(width: 20,),
+                                  SizedBox(
+                                    width: 20,
+                                  ),
                                   Container(
-                                    width: MediaQuery
-                                        .of(context)
-                                        .size
-                                        .width * 0.5,
-                                    child: Text(cubit.subCategoryId.subCategory,
+                                    width:
+                                        MediaQuery.of(context).size.width * 0.5,
+                                    child: Text(
+                                      cubit.subCategoryId.subCategory,
                                       textDirection: TextDirection.rtl,
                                       style: TextStyle(
-                                          color: kOrangeColor,
-                                          fontSize: 20
-                                      ),),
+                                          color: kOrangeColor, fontSize: 20),
+                                    ),
                                   )
                                 ],
                               ),
-                              SizedBox(height: 20,),
-                              Row(textDirection: TextDirection.rtl,
-                                mainAxisAlignment: MainAxisAlignment
-                                    .spaceBetween,
+                              SizedBox(
+                                height: 20,
+                              ),
+                              Row(
+                                textDirection: TextDirection.rtl,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
                                 children: [
                                   Row(
                                     textDirection: TextDirection.rtl,
                                     children: [
-                                      Text('اللون : ',
+                                      Text(
+                                        'اللون : ',
                                         textDirection: TextDirection.rtl,
                                         style: TextStyle(
                                           fontSize: 17,
-                                        ),),
-                                      SizedBox(width: 10,),
-                                      Text(cubit.colorId.colorName,
+                                        ),
+                                      ),
+                                      SizedBox(
+                                        width: 10,
+                                      ),
+                                      Text(
+                                        cubit.colorId.colorName,
                                         textDirection: TextDirection.rtl,
                                         style: TextStyle(
                                           color: Colors.black54,
                                           fontSize: 17,
-                                        ),),
+                                        ),
+                                      ),
                                     ],
                                   ),
                                   Row(
                                     textDirection: TextDirection.rtl,
                                     children: [
-                                      Text('الطول : ',
+                                      Text(
+                                        'الطول : ',
                                         textDirection: TextDirection.rtl,
                                         style: TextStyle(
                                           fontSize: 17,
-                                        ),),
-                                      SizedBox(width: 10,),
-                                      Text('$height  متر ',
+                                        ),
+                                      ),
+                                      SizedBox(
+                                        width: 10,
+                                      ),
+                                      Text(
+                                        '$height  متر ',
                                         textDirection: TextDirection.rtl,
                                         style: TextStyle(
                                           color: Colors.black54,
                                           fontSize: 17,
-                                        ),),
+                                        ),
+                                      ),
                                     ],
                                   ),
                                   Row(
                                     textDirection: TextDirection.rtl,
                                     children: [
-                                      Text('العرض : ',
+                                      Text(
+                                        'العرض : ',
                                         textDirection: TextDirection.rtl,
                                         style: TextStyle(
                                           fontSize: 17,
-                                        ),),
-                                      SizedBox(width: 10,),
-                                      Text('$width  متر ',
+                                        ),
+                                      ),
+                                      SizedBox(
+                                        width: 10,
+                                      ),
+                                      Text(
+                                        '$width  متر ',
                                         textDirection: TextDirection.rtl,
                                         style: TextStyle(
                                           color: Colors.black54,
                                           fontSize: 17,
-                                        ),),
+                                        ),
+                                      ),
                                     ],
                                   ),
                                 ],
                               ),
-                              SizedBox(height: 20,),
+                              SizedBox(
+                                height: 20,
+                              ),
                               ListView.separated(
                                   shrinkWrap: true,
                                   physics: NeverScrollableScrollPhysics(),
-                                  itemBuilder: (context, index) =>
-                                      Row(
-                                        mainAxisAlignment: MainAxisAlignment
-                                            .spaceBetween,
+                                  itemBuilder: (context, index) => Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
                                         textDirection: TextDirection.rtl,
                                         children: [
                                           Expanded(
@@ -162,18 +184,17 @@ class WorkshopTotalPriceScreen extends StatelessWidget {
                                               cubit.totalPriceModel.items[index]
                                                   .productName,
                                               textDirection: TextDirection.rtl,
-                                              style: TextStyle(
-                                                  fontSize: 17
-                                              ),),
+                                              style: TextStyle(fontSize: 17),
+                                            ),
                                           ),
-                                          Text('${cubit.totalPriceModel
-                                              .items[index].totalByDescount} '
-                                              ' ج.م ',
+                                          Text(
+                                            '${cubit.totalPriceModel.items[index].totalByDescount} '
+                                            ' ج.م ',
                                             textDirection: TextDirection.rtl,
                                             style: TextStyle(
                                                 fontSize: 17,
-                                                color: Colors.black54
-                                            ),),
+                                                color: Colors.black54),
+                                          ),
                                           SizedBox(),
                                           SizedBox(),
                                         ],
@@ -182,48 +203,52 @@ class WorkshopTotalPriceScreen extends StatelessWidget {
                                       SizedBox(
                                         height: 16,
                                       ),
-                                  itemCount: cubit.totalPriceModel.items.length
+                                  itemCount:
+                                      cubit.totalPriceModel.items.length),
+                              SizedBox(
+                                height: 20,
                               ),
-                              SizedBox(height: 20,),
                               Row(
-                                mainAxisAlignment: MainAxisAlignment
-                                    .spaceBetween,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
                                 textDirection: TextDirection.rtl,
                                 children: [
-                                  Text('الهادر',
+                                  Text(
+                                    'الهادر',
+                                    textDirection: TextDirection.rtl,
+                                    style: TextStyle(fontSize: 17),
+                                  ),
+                                  Text(
+                                    '${cubit.totalPriceModel.totalMortal} '
+                                    ' ج.م ',
                                     textDirection: TextDirection.rtl,
                                     style: TextStyle(
-                                        fontSize: 17
-                                    ),),
-                                  Text('${cubit.totalPriceModel.totalMortal} '
-                                      ' ج.م ',
-                                    textDirection: TextDirection.rtl,
-                                    style: TextStyle(
-                                        fontSize: 17,
-                                        color: Colors.black54
-                                    ),),
+                                        fontSize: 17, color: Colors.black54),
+                                  ),
                                   SizedBox(),
                                   SizedBox(),
                                 ],
                               ),
-                              SizedBox(height: 20,),
+                              SizedBox(
+                                height: 20,
+                              ),
                               Row(
-                                mainAxisAlignment: MainAxisAlignment
-                                    .spaceBetween,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
                                 textDirection: TextDirection.rtl,
                                 children: [
-                                  Text('مصروفات',
+                                  Text(
+                                    'مصروفات',
+                                    textDirection: TextDirection.rtl,
+                                    style: TextStyle(fontSize: 17),
+                                  ),
+                                  Text(
+                                    '${cubit.totalPriceModel.totalExpenses} '
+                                    ' ج.م ',
                                     textDirection: TextDirection.rtl,
                                     style: TextStyle(
-                                        fontSize: 17
-                                    ),),
-                                  Text('${cubit.totalPriceModel.totalExpenses} '
-                                      ' ج.م ',
-                                    textDirection: TextDirection.rtl,
-                                    style: TextStyle(
-                                        fontSize: 17,
-                                        color: Colors.black54
-                                    ),),
+                                        fontSize: 17, color: Colors.black54),
+                                  ),
                                   SizedBox(),
                                   SizedBox(),
                                 ],
@@ -233,48 +258,49 @@ class WorkshopTotalPriceScreen extends StatelessWidget {
                         ),
                         Container(
                           padding: EdgeInsets.symmetric(horizontal: 20),
-                          height: MediaQuery
-                              .of(context)
-                              .size
-                              .height * 0.065,
+                          height: MediaQuery.of(context).size.height * 0.065,
                           color: kOrangeColor,
                           child: Row(
                             textDirection: TextDirection.rtl,
                             children: [
-                              Text('اجمالي السعر',
+                              Text(
+                                'اجمالي السعر',
                                 textDirection: TextDirection.rtl,
                                 style: TextStyle(
                                     color: Colors.white,
                                     fontSize: 17,
-                                    fontWeight: FontWeight.bold
-                                ),),
+                                    fontWeight: FontWeight.bold),
+                              ),
                               Spacer(),
-                              Text('${double.parse(cubit.totalPriceModel.totalCost.toStringAsFixed(2))-cubit
-                              .totalPriceModel.net
-                                  }   ج.م  ',
+                              Text(
+                                '${(cubit.totalPriceModel.totalCost - cubit.totalPriceModel.net).toStringAsFixed(2)}   ج.م  ',
                                 textDirection: TextDirection.rtl,
                                 style: TextStyle(
                                     color: Colors.white,
                                     fontSize: 18,
-                                    fontWeight: FontWeight.bold
-                                ),),
+                                    fontWeight: FontWeight.bold),
+                              ),
                             ],
                           ),
                         ),
                       ],
                     ),
                   ),
-                  SizedBox(height: 40,),
+                  SizedBox(
+                    height: 40,
+                  ),
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 22),
-                    child: CustomButton(color: kDarkBlueColor,
-                        label: 'مشاركة حساب التكلفة',
+                    child: CustomButton(
+                        color: kDarkBlueColor,
+                        label: 'اغلاق',
                         onTab: () {
-                          takeScreenShot();
-                        }
-                    ),
+                          Navigator.pop(context);
+                        }),
                   ),
-                  SizedBox(height: 30,)
+                  SizedBox(
+                    height: 30,
+                  )
                 ],
               );
             },

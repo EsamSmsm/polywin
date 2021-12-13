@@ -14,7 +14,6 @@ class UnderwayOrderTabScreen extends StatefulWidget {
 
   @override
   _UnderwayOrderTabScreenState createState() => _UnderwayOrderTabScreenState();
-
 }
 
 class _UnderwayOrderTabScreenState extends State<UnderwayOrderTabScreen> {
@@ -23,134 +22,178 @@ class _UnderwayOrderTabScreenState extends State<UnderwayOrderTabScreen> {
     AppCubit.get(context).getAllInvoices(invoiceStatus: 1);
     super.initState();
   }
+
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<AppCubit,AppStates>(
-      listener: (context, state) {
-
-      },
+    return BlocConsumer<AppCubit, AppStates>(
+      listener: (context, state) {},
       builder: (context, state) {
         AppCubit cubit = AppCubit.get(context);
-        return cubit.getAllInvoicesModel!=null?SingleChildScrollView(
-          child: Column(
-            children: [
-              ///listview
-              cubit.getAllInvoicesModel.payload.length!=0?ListView.builder(
-                shrinkWrap: true,
-                physics: NeverScrollableScrollPhysics(),
-                itemCount: cubit.getAllInvoicesModel.payload.length,
-                itemBuilder: (context, index) => Container(
-                  margin: EdgeInsets.symmetric(vertical: 10),
-                  padding:
-                  EdgeInsets.symmetric(horizontal: 16, vertical: 10),
-                  decoration: BoxDecoration(
-                      color: Color(0xffF8F8F8),
-                      boxShadow: [
-                        BoxShadow(color: Colors.grey, blurRadius: 0.5)
-                      ]),
-                  child: Column(
-                    children: [
-                      ///data column
-                      Column(
-                        children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            children: [
-                              Text(
-                                '${index + 1}',
-                                style: TextStyle(
-                                    color: Color(0xff707070),
-                                    fontSize: 15),
+        return cubit.getAllInvoicesModel != null
+            ? SingleChildScrollView(
+                child: Column(
+                  children: [
+                    ///listview
+                    cubit.getAllInvoicesModel.payload.length != 0
+                        ? ListView.builder(
+                            shrinkWrap: true,
+                            physics: NeverScrollableScrollPhysics(),
+                            itemCount: cubit.getAllInvoicesModel.payload.length,
+                            itemBuilder: (context, index) => Container(
+                              margin: EdgeInsets.symmetric(vertical: 10),
+                              padding: EdgeInsets.symmetric(
+                                  horizontal: 16, vertical: 10),
+                              decoration: BoxDecoration(
+                                  color: Color(0xffF8F8F8),
+                                  boxShadow: [
+                                    BoxShadow(
+                                        color: Colors.grey, blurRadius: 0.5)
+                                  ]),
+                              child: Column(
+                                children: [
+                                  ///data column
+                                  Column(
+                                    children: [
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.end,
+                                        children: [
+                                          Text(
+                                            '${index + 1}',
+                                            style: TextStyle(
+                                                color: Color(0xff707070),
+                                                fontSize: 15),
+                                          ),
+                                          SizedBox(width: 40),
+                                          Text(
+                                            'تسلسل :',
+                                            style: TextStyle(fontSize: 15),
+                                            textDirection: TextDirection.rtl,
+                                          )
+                                        ],
+                                      ),
+                                      SizedBox(
+                                        height: 10,
+                                      ),
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.end,
+                                        children: [
+                                          Text(
+                                            cubit
+                                                    .getAllInvoicesModel
+                                                    .payload[index]
+                                                    .totalWithInvoices
+                                                    .toString() +
+                                                " ج.م",
+                                            textDirection: TextDirection.rtl,
+                                            style: TextStyle(
+                                                fontFamily: 'roboto',
+                                                color: Color(0xff707070),
+                                                fontSize: 15),
+                                          ),
+                                          SizedBox(width: 20),
+                                          Text(
+                                            'الاجمالي :',
+                                            style: TextStyle(fontSize: 15),
+                                            textDirection: TextDirection.rtl,
+                                          )
+                                        ],
+                                      ),
+                                      SizedBox(
+                                        height: 10,
+                                      ),
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.end,
+                                        children: [
+                                          Text(
+                                            cubit.getAllInvoicesModel
+                                                .payload[index].invoicesDate
+                                                .toString()
+                                                .substring(0, 10),
+                                            style: TextStyle(
+                                                fontFamily: 'roboto',
+                                                color: Color(0xff707070),
+                                                fontSize: 15),
+                                          ),
+                                          SizedBox(width: 20),
+                                          Text(
+                                            'تاريخ الطلب :',
+                                            style: TextStyle(fontSize: 15),
+                                            textDirection: TextDirection.rtl,
+                                          )
+                                        ],
+                                      ),
+                                      // SizedBox(
+                                      //   height: 10,
+                                      // ),
+                                      // Row(
+                                      //   mainAxisAlignment: MainAxisAlignment.end,
+                                      //   children: [
+                                      //     Text(
+                                      //       cubit.getAllInvoicesModel.payload[index]
+                                      //           .describtion ==null?'':
+                                      //       cubit.getAllInvoicesModel.payload[index]
+                                      //           .describtion ,
+                                      //       style: TextStyle(
+                                      //           fontFamily: 'roboto',
+                                      //           color: Color(0xff707070),
+                                      //           fontSize: 15),
+                                      //     ),
+                                      //     SizedBox(width: 20),
+                                      //     Text(
+                                      //       'ملاحظات :',
+                                      //       style: TextStyle(fontSize: 15),
+                                      //       textDirection: TextDirection.rtl,
+                                      //     )
+                                      //   ],
+                                      // ),
+                                      SizedBox(
+                                        height: 10,
+                                      ),
+                                    ],
+                                  ),
+                                  SizedBox(
+                                    height: 5,
+                                  ),
+                                  Row(
+                                    children: [
+                                      CustomButton2(
+                                        color: Color(0xffFFA41B),
+                                        label: 'عرض الطلبية',
+                                        onTab: () {
+                                          navigateTo(
+                                              context,
+                                              ReceiveOrderScreen(
+                                                invoiceIndex: index,
+                                              ));
+                                        },
+                                      ),
+                                    ],
+                                  )
+                                ],
                               ),
-                              SizedBox(width: 40),
-                              Text(
-                                'تسلسل :',
-                                style: TextStyle(fontSize: 15),
-                                textDirection: TextDirection.rtl,
-                              )
-                            ],
+                            ),
+                          )
+                        : Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 200),
+                            child: Text(
+                              'لا يوجد طلبيات',
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 20,
+                                  color: Colors.black38),
+                            ),
                           ),
-                          SizedBox(
-                            height: 10,
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            children: [
-                              Text(
-                                cubit.getAllInvoicesModel.payload[index]
-                                    .invoicesDate.toString().substring(0,10),
-                                style: TextStyle(
-                                    fontFamily: 'roboto',
-                                    color: Color(0xff707070),
-                                    fontSize: 15),
-                              ),
-                              SizedBox(width: 20),
-                              Text(
-                                'تاريخ الطلب :',
-                                style: TextStyle(fontSize: 15),
-                                textDirection: TextDirection.rtl,
-                              )
-                            ],
-                          ),
-                          // SizedBox(
-                          //   height: 10,
-                          // ),
-                          // Row(
-                          //   mainAxisAlignment: MainAxisAlignment.end,
-                          //   children: [
-                          //     Text(
-                          //       cubit.getAllInvoicesModel.payload[index]
-                          //           .describtion ==null?'':
-                          //       cubit.getAllInvoicesModel.payload[index]
-                          //           .describtion ,
-                          //       style: TextStyle(
-                          //           fontFamily: 'roboto',
-                          //           color: Color(0xff707070),
-                          //           fontSize: 15),
-                          //     ),
-                          //     SizedBox(width: 20),
-                          //     Text(
-                          //       'ملاحظات :',
-                          //       style: TextStyle(fontSize: 15),
-                          //       textDirection: TextDirection.rtl,
-                          //     )
-                          //   ],
-                          // ),
-                          SizedBox(
-                            height: 10,
-                          ),
-                        ],
-                      ),
-                      SizedBox(
-                        height: 5,
-                      ),
-                      Row(
-                        children: [
-                          CustomButton2(
-                            color: Color(0xffFFA41B),
-                            label: 'عرض الطلبية',
-                            onTab: () {
-                              navigateTo(context, ReceiveOrderScreen(invoiceIndex: index,));
-                            },
-                          ),
-                        ],
-                      )
-                    ],
-                  ),
+                  ],
                 ),
               )
-              :Padding(
-                padding: const EdgeInsets.symmetric(vertical: 200),
-                child: Text('لا يوجد طلبيات',style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 20,
-                  color: Colors.black38
-                ),),
-              ),
-            ],
-          ),
-        )
-        :Scaffold(body: Center(child: CircularProgressIndicator(color: kOrangeColor,)));
+            : Scaffold(
+                body: Center(
+                    child: CircularProgressIndicator(
+                color: kOrangeColor,
+              )));
       },
     );
   }

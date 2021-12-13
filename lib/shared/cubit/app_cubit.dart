@@ -126,12 +126,12 @@ class AppCubit extends Cubit<AppStates> {
     });
   }
 
-  GetParentCategory getParentCategory;
+  GetParentCategoryModel getParentCategory;
   void getParentCategoryWithProducts() {
     emit(GetParentCategoryLoadingState());
     DioHelper.getData(url: 'api/UserInfo/GetParenrCategorywithProduct')
         .then((value) {
-      getParentCategory = GetParentCategory.fromJson(value.data);
+      getParentCategory = GetParentCategoryModel.fromJson(value.data);
       emit(GetParentCategorySuccessState());
     }).catchError((error) {
       emit(GetParentCategoryErrorState());
@@ -250,6 +250,7 @@ class AppCubit extends Cubit<AppStates> {
       order.forEach((element) {
         if (element['productId'] == id) {
           element['quantity'] += quantity;
+          element['totalOrder'] += totalOrder;
           isItemFound = true;
         }
       });

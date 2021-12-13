@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:polywin/screens/update_profile_screen.dart';
+import 'package:polywin/shared/components/custom_label.dart';
 import 'package:polywin/shared/constants.dart';
 import 'package:polywin/shared/cubit/app_cubit.dart';
 import 'package:polywin/shared/cubit/app_states.dart';

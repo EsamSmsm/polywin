@@ -31,8 +31,6 @@ class SendOrderScreen extends StatelessWidget {
               buttonText: 'شكرا',
               action: () {
                 cubit.invoiceDetails = [];
-                cubit.getPolywinInvoices();
-                Navigator.pop(context);
                 Navigator.pop(context);
                 Navigator.pop(context);
               });
@@ -47,20 +45,22 @@ class SendOrderScreen extends StatelessWidget {
                 cubit.invoiceDetails = [];
                 Navigator.pop(context);
                 Navigator.pop(context);
-                cubit.fetchData();
               });
         }
       },
       builder: (context, state) {
         AppCubit cubit = AppCubit.get(context);
         cubit.invoiceDetails = [];
-        cubit.getPolywinInvoicesModel.payload[invoiceIndex].details
-            .forEach((element) {
-          isReceived.add(false);
-          descriptionControllers.add(TextEditingController());
-          cubit.insertInvoice(
-              id: element.id, description: '', isReceived: false);
-        });
+        if (cubit.getPolywinInvoicesModel.payload[invoiceIndex].details.length >
+            0) {
+          cubit.getPolywinInvoicesModel.payload[invoiceIndex].details
+              .forEach((element) {
+            isReceived.add(false);
+            descriptionControllers.add(TextEditingController());
+            cubit.insertInvoice(
+                id: element.id, description: '', isReceived: false);
+          });
+        }
         return Scaffold(
           backgroundColor: Colors.white,
           appBar: CustomAppBar(
@@ -79,25 +79,11 @@ class SendOrderScreen extends StatelessWidget {
                     children: [
                       Row(
                         textDirection: TextDirection.rtl,
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text('اجمالي الطلبية',
+                          Text('محتويات الطلبية',
                               textDirection: TextDirection.rtl,
                               style: TextStyle(
-                                  color: Colors.black54,
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.bold)),
-                          Text(
-                              cubit.getPolywinInvoicesModel
-                                      .payload[invoiceIndex].totalWithInvoices
-                                      .toString() +
-                                  ' ج.م',
-                              textDirection: TextDirection.rtl,
-                              style: TextStyle(
-                                  color: Colors.black54,
-                                  fontSize: 18,
-                                  fontFamily: 'Roboto',
-                                  fontWeight: FontWeight.bold)),
+                                  fontSize: 18, fontWeight: FontWeight.bold)),
                         ],
                       ),
                       SizedBox(
@@ -151,64 +137,64 @@ class SendOrderScreen extends StatelessWidget {
                               Row(
                                 textDirection: TextDirection.rtl,
                                 children: [
-                                  IconButton(
-                                    icon: Icon(
-                                      Icons.mode_comment_outlined,
-                                      color: Color(0xffFFA41B),
-                                      size: 24,
-                                    ),
-                                    onPressed: () {
-                                      showDialog(
-                                          context: context,
-                                          builder: (context) {
-                                            return AlertDialog(
-                                              title: Text(
-                                                'اضف ملاحظات',
-                                                textDirection:
-                                                    TextDirection.rtl,
-                                              ),
-                                              content: DescriptionTextField(
-                                                hintText: 'ملاحظات',
-                                                maxLines: 2,
-                                                controller:
-                                                    descriptionControllers[
-                                                        index],
-                                              ),
-                                              actions: [
-                                                Center(
-                                                  child: Padding(
-                                                    padding: const EdgeInsets
-                                                            .symmetric(
-                                                        horizontal: 40),
-                                                    child: CustomButton2(
-                                                      color: Color(0xffFFA41B),
-                                                      onTab: () {
-                                                        cubit.updateInvoice(
-                                                            index: index,
-                                                            id: cubit
-                                                                .getPolywinInvoicesModel
-                                                                .payload[
-                                                                    invoiceIndex]
-                                                                .details[index]
-                                                                .id,
-                                                            description:
-                                                                descriptionControllers[
-                                                                        index]
-                                                                    .text,
-                                                            isReceived:
-                                                                isReceived[
-                                                                    index]);
-                                                        Navigator.pop(context);
-                                                      },
-                                                      label: 'ارسال',
-                                                    ),
-                                                  ),
-                                                )
-                                              ],
-                                            );
-                                          });
-                                    },
-                                  ),
+                                  // IconButton(
+                                  //   icon: Icon(
+                                  //     Icons.mode_comment_outlined,
+                                  //     color: Color(0xffFFA41B),
+                                  //     size: 24,
+                                  //   ),
+                                  //   onPressed: () {
+                                  //     showDialog(
+                                  //         context: context,
+                                  //         builder: (context) {
+                                  //           return AlertDialog(
+                                  //             title: Text(
+                                  //               'اضف ملاحظات',
+                                  //               textDirection:
+                                  //                   TextDirection.rtl,
+                                  //             ),
+                                  //             content: DescriptionTextField(
+                                  //               hintText: 'ملاحظات',
+                                  //               maxLines: 2,
+                                  //               controller:
+                                  //                   descriptionControllers[
+                                  //                       index],
+                                  //             ),
+                                  //             actions: [
+                                  //               Center(
+                                  //                 child: Padding(
+                                  //                   padding: const EdgeInsets
+                                  //                           .symmetric(
+                                  //                       horizontal: 40),
+                                  //                   child: CustomButton2(
+                                  //                     color: Color(0xffFFA41B),
+                                  //                     onTab: () {
+                                  //                       cubit.updateInvoice(
+                                  //                           index: index,
+                                  //                           id: cubit
+                                  //                               .getPolywinInvoicesModel
+                                  //                               .payload[
+                                  //                                   invoiceIndex]
+                                  //                               .details[index]
+                                  //                               .id,
+                                  //                           description:
+                                  //                               descriptionControllers[
+                                  //                                       index]
+                                  //                                   .text,
+                                  //                           isReceived:
+                                  //                               isReceived[
+                                  //                                   index]);
+                                  //                       Navigator.pop(context);
+                                  //                     },
+                                  //                     label: 'ارسال',
+                                  //                   ),
+                                  //                 ),
+                                  //               )
+                                  //             ],
+                                  //           );
+                                  //         });
+                                  //   },
+                                  // ),
                                   StatefulBuilder(builder: (context, setState) {
                                     return Checkbox(
                                         activeColor: Color(0xffFFA41B),

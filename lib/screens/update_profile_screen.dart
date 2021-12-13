@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:polywin/shared/components/custom_appbar.dart';
 import 'package:polywin/shared/components/custom_button.dart';
+import 'package:polywin/shared/components/custom_label.dart';
 import 'package:polywin/shared/components/custom_location_picker.dart';
 import 'package:polywin/shared/components/custom_text_field.dart';
 import 'package:polywin/shared/components/defaults.dart';
@@ -12,23 +13,23 @@ import 'package:polywin/shared/cubit/app_states.dart';
 import 'package:polywin/shared/location_screen.dart';
 
 class UpdateProfileScreen extends StatelessWidget {
-
   const UpdateProfileScreen({Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     AppCubit cubit = AppCubit.get(context);
-    TextEditingController nameController = TextEditingController(text:
-    cubit.getUserInfoModel.payload.name);
-    TextEditingController phoneController = TextEditingController(text:
-    cubit.getUserInfoModel.payload.agentPhone);
-    TextEditingController emailController = TextEditingController(text:
-    cubit.getUserInfoModel.payload.email!=null?
-    cubit.getUserInfoModel.payload.email
-        :'',);
-    return BlocConsumer<AppCubit,AppStates>(
+    TextEditingController nameController =
+        TextEditingController(text: cubit.getUserInfoModel.payload.name);
+    TextEditingController phoneController =
+        TextEditingController(text: cubit.getUserInfoModel.payload.agentPhone);
+    TextEditingController emailController = TextEditingController(
+      text: cubit.getUserInfoModel.payload.email != null
+          ? cubit.getUserInfoModel.payload.email
+          : '',
+    );
+    return BlocConsumer<AppCubit, AppStates>(
       listener: (context, state) {
-        if(state is UpdateProfileSuccessState){
+        if (state is UpdateProfileSuccessState) {
           AppCubit.get(context).getUserInfo();
           showAlertDialogWithAction(
               buttonText: 'شكرا',
@@ -36,21 +37,18 @@ class UpdateProfileScreen extends StatelessWidget {
               imagePath: 'assets/images/vector1.png',
               message: 'تم تعديل البيانات بنجاح',
               messageColor: kBlueColor,
-              action: (){
+              action: () {
                 Navigator.pop(context);
                 Navigator.pop(context);
                 Navigator.pop(context);
-              }
-          );
-        }
-        else if(state is UpdateProfileErrorState){
+              });
+        } else if (state is UpdateProfileErrorState) {
           showToast(text: 'فشل تعديل البيانات', color: Colors.redAccent);
-
         }
       },
       builder: (context, state) {
         AppCubit cubit = AppCubit.get(context);
-        return  Scaffold(
+        return Scaffold(
           backgroundColor: Colors.white,
           appBar: CustomAppBar(
             title: 'بيانات المستخدم',
@@ -89,39 +87,40 @@ class UpdateProfileScreen extends StatelessWidget {
                         decoration: BoxDecoration(
                             image: cubit.imageFile != null
                                 ? DecorationImage(
-                                image: FileImage(
-                                    cubit.imageFile
-                                ),
-                                fit: BoxFit.cover)
+                                    image: FileImage(cubit.imageFile),
+                                    fit: BoxFit.cover)
                                 : null,
                             color: Color(0xffF8F8F8),
                             borderRadius: BorderRadius.circular(20),
                             border: Border.all(color: Colors.grey)),
                         child: cubit.imageFile == null
                             ? Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Text(
-                              'رفع صورة / لوجو',
-                              style: TextStyle(
-                                  fontSize: 16,
-                                  color: Colors.grey,
-                                  fontWeight: FontWeight.bold),
-                            ),
-                            SizedBox(
-                              width: 20,
-                            ),
-                            Icon(
-                              Icons.cloud_upload_outlined,
-                              color: Colors.grey,
-                            )
-                          ],
-                        )
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Text(
+                                    'رفع صورة / لوجو',
+                                    style: TextStyle(
+                                        fontSize: 16,
+                                        color: Colors.grey,
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                  SizedBox(
+                                    width: 20,
+                                  ),
+                                  Icon(
+                                    Icons.cloud_upload_outlined,
+                                    color: Colors.grey,
+                                  )
+                                ],
+                              )
                             : null,
                       ),
                     ),
                   ),
-                  SizedBox(height: 20,),
+                  SizedBox(
+                    height: 20,
+                  ),
+
                   ///user data form
                   Column(
                     children: [
@@ -141,6 +140,7 @@ class UpdateProfileScreen extends StatelessWidget {
                       SizedBox(
                         height: 24,
                       ),
+
                       ///phone
                       Label(
                         text: 'رقم الهاتف',
@@ -168,9 +168,9 @@ class UpdateProfileScreen extends StatelessWidget {
                       ),
                       CustomTextField(
                         controller: emailController,
-                        hintText: cubit.getUserInfoModel.payload.email!=null?
-                        cubit.getUserInfoModel.payload.email
-                            :'',
+                        hintText: cubit.getUserInfoModel.payload.email != null
+                            ? cubit.getUserInfoModel.payload.email
+                            : '',
                         isPassword: false,
                         textDirection: TextDirection.rtl,
                         inputType: TextInputType.emailAddress,
@@ -178,6 +178,7 @@ class UpdateProfileScreen extends StatelessWidget {
                       SizedBox(
                         height: 24,
                       ),
+
                       /// location
                       Label(
                         text: 'الموقع',
@@ -186,7 +187,7 @@ class UpdateProfileScreen extends StatelessWidget {
                         height: 16,
                       ),
                       GestureDetector(
-                        onTap: ()async{
+                        onTap: () async {
                           navigateTo(context, LocationPickerScreen());
                           // cubit.setLocation(context).then((value) {
                           //   print('lat:${cubit.lat},lang:${cubit.lang}');
@@ -197,10 +198,9 @@ class UpdateProfileScreen extends StatelessWidget {
                           // lat = result['lat'];
                           // lang = result['long'];
                           // address = result['address'];
-
                         },
                         child: Row(
-                        textDirection: TextDirection.rtl,
+                          textDirection: TextDirection.rtl,
                           children: [
                             Icon(
                               Icons.location_on_outlined,
@@ -220,23 +220,23 @@ class UpdateProfileScreen extends StatelessWidget {
                       SizedBox(
                         height: 30,
                       ),
+
                       ///save button
-                      state is UpdateProfileLoadingState?
-                      CircularProgressIndicator(
-                        color: kBlueColor,
-                      )
-                      :CustomButton(
-                        color: kBlueColor,
-                        label: 'حفظ',
-                        onTab: (){
-                         cubit.updateProfile(
-                           name: nameController.text,
-                           email: emailController.text,
-                           phone: phoneController.text,
-                           logo: cubit.imageFile
-                         );
-                        },
-                      ),
+                      state is UpdateProfileLoadingState
+                          ? CircularProgressIndicator(
+                              color: kBlueColor,
+                            )
+                          : CustomButton(
+                              color: kBlueColor,
+                              label: 'حفظ',
+                              onTab: () {
+                                cubit.updateProfile(
+                                    name: nameController.text,
+                                    email: emailController.text,
+                                    phone: phoneController.text,
+                                    logo: cubit.imageFile);
+                              },
+                            ),
                       SizedBox(
                         height: 30,
                       ),
@@ -248,29 +248,6 @@ class UpdateProfileScreen extends StatelessWidget {
           ),
         );
       },
-    );
-  }
-}
-
-class Label extends StatelessWidget {
-  const Label({
-    Key key,
-    @required this.text,
-  }) : super(key: key);
-
-  final String text;
-
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.end,
-      children: [
-        Text(
-          text,
-          textDirection: TextDirection.rtl,
-          style: TextStyle(fontSize: 17, fontWeight: FontWeight.w600),
-        ),
-      ],
     );
   }
 }

@@ -9,8 +9,19 @@ import 'package:polywin/shared/constants.dart';
 import 'package:polywin/shared/cubit/app_cubit.dart';
 import 'package:polywin/shared/cubit/app_states.dart';
 
-class AdminOrdersScreen extends StatelessWidget {
+class AdminOrdersScreen extends StatefulWidget {
   const AdminOrdersScreen({Key key}) : super(key: key);
+
+  @override
+  State<AdminOrdersScreen> createState() => _AdminOrdersScreenState();
+}
+
+class _AdminOrdersScreenState extends State<AdminOrdersScreen> {
+  @override
+  void initState() {
+    AppCubit.get(context).getPolywinInvoices();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {

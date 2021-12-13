@@ -7,6 +7,7 @@ import 'package:polywin/screens/guest_user_screens/bottom_nav_bar_screens/media_
 import 'package:polywin/screens/work_shop_screens/choose_client_screen.dart';
 import 'package:polywin/shared/components/custom_appbar.dart';
 import 'package:polywin/shared/components/custom_button.dart';
+import 'package:polywin/shared/components/custom_button_2.dart';
 import 'package:polywin/shared/components/defaults.dart';
 import 'package:polywin/shared/constants.dart';
 import 'package:polywin/shared/cubit/workshop_cubit.dart';
@@ -14,6 +15,8 @@ import 'package:polywin/shared/cubit/workshop_states.dart';
 import 'package:screenshot/screenshot.dart';
 import 'package:share/share.dart';
 import 'package:path_provider/path_provider.dart';
+
+import 'add_customer_screen.dart';
 
 class WorkshopDisplayPriceScreen extends StatelessWidget {
   const WorkshopDisplayPriceScreen({
@@ -208,43 +211,43 @@ class WorkshopDisplayPriceScreen extends StatelessWidget {
                               SizedBox(
                                 height: 20,
                               ),
-                              ListView.separated(
-                                  shrinkWrap: true,
-                                  physics: NeverScrollableScrollPhysics(),
-                                  itemBuilder: (context, index) => Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        textDirection: TextDirection.rtl,
-                                        children: [
-                                          Expanded(
-                                            child: Text(
-                                              cubit.totalPriceModel.items[index]
-                                                  .productName,
-                                              textDirection: TextDirection.rtl,
-                                              style: TextStyle(fontSize: 17),
-                                            ),
-                                          ),
-                                          Text(
-                                            '${cubit.totalPriceModel.items[index].totalByDescount} '
-                                            ' ج.م ',
-                                            textDirection: TextDirection.rtl,
-                                            style: TextStyle(
-                                                fontSize: 17,
-                                                color: Colors.black54),
-                                          ),
-                                          SizedBox(),
-                                          SizedBox(),
-                                        ],
-                                      ),
-                                  separatorBuilder: (context, index) =>
-                                      SizedBox(
-                                        height: 16,
-                                      ),
-                                  itemCount:
-                                      cubit.totalPriceModel.items.length),
-                              SizedBox(
-                                height: 20,
-                              ),
+                              // ListView.separated(
+                              //     shrinkWrap: true,
+                              //     physics: NeverScrollableScrollPhysics(),
+                              //     itemBuilder: (context, index) => Row(
+                              //           mainAxisAlignment:
+                              //               MainAxisAlignment.spaceBetween,
+                              //           textDirection: TextDirection.rtl,
+                              //           children: [
+                              //             Expanded(
+                              //               child: Text(
+                              //                 cubit.totalPriceModel.items[index]
+                              //                     .productName,
+                              //                 textDirection: TextDirection.rtl,
+                              //                 style: TextStyle(fontSize: 17),
+                              //               ),
+                              //             ),
+                              //             Text(
+                              //               '${cubit.totalPriceModel.items[index].totalByDescount} '
+                              //               ' ج.م ',
+                              //               textDirection: TextDirection.rtl,
+                              //               style: TextStyle(
+                              //                   fontSize: 17,
+                              //                   color: Colors.black54),
+                              //             ),
+                              //             SizedBox(),
+                              //             SizedBox(),
+                              //           ],
+                              //         ),
+                              //     separatorBuilder: (context, index) =>
+                              //         SizedBox(
+                              //           height: 16,
+                              //         ),
+                              //     itemCount:
+                              //         cubit.totalPriceModel.items.length),
+                              // SizedBox(
+                              //   height: 20,
+                              // ),
                               // Row(
                               //   mainAxisAlignment: MainAxisAlignment
                               //       .spaceBetween,
@@ -328,17 +331,34 @@ class WorkshopDisplayPriceScreen extends StatelessWidget {
                     padding: const EdgeInsets.symmetric(horizontal: 22),
                     child: CustomButton(
                         color: kDarkBlueColor,
-                        label: 'ارسال عرض سعر للعميل',
+                        label: 'حفظ عرض سعر للعميل',
                         onTab: () {
                           showCustomBottomSheet(
                               context: context,
                               content: Column(
                                 children: [
-                                  Text('قائمة العملاء',
-                                      style: TextStyle(
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.bold),
-                                      textDirection: TextDirection.rtl),
+                                  Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: CustomButton2(
+                                          label: 'اضافة عميل',
+                                          color: Color(0xffFFA41B),
+                                          onTab: () {
+                                            navigateTo(
+                                                context, AddClientScreen());
+                                          },
+                                        ),
+                                      ),
+                                      Text('قائمة العملاء',
+                                          style: TextStyle(
+                                              fontSize: 16,
+                                              fontWeight: FontWeight.bold),
+                                          textDirection: TextDirection.rtl),
+                                    ],
+                                  ),
                                   SizedBox(
                                     height: 20,
                                   ),

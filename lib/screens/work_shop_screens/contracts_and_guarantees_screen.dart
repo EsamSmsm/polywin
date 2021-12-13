@@ -44,14 +44,14 @@ class ContractsAndGuaranteesScreen extends StatelessWidget {
                             TextStyle(fontWeight: FontWeight.normal),
                         tabs: [
                           Text(
-                            'ضمانات',
+                            'تقديم ضمان',
                             style: TextStyle(
                                 color: Colors.black,
                                 fontSize: 15,
                                 fontFamily: 'GE_SS'),
                           ),
                           Text(
-                            'عقود',
+                            'تقديم عقد',
                             style: TextStyle(
                                 color: Colors.black,
                                 fontSize: 15,
@@ -221,6 +221,8 @@ class GuaranteesTabScreen extends StatelessWidget {
                                 context,
                                 CreateWarrantyScreen(
                                   contractIndex: index,
+                                  client: cubit
+                                      .workshopContractsModel.payload[index],
                                 ));
                           },
                         ),
@@ -366,7 +368,11 @@ class ContractsTabScreen extends StatelessWidget {
                       cubit.getCostsByClient(
                           clientId: cubit.getAllClientsModel.payload[index].id);
                       print(cubit.getAllClientsModel.payload[index].id);
-                      navigateTo(context, ChooseInvoiceScreen());
+                      navigateTo(
+                          context,
+                          ChooseInvoiceScreen(
+                            client: cubit.getAllClientsModel.payload[index],
+                          ));
                     },
                   ),
                 ],

@@ -4,15 +4,18 @@ import 'package:polywin/screens/update_profile_screen.dart';
 import 'package:polywin/screens/work_shop_screens/upload_warranty_images_screen.dart';
 import 'package:polywin/shared/components/custom_appbar.dart';
 import 'package:polywin/shared/components/custom_button.dart';
+import 'package:polywin/shared/components/custom_label.dart';
 import 'package:polywin/shared/components/defaults.dart';
 import 'package:polywin/shared/constants.dart';
 import 'package:polywin/shared/cubit/workshop_cubit.dart';
 import 'package:polywin/shared/cubit/workshop_states.dart';
 
 class CreateWarrantyScreen extends StatelessWidget {
-  const CreateWarrantyScreen({Key key, this.contractIndex}) : super(key: key);
+  const CreateWarrantyScreen({Key key, this.contractIndex, this.client})
+      : super(key: key);
 
   final int contractIndex;
+  final client;
 
   @override
   Widget build(BuildContext context) {
@@ -64,31 +67,14 @@ class CreateWarrantyScreen extends StatelessWidget {
                                           context,
                                           UploadWarrantyImagesScreen(
                                             contractIndex: contractIndex,
+                                            client: client,
+                                            productIndex: index,
                                             costCalcId: cubit
                                                 .workshopContractsModel
                                                 .payload[contractIndex]
                                                 .listItem[index]
                                                 .id,
                                           ));
-                                      // showDialog(context: context,
-                                      //   builder: (context) => AlertDialog(
-                                      //   content: Column(
-                                      //     mainAxisSize: MainAxisSize.min,
-                                      //     children: [
-                                      //
-                                      //     ],
-                                      //   ),
-                                      //   actions: [
-                                      //     state is AddWarrantyLoadingState?
-                                      //     CircularProgressIndicator(
-                                      //       color: kDarkBlueColor,
-                                      //     )
-                                      //         :CustomButton(
-                                      //       color: kDarkBlueColor,
-                                      //       label: "تأكيد"
-                                      //     )
-                                      //   ],
-                                      // ),);
                                     },
                                     title: Text(cubit
                                         .workshopContractsModel

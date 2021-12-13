@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:polywin/layout/workshop_layout.dart';
 import 'package:polywin/screens/work_shop_screens/add_customer_screen.dart';
 import 'package:polywin/screens/work_shop_screens/discounts_calculation_screen.dart';
 import 'package:polywin/screens/work_shop_screens/contracts_and_guarantees_screen.dart';
@@ -13,6 +14,7 @@ import 'package:polywin/shared/components/defaults.dart';
 import 'package:polywin/shared/components/home_screen_tile.dart';
 import 'package:polywin/shared/components/social_row.dart';
 import 'package:polywin/shared/constants.dart';
+import 'package:polywin/shared/cubit/workshop_cubit.dart';
 
 import '../../new_order_pricing_screen.dart';
 
@@ -57,7 +59,7 @@ class WorkshopHomeScreen extends StatelessWidget {
                         physics: NeverScrollableScrollPhysics(),
                         children: [
                           HomeScreenTile(
-                            label: "حساب التكلفة",
+                            label: " حساب التكلفة / عرض سعر",
                             onTab: () {
                               Navigator.push(
                                 context,
@@ -81,7 +83,7 @@ class WorkshopHomeScreen extends StatelessWidget {
                           ),
                           SizedBox(height: 12),
                           HomeScreenTile(
-                              label: "حساب التخصيمات",
+                              label: "ملف التخصيمات",
                               onTab: () {
                                 Navigator.push(
                                   context,
@@ -108,8 +110,11 @@ class WorkshopHomeScreen extends StatelessWidget {
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (context) =>
-                                          WorkshopOrderScreen()),
+                                      builder: (context) => WorkShopLayout(
+                                            selectedIndex:
+                                                WorkshopCubit.get(context)
+                                                    .selectedIndex = 1,
+                                          )),
                                 );
                               }),
                           SizedBox(height: 12),

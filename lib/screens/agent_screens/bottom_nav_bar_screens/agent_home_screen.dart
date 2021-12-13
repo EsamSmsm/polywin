@@ -90,6 +90,20 @@ class AgentHomeScreen extends StatelessWidget {
                               ));
                         },
                       ),
+                      SizedBox(
+                        height: 15,
+                      ),
+                      HomeScreenTile(
+                        label: "انشاء طلبية",
+                        onTab: () {
+                          navigateReplacement(
+                              context,
+                              AgentLayout(
+                                selectedIndex:
+                                    AgentCubit.get(context).selectedIndex = 3,
+                              ));
+                        },
+                      ),
                       SizedBox(height: 15),
                       HomeScreenTile(
                         label: "الطلبيات المستلمة",
@@ -106,7 +120,7 @@ class AgentHomeScreen extends StatelessWidget {
                       HomeScreenTile(
                         label: 'طلبياتي',
                         onTab: () {
-                         navigateTo(context, SavedOrdersScreen());
+                          navigateTo(context, SavedOrdersScreen());
                         },
                       ),
                       SizedBox(height: 15),

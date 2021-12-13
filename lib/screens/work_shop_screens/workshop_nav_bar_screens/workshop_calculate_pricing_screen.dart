@@ -6,6 +6,7 @@ import 'package:polywin/screens/update_profile_screen.dart';
 import 'package:polywin/screens/work_shop_screens/workshop_total_price_screen.dart';
 import 'package:polywin/shared/components/custom_appbar.dart';
 import 'package:polywin/shared/components/custom_button.dart';
+import 'package:polywin/shared/components/custom_label.dart';
 import 'package:polywin/shared/components/defaults.dart';
 import 'package:polywin/shared/constants.dart';
 import 'package:polywin/shared/cubit/app_cubit.dart';
@@ -21,9 +22,10 @@ class WorkshopCalculatePricingScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    TextEditingController mortalController = TextEditingController();
-    TextEditingController expensesController = TextEditingController();
-    TextEditingController profitsController = TextEditingController();
+    TextEditingController mortalController = TextEditingController(text: '5');
+    TextEditingController expensesController =
+        TextEditingController(text: '100');
+    TextEditingController profitsController = TextEditingController(text: '40');
 
     int widthMeterValue = 0;
     int widthCMValue = 0;
@@ -472,7 +474,7 @@ class WorkshopCalculatePricingScreen extends StatelessWidget {
                     SizedBox(
                       height: 30,
                     ),
-                    Label(text: 'نسبة الهالك'),
+                    Label(text: 'نسبة الهالك ( % )'),
                     SizedBox(
                       height: 20,
                     ),
@@ -501,7 +503,7 @@ class WorkshopCalculatePricingScreen extends StatelessWidget {
                     SizedBox(
                       height: 30,
                     ),
-                    Label(text: 'المصروفات'),
+                    Label(text: ' المصروفات بالجنيه'),
                     SizedBox(
                       height: 20,
                     ),
@@ -530,7 +532,7 @@ class WorkshopCalculatePricingScreen extends StatelessWidget {
                     SizedBox(
                       height: 20,
                     ),
-                    Label(text: 'نسبة الربح'),
+                    Label(text: 'نسبة الربح ( % )'),
                     SizedBox(
                       height: 20,
                     ),
