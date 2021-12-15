@@ -19,7 +19,7 @@ class ChooseInvoiceScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    TextEditingController installmentController = TextEditingController();
+    TextEditingController installmentCountController = TextEditingController();
     return BlocConsumer<WorkshopCubit, WorkshopStates>(
       listener: (context, state) {
         WorkshopCubit cubit = WorkshopCubit.get(context);
@@ -76,7 +76,7 @@ class ChooseInvoiceScreen extends StatelessWidget {
                           color: Color(0xfffcfcfc),
                         ),
                         child: TextFormField(
-                          controller: installmentController,
+                          controller: installmentCountController,
                           keyboardType: TextInputType.numberWithOptions(),
                           cursorColor: Colors.grey,
                           style: TextStyle(fontFamily: 'roboto'),
@@ -105,7 +105,7 @@ class ChooseInvoiceScreen extends StatelessWidget {
                         onTab: () {
                           cubit.addInstallment(
                               installmentNumber:
-                                  int.parse(installmentController.text),
+                                  int.parse(installmentCountController.text),
                               totalContract: cubit.getTotalCost(),
                               contractId:
                                   cubit.addNewContractResponseModel.payload,
@@ -117,6 +117,98 @@ class ChooseInvoiceScreen extends StatelessWidget {
             ),
           );
         } else if (state is CheckInstallmentSuccessState) {
+          showDialog(
+            context: context,
+            builder: (context) => AlertDialog(
+              title: Row(
+                textDirection: TextDirection.rtl,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    'الاجمالي',
+                    style: TextStyle(
+                        color: kOrangeColor,
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold),
+                    textDirection: TextDirection.rtl,
+                  ),
+                  Text(
+                    '  ${cubit.getTotalCost().toStringAsFixed(0)} ج.م ',
+                    style: TextStyle(
+                        fontSize: 20,
+                        color: Colors.black54,
+                        fontWeight: FontWeight.bold),
+                    textDirection: TextDirection.rtl,
+                  ),
+                ],
+              ),
+              content: Container(
+                width: double.maxFinite,
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Label(text: 'ادخل قيمة الدفعات'),
+                    SizedBox(
+                      height: 20,
+                    ),
+                    Expanded(
+                      child: ListView.separated(
+                          physics: NeverScrollableScrollPhysics(),
+                          shrinkWrap: true,
+                          itemBuilder: (context, index) {
+                            return Container(
+                              height: 45,
+                              width: 120,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(10),
+                                border: Border.all(color: Color(0xffc8c8c8)),
+                                color: Color(0xfffcfcfc),
+                              ),
+                              child: TextFormField(
+                                controller: cubit.instalmentControllers[index],
+                                keyboardType: TextInputType.numberWithOptions(),
+                                cursorColor: Colors.grey,
+                                style: TextStyle(fontFamily: 'roboto'),
+                                decoration: InputDecoration(
+                                  border: InputBorder.none,
+                                  focusedBorder: InputBorder.none,
+                                  hintText: "قيمة الدفعة",
+                                  hintStyle: TextStyle(color: Colors.black54),
+                                  contentPadding: EdgeInsets.all(10),
+                                  hintTextDirection: TextDirection.rtl,
+                                ),
+                              ),
+                            );
+                          },
+                          separatorBuilder: (context, index) => SizedBox(
+                                height: 10,
+                              ),
+                          itemCount: cubit.checkInstallmentsModel.length),
+                    )
+                  ],
+                ),
+              ),
+              actions: [
+                state is SendInstallmentLoadingState
+                    ? CircularProgressIndicator(
+                        color: kDarkBlueColor,
+                      )
+                    : CustomButton(
+                        color: kDarkBlueColor,
+                        label: "تأكيد",
+                        onTab: () {
+                          cubit.setInstallmentValues();
+                          cubit.sendInstallment(
+                              contractId:
+                                  cubit.addNewContractResponseModel.payload,
+                              clientId: cubit.costsByClientModel[0].clientId);
+                          Navigator.pop(context);
+                        },
+                      )
+              ],
+            ),
+          );
+        } else if (state is SendInstallmentSuccessState) {
           showAlertDialogWithAction(
               context: context,
               imagePath: 'assets/images/sent.png',
@@ -125,7 +217,12 @@ class ChooseInvoiceScreen extends StatelessWidget {
               action: () {
                 Navigator.pop(context);
                 Navigator.pop(context);
+                Navigator.pop(context);
+                Navigator.pop(context);
               });
+        } else if (state is CheckInstallmentLoadingState ||
+            state is SendInstallmentLoadingState) {
+          showLoadingDialogue(context);
         }
       },
       builder: (context, state) {
@@ -270,6 +367,8 @@ class ChooseInvoiceScreen extends StatelessWidget {
                                 totalCost: cubit
                                     .costsByClientModel[index].totalCalc
                                     .toStringAsFixed(2),
+                                productImage:
+                                    cubit.costsByClientModel[index].pathFile,
                               )),
                       SizedBox(
                         height: 20,
@@ -363,19 +462,19 @@ class CostCard extends StatelessWidget {
                 textDirection: TextDirection.rtl,
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  // Container(
-                  //   width: MediaQuery.of(context).size.width * 0.2,
-                  //   height: MediaQuery.of(context).size.width * 0.2,
-                  //   decoration: BoxDecoration(
-                  //       image: DecorationImage(
-                  //     fit: BoxFit.cover,
-                  //     image: NetworkImage('$kBaseURL'
-                  //         '${cubit.subCategoryId.filePath}'),
-                  //   )),
-                  // ),
-                  // SizedBox(
-                  //   width: 20,
-                  // ),
+                  Container(
+                    width: MediaQuery.of(context).size.width * 0.2,
+                    height: MediaQuery.of(context).size.width * 0.2,
+                    decoration: BoxDecoration(
+                        image: DecorationImage(
+                      fit: BoxFit.cover,
+                      image: NetworkImage('$kBaseURL'
+                          '$productImage'),
+                    )),
+                  ),
+                  SizedBox(
+                    width: 20,
+                  ),
                   Expanded(
                     child: Text(
                       productName,

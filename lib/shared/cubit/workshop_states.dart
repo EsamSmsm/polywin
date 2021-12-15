@@ -74,6 +74,12 @@ class CheckInstallmentSuccessState extends WorkshopStates {}
 
 class CheckInstallmentErrorState extends WorkshopStates {}
 
+class SendInstallmentLoadingState extends WorkshopStates {}
+
+class SendInstallmentSuccessState extends WorkshopStates {}
+
+class SendInstallmentErrorState extends WorkshopStates {}
+
 class GetWorkshopContractsLoadingState extends WorkshopStates {}
 
 class GetWorkshopContractsSuccessState extends WorkshopStates {}

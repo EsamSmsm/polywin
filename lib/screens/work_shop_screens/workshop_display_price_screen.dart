@@ -50,17 +50,7 @@ class WorkshopDisplayPriceScreen extends StatelessWidget {
             listener: (context, state) {
               WorkshopCubit cubit = WorkshopCubit.get(context);
               if (state is SendTotalCostLoadingState) {
-                showDialog(
-                  context: context,
-                  builder: (context) => AlertDialog(
-                    title: Padding(
-                      padding: const EdgeInsets.all(20),
-                      child: SpinKitFadingCircle(
-                        color: kOrangeColor,
-                      ),
-                    ),
-                  ),
-                );
+                showLoadingDialogue(context);
               }
               if (state is SendTotalCostSuccessState) {
                 if (cubit.getCostByClientResponse) {

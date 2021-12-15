@@ -4,17 +4,19 @@
 
 import 'dart:convert';
 
-GetCostByClientIdModel getCostByClientIdModelFromJson(String str) =>
-    GetCostByClientIdModel.fromJson(json.decode(str));
+List<GetCostByClientIdModel> getCostByClientIdModelFromJson(String str) =>
+    List<GetCostByClientIdModel>.from(
+        json.decode(str).map((x) => GetCostByClientIdModel.fromJson(x)));
 
-String getCostByClientIdModelToJson(GetCostByClientIdModel data) =>
-    json.encode(data.toJson());
+String getCostByClientIdModelToJson(List<GetCostByClientIdModel> data) =>
+    json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
 
 class GetCostByClientIdModel {
   GetCostByClientIdModel({
     this.id,
     this.subCategoryId,
     this.subCategoryName,
+    this.pathFile,
     this.colorId,
     this.colorName,
     this.width,
@@ -22,6 +24,7 @@ class GetCostByClientIdModel {
     this.mortal,
     this.expenses,
     this.totalCalc,
+    this.net,
     this.clientId,
     this.costCalcItems,
   });
@@ -29,14 +32,16 @@ class GetCostByClientIdModel {
   int id;
   int subCategoryId;
   String subCategoryName;
+  String pathFile;
   int colorId;
   String colorName;
   String width;
   String height;
-  dynamic mortal;
-  dynamic expenses;
-  dynamic totalCalc;
-  dynamic clientId;
+  double mortal;
+  int expenses;
+  double totalCalc;
+  double net;
+  int clientId;
   List<CostCalcItem> costCalcItems;
 
   factory GetCostByClientIdModel.fromJson(Map<String, dynamic> json) =>
@@ -44,13 +49,15 @@ class GetCostByClientIdModel {
         id: json["id"],
         subCategoryId: json["subCategoryId"],
         subCategoryName: json["subCategoryName"],
+        pathFile: json["pathFile"],
         colorId: json["colorId"],
         colorName: json["colorName"],
         width: json["width"],
         height: json["height"],
-        mortal: json["mortal"],
+        mortal: json["mortal"].toDouble(),
         expenses: json["expenses"],
-        totalCalc: json["totalCalc"],
+        totalCalc: json["totalCalc"].toDouble(),
+        net: json["net"].toDouble(),
         clientId: json["clientId"],
         costCalcItems: List<CostCalcItem>.from(
             json["costCalcItems"].map((x) => CostCalcItem.fromJson(x))),
@@ -60,6 +67,7 @@ class GetCostByClientIdModel {
         "id": id,
         "subCategoryId": subCategoryId,
         "subCategoryName": subCategoryName,
+        "pathFile": pathFile,
         "colorId": colorId,
         "colorName": colorName,
         "width": width,
@@ -67,6 +75,7 @@ class GetCostByClientIdModel {
         "mortal": mortal,
         "expenses": expenses,
         "totalCalc": totalCalc,
+        "net": net,
         "clientId": clientId,
         "costCalcItems":
             List<dynamic>.from(costCalcItems.map((x) => x.toJson())),
@@ -90,7 +99,7 @@ class CostCalcItem {
   String meter;
   String cost;
   String totalMeterCost;
-  dynamic descount;
+  String descount;
   String typeOfDescount;
   String totalByDescount;
 
@@ -100,7 +109,7 @@ class CostCalcItem {
         meter: json["meter"],
         cost: json["cost"],
         totalMeterCost: json["totalMeterCost"],
-        descount: json["descount"],
+        descount: json["descount"] == null ? null : json["descount"],
         typeOfDescount: json["typeOfDescount"],
         totalByDescount: json["totalByDescount"],
       );
@@ -111,7 +120,7 @@ class CostCalcItem {
         "meter": meter,
         "cost": cost,
         "totalMeterCost": totalMeterCost,
-        "descount": descount,
+        "descount": descount == null ? null : descount,
         "typeOfDescount": typeOfDescount,
         "totalByDescount": totalByDescount,
       };

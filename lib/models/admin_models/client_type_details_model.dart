@@ -48,6 +48,7 @@ class Payload {
   Payload({
     this.id,
     this.name,
+    this.parentName,
     this.clientLogo,
     this.userType,
     this.clientPhone,
@@ -59,6 +60,7 @@ class Payload {
 
   int id;
   String name;
+  String parentName;
   String clientLogo;
   String userType;
   String clientPhone;
@@ -70,6 +72,7 @@ class Payload {
   factory Payload.fromJson(Map<String, dynamic> json) => Payload(
         id: json["id"],
         name: json["name"],
+        parentName: json["parentName"],
         clientLogo: json["clientLogo"],
         userType: json["userType"],
         clientPhone: json["clientPhone"],
@@ -82,6 +85,7 @@ class Payload {
   Map<String, dynamic> toJson() => {
         "id": id,
         "name": name,
+        "parentName": parentName,
         "clientLogo": clientLogo,
         "userType": userType,
         "clientPhone": clientPhone,

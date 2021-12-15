@@ -76,6 +76,30 @@ class ClientTypeDetailsScreen extends StatelessWidget {
                                   textDirection: TextDirection.rtl,
                                   children: [
                                     Text(
+                                      'الورشة :',
+                                      textDirection: TextDirection.rtl,
+                                    ),
+                                    SizedBox(
+                                      width: 20,
+                                    ),
+                                    Expanded(
+                                      child: Text(
+                                        cubit.clientTypeDetailsModel
+                                            .payload[index].parentName,
+                                        style:
+                                            TextStyle(color: Color(0xff707070)),
+                                        textDirection: TextDirection.rtl,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                SizedBox(
+                                  height: 10,
+                                ),
+                                Row(
+                                  textDirection: TextDirection.rtl,
+                                  children: [
+                                    Text(
                                       'العنوان :',
                                       textDirection: TextDirection.rtl,
                                     ),

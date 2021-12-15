@@ -41,6 +41,7 @@ class WorkshopsDetailsScreen extends StatelessWidget {
                                 Row(
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceBetween,
+                                  textDirection: TextDirection.rtl,
                                   children: [
                                     Container(
                                       width: 40,
@@ -82,6 +83,31 @@ class WorkshopsDetailsScreen extends StatelessWidget {
                                                 .result
                                                 .payload[index]
                                                 .agentGovernorate ??
+                                            '',
+                                        style:
+                                            TextStyle(color: Color(0xff707070)),
+                                        textDirection: TextDirection.rtl,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                SizedBox(
+                                  height: 10,
+                                ),
+                                Row(
+                                  textDirection: TextDirection.rtl,
+                                  children: [
+                                    Text(
+                                      'الوكيل :',
+                                      textDirection: TextDirection.rtl,
+                                    ),
+                                    SizedBox(
+                                      width: 20,
+                                    ),
+                                    Expanded(
+                                      child: Text(
+                                        cubit.workshopsDetailsModel.result
+                                                .payload[index].parentName ??
                                             '',
                                         style:
                                             TextStyle(color: Color(0xff707070)),

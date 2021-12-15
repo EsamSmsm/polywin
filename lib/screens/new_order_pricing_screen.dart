@@ -184,7 +184,8 @@ class CategoryTile extends StatelessWidget {
                       ),
                       title: Text(
                         cubit.getParentCategory.payload[index].listCategory[ndx]
-                            .products[i].name,
+                                .products[i].name +
+                            '( ${cubit.getParentCategory.payload[index].listCategory[ndx].products[i].colorName} )',
                         style: TextStyle(
                           fontSize: 13,
                           fontWeight: FontWeight.bold,

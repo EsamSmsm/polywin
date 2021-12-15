@@ -39,8 +39,8 @@ class WorkshopCalculatePricingScreen extends StatelessWidget {
         navigateTo(
             context,
             WorkshopTotalPriceScreen(
-              width: '$widthMeterValue.$widthCMValue',
-              height: '$heightMeterValue.$heightCMValue',
+              width: '$widthMeterValue.${widthCMValue - 1}',
+              height: '$heightMeterValue.${heightCMValue - 1}',
             ));
         isLoading1 = false;
         isLoading2 = false;
@@ -48,8 +48,8 @@ class WorkshopCalculatePricingScreen extends StatelessWidget {
         navigateTo(
             context,
             WorkshopDisplayPriceScreen(
-              width: '$widthMeterValue.$widthCMValue',
-              height: '$heightMeterValue.$heightCMValue',
+              width: '$widthMeterValue.${widthCMValue - 1}',
+              height: '$heightMeterValue.${heightCMValue - 1}',
             ));
         isLoading1 = false;
         isLoading2 = false;
@@ -277,19 +277,6 @@ class WorkshopCalculatePricingScreen extends StatelessWidget {
                                       'سنتميتر',
                                       style: TextStyle(color: kBlueColor),
                                     ),
-                                    GestureDetector(
-                                      child: Icon(
-                                        Icons.add,
-                                        size: 20,
-                                        color: Colors.black54,
-                                      ),
-                                      onTap: () {
-                                        setState(() {
-                                          if (heightCMValue < 100)
-                                            heightCMValue++;
-                                        });
-                                      },
-                                    ),
                                     SizedBox(
                                       width: 35,
                                       child: NumberPicker(
@@ -312,18 +299,22 @@ class WorkshopCalculatePricingScreen extends StatelessWidget {
                                         maxValue: 100,
                                       ),
                                     ),
-                                    GestureDetector(
-                                      child: Icon(
-                                        Icons.remove,
-                                        size: 20,
-                                        color: Colors.black54,
-                                      ),
-                                      onTap: () {
-                                        setState(() {
-                                          if (heightCMValue > 0)
-                                            heightCMValue--;
-                                        });
-                                      },
+                                    Column(
+                                      mainAxisSize: MainAxisSize.min,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        Icon(
+                                          Icons.expand_less,
+                                          size: 20,
+                                          color: Colors.black54,
+                                        ),
+                                        Icon(
+                                          Icons.expand_more,
+                                          size: 20,
+                                          color: Colors.black54,
+                                        )
+                                      ],
                                     )
                                   ],
                                 ),
@@ -417,19 +408,6 @@ class WorkshopCalculatePricingScreen extends StatelessWidget {
                                       'سنتميتر',
                                       style: TextStyle(color: kBlueColor),
                                     ),
-                                    GestureDetector(
-                                      child: Icon(
-                                        Icons.add,
-                                        size: 20,
-                                        color: Colors.black54,
-                                      ),
-                                      onTap: () {
-                                        setState(() {
-                                          if (widthCMValue < 100)
-                                            widthCMValue++;
-                                        });
-                                      },
-                                    ),
                                     SizedBox(
                                       width: 35,
                                       child: NumberPicker(
@@ -453,17 +431,22 @@ class WorkshopCalculatePricingScreen extends StatelessWidget {
                                         maxValue: 100,
                                       ),
                                     ),
-                                    GestureDetector(
-                                      child: Icon(
-                                        Icons.remove,
-                                        size: 20,
-                                        color: Colors.black54,
-                                      ),
-                                      onTap: () {
-                                        setState(() {
-                                          if (widthCMValue > 0) widthCMValue--;
-                                        });
-                                      },
+                                    Column(
+                                      mainAxisSize: MainAxisSize.min,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        Icon(
+                                          Icons.expand_less,
+                                          size: 20,
+                                          color: Colors.black54,
+                                        ),
+                                        Icon(
+                                          Icons.expand_more,
+                                          size: 20,
+                                          color: Colors.black54,
+                                        )
+                                      ],
                                     )
                                   ],
                                 ),
@@ -584,8 +567,9 @@ class WorkshopCalculatePricingScreen extends StatelessWidget {
                             cubit.requestTotalPrice(
                                 subCategoryId: cubit.subCategoryId.id,
                                 colorId: cubit.colorId.id,
-                                width: '$widthMeterValue.$widthCMValue',
-                                height: '$heightMeterValue.$heightCMValue',
+                                width: '$widthMeterValue.${widthCMValue - 1}',
+                                height:
+                                    '$heightMeterValue.${heightCMValue - 1}',
                                 mortal: mortalController.text,
                                 net: profitsController.text,
                                 expenses: expensesController.text);
@@ -618,8 +602,9 @@ class WorkshopCalculatePricingScreen extends StatelessWidget {
                             cubit.requestTotalPrice(
                                 subCategoryId: cubit.subCategoryId.id,
                                 colorId: cubit.colorId.id,
-                                width: '$widthMeterValue.$widthCMValue',
-                                height: '$heightMeterValue.$heightCMValue',
+                                width: '$widthMeterValue.${widthCMValue - 1}',
+                                height:
+                                    '$heightMeterValue.${heightCMValue - 1}',
                                 mortal: mortalController.text,
                                 net: profitsController.text,
                                 expenses: expensesController.text);

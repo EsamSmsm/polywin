@@ -91,16 +91,13 @@ class AgentStatsCard extends StatelessWidget {
                           textDirection: TextDirection.rtl,
                           child: Row(
                             children: [
-                              Text(
-                                'الوكيل : ',
-                                style:
-                                    TextStyle(color: kBlueColor, fontSize: 18),
-                              ),
-                              SizedBox(width: 10),
-                              Text(
-                                agentName,
-                                style:
-                                    TextStyle(color: kBlueColor, fontSize: 18),
+                              Expanded(
+                                child: Text(
+                                  agentName,
+                                  textDirection: TextDirection.rtl,
+                                  style: TextStyle(
+                                      color: kDarkBlueColor, fontSize: 20),
+                                ),
                               )
                             ],
                           ),

@@ -11,7 +11,7 @@ import 'package:polywin/models/admin_models/get_agents_stats.dart';
 import 'package:polywin/models/admin_models/get_discounts_model.dart';
 import 'package:polywin/models/admin_models/get_workshops_count_model.dart';
 import 'package:polywin/models/admin_models/edit_discounts_values.dart';
-import 'package:polywin/models/admin_models/workshop_details_screen.dart';
+import 'package:polywin/models/admin_models/workshop_details_model.dart';
 import 'package:polywin/models/get_client_type_count.dart';
 import 'package:polywin/models/store_data_model.dart';
 import 'package:polywin/network/remote/dio_helper.dart';

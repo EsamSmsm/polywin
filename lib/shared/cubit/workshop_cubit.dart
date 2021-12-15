@@ -14,6 +14,7 @@ import 'package:polywin/models/get_cost_by_client_model.dart';
 import 'package:polywin/models/installment_by_contact_id_model.dart';
 import 'package:polywin/models/installments_model.dart';
 import 'package:polywin/models/workshop_contracts_model.dart';
+import 'package:polywin/models/workshop_models/check_installment_model.dart';
 import 'package:polywin/models/workshop_models/get_all_clients.dart';
 import 'package:polywin/models/workshop_models/get_contract_number_model.dart';
 import 'package:polywin/models/workshop_models/get_total_price_model.dart';
@@ -360,6 +361,8 @@ class WorkshopCubit extends Cubit<WorkshopStates> {
   }
 
   bool isInstallmentAddSuccess;
+  List<dynamic> checkInstallmentsModel;
+  List<TextEditingController> instalmentControllers = [];
   void addInstallment(
       {int contractId,
       dynamic totalContract,
@@ -371,19 +374,39 @@ class WorkshopCubit extends Cubit<WorkshopStates> {
       "totalContract": totalContract,
       "numberInstallment": installmentNumber,
     }).then((value) {
-      DioHelper.postData(
-              url: 'api/UserInfo/AddNewInstallment',
-              query: {'clientId': clientId, 'ContractId': contractId},
-              data: value.data)
-          .then((value) {
-        isInstallmentAddSuccess = value.data;
-        emit(CheckInstallmentSuccessState());
-      }).catchError((error) {
-        emit(CheckInstallmentErrorState());
-        print(error);
+      print(value.data);
+      checkInstallmentsModel =
+          value.data.map((e) => CheckInstallmentsModel.fromJson(e)).toList();
+      checkInstallmentsModel.forEach((element) {
+        instalmentControllers.add(TextEditingController());
       });
+      emit(CheckInstallmentSuccessState());
     }).catchError((error) {
       emit(CheckInstallmentErrorState());
+      print(error);
+    });
+  }
+
+  void setInstallmentValues() {
+    for (int i = 0; i < checkInstallmentsModel.length; i++) {
+      checkInstallmentsModel[i].costPerMonth =
+          int.parse(instalmentControllers[i].text);
+    }
+  }
+
+  void sendInstallment({int clientId, contractId}) {
+    emit(SendInstallmentLoadingState());
+    DioHelper.postData(
+            url: 'api/UserInfo/AddNewInstallment',
+            query: {'clientId': clientId, 'ContractId': contractId},
+            data: checkInstallmentsModel)
+        .then((value) {
+      isInstallmentAddSuccess = value.data;
+      isInstallmentAddSuccess
+          ? emit(SendInstallmentSuccessState())
+          : emit(SendInstallmentErrorState());
+    }).catchError((error) {
+      emit(SendInstallmentErrorState());
       print(error);
     });
   }

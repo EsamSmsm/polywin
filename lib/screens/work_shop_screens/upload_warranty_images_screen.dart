@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:polywin/layout/workshop_layout.dart';
 import 'package:polywin/screens/work_shop_screens/choose_workshop_invoice_screen.dart';
 import 'package:polywin/shared/components/custom_appbar.dart';
 import 'package:polywin/shared/components/custom_button.dart';
@@ -54,7 +55,11 @@ class _UploadWarrantyImagesScreenState
         ),
         body: BlocConsumer<WorkshopCubit, WorkshopStates>(
           listener: (context, state) {
-            if (state is AddWarrantyGallerySuccessState) {
+            WorkshopCubit cubit = WorkshopCubit.get(context);
+            if (state is AddWarrantyGalleryLoadingState ||
+                state is AddWarrantyLoadingState) {
+              showLoadingDialogue(context);
+            } else if (state is AddWarrantyGallerySuccessState) {
               if (state is AddWarrantySuccessState) {
                 showAlertDialogWithAction(
                     buttonText: 'تم',
@@ -63,15 +68,18 @@ class _UploadWarrantyImagesScreenState
                     context: context,
                     imagePath: 'assets/images/warranty.png',
                     action: () {
-                      Navigator.pop(context);
-                      Navigator.pop(context);
-                      Navigator.pop(context);
+                      cubit.getWorkshopContracts();
+                      navigateAndFinish(
+                          context,
+                          WorkShopLayout(
+                            selectedIndex:
+                                WorkshopCubit.get(context).selectedIndex = 4,
+                          ));
                     });
               }
             } else if (state is AddWarrantyGalleryErrorState) {
               showToast(text: 'فشل ارفاق الصور', color: Colors.red);
-            }
-            if (state is AddWarrantyErrorState) {
+            } else if (state is AddWarrantyErrorState) {
               showToast(text: 'فشل تفعيل الضمان ', color: Colors.red);
             }
           },

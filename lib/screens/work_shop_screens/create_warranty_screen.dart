@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:polywin/layout/workshop_layout.dart';
 import 'package:polywin/screens/update_profile_screen.dart';
 import 'package:polywin/screens/work_shop_screens/upload_warranty_images_screen.dart';
 import 'package:polywin/shared/components/custom_appbar.dart';
@@ -27,15 +28,23 @@ class CreateWarrantyScreen extends StatelessWidget {
       body: BlocConsumer<WorkshopCubit, WorkshopStates>(
         listener: (context, state) {
           if (state is AddWarrantyGallerySuccessState) {
+            WorkshopCubit cubit = WorkshopCubit.get(context);
             showAlertDialogWithAction(
                 context: context,
                 imagePath: 'assets/images/sent.png',
                 message: 'تم الارسال بنجاح',
                 buttonText: 'شكراً',
                 action: () {
-                  Navigator.pop(context);
-                  Navigator.pop(context);
+                  cubit.getWorkshopContracts();
+                  navigateAndFinish(
+                      context,
+                      WorkShopLayout(
+                        selectedIndex:
+                            WorkshopCubit.get(context).selectedIndex = 4,
+                      ));
                 });
+          } else if (state is AddWarrantyGalleryLoadingState) {
+            showLoadingDialogue(context);
           }
         },
         builder: (context, state) {
