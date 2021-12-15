@@ -100,6 +100,7 @@ class GuaranteesTabScreen extends StatelessWidget {
     return SingleChildScrollView(
       child: cubit.workshopContractsModel != null
           ? ListView.builder(
+              reverse: true,
               shrinkWrap: true,
               physics: NeverScrollableScrollPhysics(),
               itemCount: cubit.workshopContractsModel.payload.length,

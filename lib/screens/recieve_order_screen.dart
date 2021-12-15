@@ -13,9 +13,8 @@ class ReceiveOrderScreen extends StatelessWidget {
   final int invoiceIndex;
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<AppCubit,AppStates>(
-      listener: (context, state) {
-      },
+    return BlocConsumer<AppCubit, AppStates>(
+      listener: (context, state) {},
       builder: (context, state) {
         AppCubit cubit = AppCubit.get(context);
         return Scaffold(
@@ -46,9 +45,7 @@ class ReceiveOrderScreen extends StatelessWidget {
                                 fontSize: 18, fontWeight: FontWeight.bold),
                           ),
                           Text(
-                             '${ cubit.getAllInvoicesModel.payload[invoiceIndex]
-                                 .totalWithInvoices
-                                 .toString()}   ج م ',
+                              '${cubit.getAllInvoicesModel.payload[invoiceIndex].totalWithInvoices.toString()}   ج م ',
                               style: TextStyle(
                                   fontSize: 18, fontWeight: FontWeight.bold))
                         ],
@@ -104,12 +101,14 @@ class ReceiveOrderScreen extends StatelessWidget {
                             textDirection: TextDirection.rtl,
                             children: [
                               Container(
-                                width: MediaQuery.of(context).size.width -
-                                    150,
+                                width: MediaQuery.of(context).size.width - 150,
                                 child: Text(
-                                cubit.getAllInvoicesModel
-                                      .payload[invoiceIndex]
-                                      .details[index].productName??'',
+                                  cubit
+                                          .getAllInvoicesModel
+                                          .payload[invoiceIndex]
+                                          .details[index]
+                                          .productName ??
+                                      '',
                                   style: TextStyle(
                                     color: Color(0xff636363),
                                     fontSize: 14,
@@ -118,12 +117,12 @@ class ReceiveOrderScreen extends StatelessWidget {
                                 ),
                               ),
                               Text(
-                                cubit.getAllInvoicesModel
-                                    .payload[invoiceIndex]
-                                    .details[index].quantity.toString(),
+                                cubit.getAllInvoicesModel.payload[invoiceIndex]
+                                    .details[index].quantity
+                                    .toString(),
                                 textDirection: TextDirection.rtl,
-                                style:
-                                TextStyle(fontSize: 18, fontFamily: 'roboto'),
+                                style: TextStyle(
+                                    fontSize: 18, fontFamily: 'roboto'),
                               )
                             ],
                           ),

@@ -143,7 +143,7 @@ class UserProfileScreen extends StatelessWidget {
                                   double.parse(
                                       cubit.getUserInfoModel.payload.late),
                                   double.parse(
-                                      cubit.getUserInfoModel.payload.late),
+                                      cubit.getUserInfoModel.payload.long),
                                 );
                               },
                               child: Row(

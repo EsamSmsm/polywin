@@ -125,30 +125,6 @@ class _UnderwayOrderTabScreenState extends State<UnderwayOrderTabScreen> {
                                           )
                                         ],
                                       ),
-                                      // SizedBox(
-                                      //   height: 10,
-                                      // ),
-                                      // Row(
-                                      //   mainAxisAlignment: MainAxisAlignment.end,
-                                      //   children: [
-                                      //     Text(
-                                      //       cubit.getAllInvoicesModel.payload[index]
-                                      //           .describtion ==null?'':
-                                      //       cubit.getAllInvoicesModel.payload[index]
-                                      //           .describtion ,
-                                      //       style: TextStyle(
-                                      //           fontFamily: 'roboto',
-                                      //           color: Color(0xff707070),
-                                      //           fontSize: 15),
-                                      //     ),
-                                      //     SizedBox(width: 20),
-                                      //     Text(
-                                      //       'ملاحظات :',
-                                      //       style: TextStyle(fontSize: 15),
-                                      //       textDirection: TextDirection.rtl,
-                                      //     )
-                                      //   ],
-                                      // ),
                                       SizedBox(
                                         height: 10,
                                       ),
@@ -158,6 +134,8 @@ class _UnderwayOrderTabScreenState extends State<UnderwayOrderTabScreen> {
                                     height: 5,
                                   ),
                                   Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
                                     children: [
                                       CustomButton2(
                                         color: Color(0xffFFA41B),
@@ -170,6 +148,21 @@ class _UnderwayOrderTabScreenState extends State<UnderwayOrderTabScreen> {
                                               ));
                                         },
                                       ),
+                                      CustomButton2(
+                                        color: Colors.red,
+                                        onTab: () {
+                                          print(cubit.getAllInvoicesModel
+                                              .payload[index].id
+                                              .toString());
+                                          cubit.deleteInvoice(
+                                              id: cubit.getAllInvoicesModel
+                                                  .payload[index].id
+                                                  .toString());
+                                          // AppCubit.get(context)
+                                          //     .getAllInvoices(invoiceStatus: 1);
+                                        },
+                                        label: 'حذف الطلبية',
+                                      )
                                     ],
                                   )
                                 ],

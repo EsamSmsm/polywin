@@ -301,7 +301,6 @@ class WorkshopCubit extends Cubit<WorkshopStates> {
     DioHelper.getData(url: 'api/UserInfo/GetAllContractByWorkShop')
         .then((value) {
       workshopContractsModel = WorkshopContractsModel.fromJson(value.data);
-      print(value.data);
       emit(GetWorkshopContractsSuccessState());
     }).catchError((error) {
       emit(GetWorkshopContractsErrorState());

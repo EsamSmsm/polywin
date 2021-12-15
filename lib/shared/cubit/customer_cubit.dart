@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:polywin/models/client_models/client_contracts_model.dart';
 import 'package:polywin/models/client_models/client_warranties_model.dart';
 import 'package:polywin/models/client_models/contract_info_model.dart';
+import 'package:polywin/models/client_models/workshop_info_model.dart';
 import 'package:polywin/models/customer_warranties_model.dart';
 import 'package:polywin/models/get_client_profile_model.dart';
 import 'package:polywin/models/installment_by_contact_id_model.dart';
@@ -12,6 +13,7 @@ import 'package:polywin/screens/customer_screens/nav_bar_screens/customer_contra
 import 'package:polywin/screens/customer_screens/nav_bar_screens/customer_gurantees_screen.dart';
 import 'package:polywin/screens/customer_screens/nav_bar_screens/customer_menu_screen.dart';
 import 'package:polywin/screens/customer_screens/nav_bar_screens/customer_profile.dart';
+import 'package:polywin/screens/customer_screens/nav_bar_screens/workshop_info_screen.dart';
 import 'package:polywin/screens/user_profile_screen.dart';
 import 'customer_states.dart';
 
@@ -22,15 +24,29 @@ class CustomerCubit extends Cubit<CustomerStates> {
 
   List<Widget> screens = [
     CustomerMenuScreen(),
+    WorkshopInfoScreen(),
     CustomerProfileScreen(),
     CustomerGuaranteesScreen(),
     CustomerContractsScreen()
   ];
 
-  int selectedIndex = 3;
+  int selectedIndex = 4;
   void changeNavBar(int value) {
     selectedIndex = value;
     emit(CustomerBottomNavState());
+  }
+
+  GetWorkShopInfoModel workShopInfoModel;
+  void getWorkShopInfo() {
+    emit(GetWorkshopInfoLoadingState());
+    DioHelper.getData(url: 'api/UserInfo/GetWorkShopByClient').then((value) {
+      workShopInfoModel = GetWorkShopInfoModel.fromJson(value.data);
+      print(value.data);
+      emit(GetWorkshopInfoSuccessState());
+    }).catchError((error) {
+      emit(GetWorkshopInfoErrorState());
+      print(error);
+    });
   }
 
   GetClientInfoModel clientInfoModel;
@@ -103,6 +119,7 @@ class CustomerCubit extends Cubit<CustomerStates> {
 
   void fetchData() {
     getClientInfo();
+    getWorkShopInfo();
     getAllClientContracts();
     getCustomerWarranties();
   }

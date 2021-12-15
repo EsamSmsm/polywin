@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:polywin/screens/update_profile_screen.dart';
 import 'package:polywin/shared/components/custom_appbar.dart';
 import 'package:polywin/shared/components/custom_button.dart';
+import 'package:polywin/shared/components/custom_dropdown_field.dart';
 import 'package:polywin/shared/components/custom_label.dart';
 import 'package:polywin/shared/components/custom_text_field.dart';
 import 'package:polywin/shared/components/defaults.dart';
@@ -24,7 +25,7 @@ class AddWorkshopScreen extends StatelessWidget {
     final TextEditingController emailController = TextEditingController();
     final TextEditingController userNameController = TextEditingController();
     final TextEditingController passwordController = TextEditingController();
-    final TextEditingController governorateController = TextEditingController();
+    String governorate;
     return BlocConsumer<AgentCubit, AgentStates>(
       listener: (context, state) {
         AgentCubit cubit = AgentCubit.get(context);
@@ -40,7 +41,7 @@ class AddWorkshopScreen extends StatelessWidget {
                   cubit.imageFile = null;
                   nameController.text = null;
                   addressController.text = null;
-                  governorateController.text = null;
+                  governorate = null;
                   phoneController.text = null;
                   passwordController.text = null;
                   Navigator.pop(context);
@@ -155,11 +156,25 @@ class AddWorkshopScreen extends StatelessWidget {
                       SizedBox(
                         height: 16,
                       ),
-                      CustomTextField(
-                        controller: governorateController,
-                        hintText: 'القاهرة',
-                        isPassword: false,
-                        textDirection: TextDirection.rtl,
+                      StatefulBuilder(
+                        builder: (context, setState) => CustomDropdownField(
+                          hint: 'المحافظة',
+                          itemsList: cubit.governments.map((e) {
+                            return DropdownMenuItem(
+                              child: Text(
+                                e,
+                              ),
+                              value: e,
+                              alignment: Alignment.centerRight,
+                            );
+                          }).toList(),
+                          value: governorate,
+                          onChanged: (value) {
+                            setState(() {
+                              governorate = value;
+                            });
+                          },
+                        ),
                       ),
                       SizedBox(
                         height: 24,
@@ -260,42 +275,40 @@ class AddWorkshopScreen extends StatelessWidget {
                       ),
 
                       ///save button
-                      ConditionalBuilder(
-                        condition: state is! AddWorkshopLoadingState,
-                        builder: (context) => CustomButton(
-                          color: kBlueColor,
-                          label: 'اضافة ورشة',
-                          onTab: () async {
-                            if (cubit.imageFile == null ||
-                                nameController.text == '' ||
-                                addressController.text == '' ||
-                                governorateController.text == '' ||
-                                phoneController.text == '' ||
-                                passwordController.text == '' ||
-                                userNameController.text == '') {
-                              showToast(
-                                  text: 'تأكد من ملئ البيانات بشكل صحيح',
-                                  color: Colors.red);
-                              cubit.emit(AddWorkshopErrorState());
-                            } else {
-                              await cubit.addWorkshopAccount(
-                                email: emailController.text,
-                                userName: userNameController.text,
-                                password: passwordController.text,
-                                phone: phoneController.text,
-                                logo: cubit.imageFile,
-                                name: nameController.text,
-                                address: addressController.text,
-                                companyName: nameController.text,
-                                governorate: governorateController.text,
-                              );
-                            }
-                          },
-                        ),
-                        fallback: (context) => CircularProgressIndicator(
-                          color: kBlueColor,
-                        ),
-                      ),
+                      state is! AddWorkshopLoadingState
+                          ? CustomButton(
+                              color: kBlueColor,
+                              label: 'اضافة ورشة',
+                              onTab: () async {
+                                if (cubit.imageFile == null ||
+                                    nameController.text == '' ||
+                                    addressController.text == '' ||
+                                    governorate == '' ||
+                                    phoneController.text == '' ||
+                                    passwordController.text == '' ||
+                                    userNameController.text == '') {
+                                  showToast(
+                                      text: 'تأكد من ملئ البيانات بشكل صحيح',
+                                      color: Colors.red);
+                                  cubit.emit(AddWorkshopErrorState());
+                                } else {
+                                  await cubit.addWorkshopAccount(
+                                    email: emailController.text,
+                                    userName: userNameController.text,
+                                    password: passwordController.text,
+                                    phone: phoneController.text,
+                                    logo: cubit.imageFile,
+                                    name: nameController.text,
+                                    address: addressController.text,
+                                    companyName: nameController.text,
+                                    governorate: governorate,
+                                  );
+                                }
+                              },
+                            )
+                          : CircularProgressIndicator(
+                              color: kBlueColor,
+                            ),
                       SizedBox(
                         height: 30,
                       ),

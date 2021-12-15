@@ -55,7 +55,7 @@ class WorkshopDisplayPriceScreen extends StatelessWidget {
               if (state is SendTotalCostSuccessState) {
                 if (cubit.getCostByClientResponse) {
                   showAlertDialogWithAction(
-                      message: 'تم الارسال بنجاح',
+                      message: 'تم الحفظ بنجاح',
                       buttonText: 'تم',
                       context: context,
                       imagePath: 'assets/images/deal.png',

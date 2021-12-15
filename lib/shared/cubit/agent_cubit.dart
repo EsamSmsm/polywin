@@ -102,6 +102,19 @@ class AgentCubit extends Cubit<AgentStates> {
   void fetchData() {
     getStoreData();
     getAllWorkshops();
+    getAllGovernments();
+  }
+
+  List<dynamic> governments = [];
+  void getAllGovernments() {
+    emit(GetWorkshopGovernmentsLoadingState());
+    DioHelper.getData(url: 'api/UserInfo/GetAllGovernment').then((value) {
+      governments = value.data;
+      emit(GetWorkshopGovernmentsSuccessState());
+    }).catchError((error) {
+      emit(GetWorkshopGovernmentsErrorState());
+      print(error);
+    });
   }
 
   File imageFile;

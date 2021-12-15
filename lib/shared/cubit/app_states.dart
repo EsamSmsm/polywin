@@ -135,3 +135,9 @@ class GetDataSheetSuccessState extends AppStates {}
 class GetDataSheetErrorState extends AppStates {}
 
 class AddProductState extends AppStates {}
+
+class DeleteInvoicesLoadingState extends AppStates {}
+
+class DeleteInvoicesSuccessState extends AppStates {}
+
+class DeleteInvoicesErrorState extends AppStates {}

@@ -19,6 +19,7 @@ import 'package:polywin/models/get_invoices_number.dart';
 import 'package:polywin/models/get_parent_category.dart';
 import 'package:polywin/models/get_products_list_model.dart';
 import 'package:polywin/models/get_user_info.dart';
+import 'package:polywin/models/response_model.dart';
 import 'package:polywin/models/search_product_model.dart';
 import 'package:polywin/models/update_invoice_response_model.dart';
 import 'package:polywin/models/update_profile_response_model.dart';
@@ -148,6 +149,20 @@ class AppCubit extends Cubit<AppStates> {
     }).catchError((error) {
       emit(GetInvoicesNumberErrorState());
       print(error.toString());
+    });
+  }
+
+  ResponseModel responseModel;
+  void deleteInvoice({String id}) {
+    emit(DeleteInvoicesLoadingState());
+    DioHelper.postData(url: 'api/UserInfo/DeleteInvoices', query: {'ids': id})
+        .then((value) {
+      responseModel = ResponseModel.fromJson(value.data);
+      print(value.data);
+      emit(DeleteInvoicesSuccessState());
+    }).catchError((error) {
+      emit(DeleteInvoicesErrorState());
+      print(error);
     });
   }
 

@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:polywin/custom_icons/custom_icons.dart';
@@ -54,6 +55,8 @@ class CustomerLayout extends StatelessWidget {
                     items: [
                       BottomNavigationBarItem(
                           icon: Icon(CustomIcons.more_menu), label: 'المزيد'),
+                      BottomNavigationBarItem(
+                          icon: Icon(CustomIcons.warehouse), label: 'الورشة'),
                       BottomNavigationBarItem(
                           icon: Icon(CustomIcons.avatar),
                           label: 'الملف الشخصي'),

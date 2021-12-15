@@ -52,57 +52,70 @@ class CreateWarrantyScreen extends StatelessWidget {
           return SingleChildScrollView(
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20),
-              child: Column(
-                children: [
-                  SizedBox(
-                    height: 20,
-                  ),
-                  Label(text: 'اختر المنتج'),
-                  SizedBox(
-                    height: 20,
-                  ),
-                  cubit.workshopContractsModel.payload[contractIndex].listItem
-                              .length >
-                          0
-                      ? ListView.separated(
-                          shrinkWrap: true,
-                          physics: NeverScrollableScrollPhysics(),
-                          itemBuilder: (context, index) => Card(
-                                child: Directionality(
-                                  textDirection: TextDirection.rtl,
-                                  child: ListTile(
-                                    onTap: () {
-                                      navigateTo(
-                                          context,
-                                          UploadWarrantyImagesScreen(
-                                            contractIndex: contractIndex,
-                                            client: client,
-                                            productIndex: index,
-                                            costCalcId: cubit
-                                                .workshopContractsModel
-                                                .payload[contractIndex]
-                                                .listItem[index]
-                                                .id,
-                                          ));
-                                    },
-                                    title: Text(cubit
-                                        .workshopContractsModel
-                                        .payload[contractIndex]
-                                        .listItem[index]
-                                        .productName),
+              child: cubit.workshopContractsModel.payload[contractIndex]
+                          .listItem.length >
+                      0
+                  ? Column(
+                      children: [
+                        SizedBox(
+                          height: 20,
+                        ),
+                        Label(text: 'اختر المنتج'),
+                        SizedBox(
+                          height: 20,
+                        ),
+                        ListView.separated(
+                            shrinkWrap: true,
+                            physics: NeverScrollableScrollPhysics(),
+                            itemBuilder: (context, index) => Card(
+                                  child: Directionality(
+                                    textDirection: TextDirection.rtl,
+                                    child: ListTile(
+                                      onTap: () {
+                                        navigateTo(
+                                            context,
+                                            UploadWarrantyImagesScreen(
+                                              contractIndex: contractIndex,
+                                              client: client,
+                                              productIndex: index,
+                                              costCalcId: cubit
+                                                  .workshopContractsModel
+                                                  .payload[contractIndex]
+                                                  .listItem[index]
+                                                  .id,
+                                            ));
+                                      },
+                                      title: Text(cubit
+                                          .workshopContractsModel
+                                          .payload[contractIndex]
+                                          .listItem[index]
+                                          .productName),
+                                    ),
                                   ),
                                 ),
-                              ),
-                          separatorBuilder: (context, index) => SizedBox(
-                                height: 5,
-                              ),
-                          itemCount: cubit.workshopContractsModel
-                              .payload[contractIndex].listItem.length)
-                      : Center(
-                          child: Text('لا يوجد منتجات'),
+                            separatorBuilder: (context, index) => SizedBox(
+                                  height: 5,
+                                ),
+                            itemCount: cubit.workshopContractsModel
+                                .payload[contractIndex].listItem.length)
+                      ],
+                    )
+                  : Center(
+                      child: Padding(
+                        padding: EdgeInsets.symmetric(
+                          vertical: MediaQuery.of(context).size.height * 0.25,
                         ),
-                ],
-              ),
+                        child: Text(
+                          'تم انشاء الضمان علي كل المنتجات',
+                          textDirection: TextDirection.rtl,
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              color: Colors.black54,
+                              fontSize: 18),
+                        ),
+                      ),
+                    ),
             ),
           );
         },

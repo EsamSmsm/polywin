@@ -12,6 +12,12 @@ class GetClientInfoSuccessState extends CustomerStates {}
 
 class GetClientInfoErrorState extends CustomerStates {}
 
+class GetWorkshopInfoLoadingState extends CustomerStates {}
+
+class GetWorkshopInfoSuccessState extends CustomerStates {}
+
+class GetWorkshopInfoErrorState extends CustomerStates {}
+
 class GetClientContractsLoadingState extends CustomerStates {}
 
 class GetClientContractsSuccessState extends CustomerStates {}
