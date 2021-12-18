@@ -4,9 +4,11 @@
 
 import 'dart:convert';
 
-GetAllInvoicesModel getAllInvoicesModelFromJson(String str) => GetAllInvoicesModel.fromJson(json.decode(str));
+GetAllInvoicesModel getAllInvoicesModelFromJson(String str) =>
+    GetAllInvoicesModel.fromJson(json.decode(str));
 
-String getAllInvoicesModelToJson(GetAllInvoicesModel data) => json.encode(data.toJson());
+String getAllInvoicesModelToJson(GetAllInvoicesModel data) =>
+    json.encode(data.toJson());
 
 class GetAllInvoicesModel {
   GetAllInvoicesModel({
@@ -23,21 +25,23 @@ class GetAllInvoicesModel {
   List<Payload> payload;
   bool isSuccess;
 
-  factory GetAllInvoicesModel.fromJson(Map<String, dynamic> json) => GetAllInvoicesModel(
-    status: json["status"],
-    code: json["code"],
-    message: json["message"],
-    payload: List<Payload>.from(json["payload"].map((x) => Payload.fromJson(x))),
-    isSuccess: json["isSuccess"],
-  );
+  factory GetAllInvoicesModel.fromJson(Map<String, dynamic> json) =>
+      GetAllInvoicesModel(
+        status: json["status"],
+        code: json["code"],
+        message: json["message"],
+        payload:
+            List<Payload>.from(json["payload"].map((x) => Payload.fromJson(x))),
+        isSuccess: json["isSuccess"],
+      );
 
   Map<String, dynamic> toJson() => {
-    "status": status,
-    "code": code,
-    "message": message,
-    "payload": List<dynamic>.from(payload.map((x) => x.toJson())),
-    "isSuccess": isSuccess,
-  };
+        "status": status,
+        "code": code,
+        "message": message,
+        "payload": List<dynamic>.from(payload.map((x) => x.toJson())),
+        "isSuccess": isSuccess,
+      };
 }
 
 class Payload {
@@ -78,48 +82,50 @@ class Payload {
   dynamic agent;
 
   factory Payload.fromJson(Map<String, dynamic> json) => Payload(
-    order: json["order"],
-    id: json["id"],
-    invoicesNumber: json["invoicesNumber"],
-    invoicesDate: DateTime.parse(json["invoicesDate"]),
-    isRecived: json["isRecived"],
-    isRecivedText: json["isRecivedText"],
-    describtion: json["describtion"],
-    totalInvoices: json["totalInvoices"].toDouble(),
-    descountInvoices: json["descountInvoices"].toDouble(),
-    totalWithInvoices: json["totalWithInvoices"].toDouble(),
-    totalPayed: json["totalPayed"],
-    totalAmount: json["totalAmount"],
-    details: List<Detail>.from(json["details"].map((x) => Detail.fromJson(x))),
-    fromUserId: json["fromUserId"],
-    toUserId: json["toUserId"],
-    agent: json["agent"],
-  );
+        order: json["order"],
+        id: json["id"],
+        invoicesNumber: json["invoicesNumber"],
+        invoicesDate: DateTime.parse(json["invoicesDate"]),
+        isRecived: json["isRecived"],
+        isRecivedText: json["isRecivedText"],
+        describtion: json["describtion"],
+        totalInvoices: json["totalInvoices"].toDouble(),
+        descountInvoices: json["descountInvoices"].toDouble(),
+        totalWithInvoices: json["totalWithInvoices"].toDouble(),
+        totalPayed: json["totalPayed"],
+        totalAmount: json["totalAmount"],
+        details:
+            List<Detail>.from(json["details"].map((x) => Detail.fromJson(x))),
+        fromUserId: json["fromUserId"],
+        toUserId: json["toUserId"],
+        agent: json["agent"],
+      );
 
   Map<String, dynamic> toJson() => {
-    "order": order,
-    "id": id,
-    "invoicesNumber": invoicesNumber,
-    "invoicesDate": invoicesDate.toIso8601String(),
-    "isRecived": isRecived,
-    "isRecivedText": isRecivedText,
-    "describtion": describtion,
-    "totalInvoices": totalInvoices,
-    "descountInvoices": descountInvoices,
-    "totalWithInvoices": totalWithInvoices,
-    "totalPayed": totalPayed,
-    "totalAmount": totalAmount,
-    "details": List<dynamic>.from(details.map((x) => x.toJson())),
-    "fromUserId": fromUserId,
-    "toUserId": toUserId,
-    "agent": agent,
-  };
+        "order": order,
+        "id": id,
+        "invoicesNumber": invoicesNumber,
+        "invoicesDate": invoicesDate.toIso8601String(),
+        "isRecived": isRecived,
+        "isRecivedText": isRecivedText,
+        "describtion": describtion,
+        "totalInvoices": totalInvoices,
+        "descountInvoices": descountInvoices,
+        "totalWithInvoices": totalWithInvoices,
+        "totalPayed": totalPayed,
+        "totalAmount": totalAmount,
+        "details": List<dynamic>.from(details.map((x) => x.toJson())),
+        "fromUserId": fromUserId,
+        "toUserId": toUserId,
+        "agent": agent,
+      };
 }
 
 class Detail {
   Detail({
     this.id,
     this.productId,
+    this.color,
     this.productName,
     this.numberIron,
     this.typeOfProduct,
@@ -137,6 +143,7 @@ class Detail {
 
   int id;
   int productId;
+  String color;
   String productName;
   int numberIron;
   dynamic typeOfProduct;
@@ -152,38 +159,40 @@ class Detail {
   dynamic description;
 
   factory Detail.fromJson(Map<String, dynamic> json) => Detail(
-    id: json["id"],
-    productId: json["productId"],
-    productName: json["productName"],
-    numberIron: json["numberIron"],
-    typeOfProduct: json["typeOfProduct"],
-    typeOfProductText: json["typeOfProductText"],
-    quantity: json["quantity"],
-    descount: json["descount"],
-    pricePerOne: json["pricePerOne"],
-    priceWithDescount: json["priceWithDescount"],
-    pricePerMeter: json["pricePerMeter"],
-    isRecived: json["isRecived"],
-    imgUrl: json["imgURL"],
-    totalOrder: json["totalOrder"],
-    description: json["description"],
-  );
+        id: json["id"],
+        productId: json["productId"],
+        color: json["color"],
+        productName: json["productName"],
+        numberIron: json["numberIron"],
+        typeOfProduct: json["typeOfProduct"],
+        typeOfProductText: json["typeOfProductText"],
+        quantity: json["quantity"],
+        descount: json["descount"],
+        pricePerOne: json["pricePerOne"],
+        priceWithDescount: json["priceWithDescount"],
+        pricePerMeter: json["pricePerMeter"],
+        isRecived: json["isRecived"],
+        imgUrl: json["imgURL"],
+        totalOrder: json["totalOrder"],
+        description: json["description"],
+      );
 
   Map<String, dynamic> toJson() => {
-    "id": id,
-    "productId": productId,
-    "productName": productName,
-    "numberIron": numberIron,
-    "typeOfProduct": typeOfProduct,
-    "typeOfProductText": typeOfProductText,
-    "quantity": quantity,
-    "descount": descount,
-    "pricePerOne": pricePerOne,
-    "priceWithDescount": priceWithDescount,
-    "pricePerMeter": pricePerMeter,
-    "isRecived": isRecived,
-    "imgURL": imgUrl,
-    "totalOrder": totalOrder,
-    "description": description,
-  };
+        "id": id,
+        "productId": productId,
+        "color": color,
+        "productName": productName,
+        "numberIron": numberIron,
+        "typeOfProduct": typeOfProduct,
+        "typeOfProductText": typeOfProductText,
+        "quantity": quantity,
+        "descount": descount,
+        "pricePerOne": pricePerOne,
+        "priceWithDescount": priceWithDescount,
+        "pricePerMeter": pricePerMeter,
+        "isRecived": isRecived,
+        "imgURL": imgUrl,
+        "totalOrder": totalOrder,
+        "description": description,
+      };
 }

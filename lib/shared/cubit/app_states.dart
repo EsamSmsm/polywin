@@ -141,3 +141,9 @@ class DeleteInvoicesLoadingState extends AppStates {}
 class DeleteInvoicesSuccessState extends AppStates {}
 
 class DeleteInvoicesErrorState extends AppStates {}
+
+class UpdateProductQuantityLoadingState extends AppStates {}
+
+class UpdateProductQuantitySuccessState extends AppStates {}
+
+class UpdateProductQuantityErrorState extends AppStates {}

@@ -509,6 +509,7 @@ class CategoryTile extends StatelessWidget {
                   cubit.addProduct(
                     id: product.id,
                     name: product.name,
+                    color: product.colorName,
                     imgURL: product.imgUrl,
                     categoryId: product.categoryId,
                     quantity: productQuantity,

@@ -110,7 +110,9 @@ class OrderDetailsScreen extends StatelessWidget {
                               ),
                             ),
                             title: Text(
-                              cubit.order[index]['productName'],
+                              cubit.order[index]['productName'] +
+                                  '- ' +
+                                  cubit.order[index]['color'],
                             ),
                             subtitle: Text(cubit.order[index]['totalOrder']
                                     .toStringAsFixed(2) +

@@ -26,7 +26,24 @@ class _UnderwayOrderTabScreenState extends State<UnderwayOrderTabScreen> {
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<AppCubit, AppStates>(
-      listener: (context, state) {},
+      listener: (context, state) {
+        if (state is DeleteInvoicesLoadingState) {
+          showLoadingDialogue(context);
+        } else if (state is DeleteInvoicesSuccessState) {
+          showAlertDialogWithAction(
+              buttonText: "تم",
+              message: 'تم حذف الطلبية بنجاح',
+              context: context,
+              messageColor: Colors.red,
+              imagePath: 'assets/images/delete vector.png',
+              action: () {
+                AppCubit.get(context).getAllInvoices(invoiceStatus: 1);
+                Navigator.pop(context);
+                Navigator.pop(context);
+                setState(() {});
+              });
+        }
+      },
       builder: (context, state) {
         AppCubit cubit = AppCubit.get(context);
         return cubit.getAllInvoicesModel != null
@@ -36,6 +53,7 @@ class _UnderwayOrderTabScreenState extends State<UnderwayOrderTabScreen> {
                     ///listview
                     cubit.getAllInvoicesModel.payload.length != 0
                         ? ListView.builder(
+                            reverse: true,
                             shrinkWrap: true,
                             physics: NeverScrollableScrollPhysics(),
                             itemCount: cubit.getAllInvoicesModel.payload.length,
@@ -154,12 +172,8 @@ class _UnderwayOrderTabScreenState extends State<UnderwayOrderTabScreen> {
                                           print(cubit.getAllInvoicesModel
                                               .payload[index].id
                                               .toString());
-                                          cubit.deleteInvoice(
-                                              id: cubit.getAllInvoicesModel
-                                                  .payload[index].id
-                                                  .toString());
-                                          // AppCubit.get(context)
-                                          //     .getAllInvoices(invoiceStatus: 1);
+                                          ensureDeleteMessage(
+                                              context, cubit, index);
                                         },
                                         label: 'حذف الطلبية',
                                       )
@@ -189,5 +203,52 @@ class _UnderwayOrderTabScreenState extends State<UnderwayOrderTabScreen> {
               )));
       },
     );
+  }
+
+  void ensureDeleteMessage(BuildContext context, AppCubit cubit, int index) {
+    showDialog(
+        context: context,
+        builder: (context) => AlertDialog(
+              backgroundColor: Color(0xffF8F8F8),
+              title: Center(
+                  child: Text(
+                'هل تريدحذف الطلبية ؟',
+                textDirection: TextDirection.rtl,
+                style: TextStyle(
+                  color: kBlueColor,
+                  fontWeight: FontWeight.bold,
+                ),
+              )),
+              actionsAlignment: MainAxisAlignment.spaceEvenly,
+              actions: [
+                TextButton(
+                  child: Text(
+                    'تراجع',
+                    style: TextStyle(color: Colors.white),
+                  ),
+                  style: ButtonStyle(
+                    backgroundColor: MaterialStateProperty.all(kDarkBlueColor),
+                  ),
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                ),
+                TextButton(
+                  child: Text(
+                    'حذف',
+                    style: TextStyle(color: Colors.white),
+                  ),
+                  style: ButtonStyle(
+                    backgroundColor: MaterialStateProperty.all(Colors.red),
+                  ),
+                  onPressed: () {
+                    cubit.deleteInvoice(
+                        id: cubit.getAllInvoicesModel.payload[index].id
+                            .toString());
+                    Navigator.pop(context);
+                  },
+                ),
+              ],
+            ));
   }
 }

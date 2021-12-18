@@ -18,9 +18,9 @@ class SavedOrdersScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<AppCubit,AppStates>(
+    return BlocConsumer<AppCubit, AppStates>(
       listener: (context, state) {
-        if(state is GetAllInvoicesErrorState){
+        if (state is GetAllInvoicesErrorState) {
           showToast(text: 'حدث خطأ في تحميل البيانات', color: Colors.redAccent);
         }
       },
@@ -28,9 +28,12 @@ class SavedOrdersScreen extends StatelessWidget {
         AppCubit cubit = AppCubit.get(context);
         return Scaffold(
           backgroundColor: Colors.white,
-          appBar: CustomAppBar(title: 'الطلبيات',isSigned: true,),
+          appBar: CustomAppBar(
+            title: 'الطلبيات',
+            isSigned: true,
+          ),
           body: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 0,vertical: 16),
+            padding: const EdgeInsets.symmetric(horizontal: 0, vertical: 16),
             child: Column(
               children: [
                 DefaultTabController(
@@ -41,14 +44,34 @@ class SavedOrdersScreen extends StatelessWidget {
                         children: [
                           TabBar(
                             isScrollable: false,
+                            labelPadding: EdgeInsets.symmetric(vertical: 5),
                             physics: BouncingScrollPhysics(),
                             indicatorColor: kOrangeColor,
                             labelStyle: TextStyle(fontWeight: FontWeight.bold),
-                            unselectedLabelStyle: TextStyle(fontWeight: FontWeight.w500),
+                            unselectedLabelStyle:
+                                TextStyle(fontWeight: FontWeight.w500),
                             tabs: [
-                              Text('المرفوضة',style: TextStyle(color: Colors.black,fontSize: 15,fontFamily:'GE_SS'),),
-                              Text('الواردة',style: TextStyle(color: Colors.black,fontSize: 15,fontFamily:'GE_SS'),),
-                              Text('قيد التنفيذ',style: TextStyle(color: Colors.black,fontSize: 15,fontFamily:'GE_SS'),),
+                              Text(
+                                'المرفوضة',
+                                style: TextStyle(
+                                    color: Colors.black,
+                                    fontSize: 15,
+                                    fontFamily: 'GE_SS'),
+                              ),
+                              Text(
+                                'الواردة',
+                                style: TextStyle(
+                                    color: Colors.black,
+                                    fontSize: 15,
+                                    fontFamily: 'GE_SS'),
+                              ),
+                              Text(
+                                'قيد التنفيذ',
+                                style: TextStyle(
+                                    color: Colors.black,
+                                    fontSize: 15,
+                                    fontFamily: 'GE_SS'),
+                              ),
                             ],
                           ),
                           Expanded(
@@ -62,8 +85,7 @@ class SavedOrdersScreen extends StatelessWidget {
                           ),
                         ],
                       ),
-                    )
-                ),
+                    )),
               ],
             ),
           ),

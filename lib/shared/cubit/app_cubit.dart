@@ -251,6 +251,7 @@ class AppCubit extends Cubit<AppStates> {
   void addProduct(
       {int id,
       String name,
+      String color,
       int numberIron,
       int categoryId,
       int quantity,
@@ -273,6 +274,7 @@ class AppCubit extends Cubit<AppStates> {
     if (!isItemFound) {
       order.add({
         "productId": id,
+        "color": color,
         "productName": name,
         "numberIron": numberIron,
         "typeOfProduct": categoryId,
@@ -420,6 +422,21 @@ class AppCubit extends Cubit<AppStates> {
     }).catchError((error) {
       emit(SendInvoiceErrorState());
       print(error.toString());
+    });
+  }
+
+  void updateProductQuantity({int id, int quantity}) {
+    emit(UpdateProductQuantityLoadingState());
+    DioHelper.getData(
+        url: 'api/UserInfo/UpdateQuantityInvoicesDetails',
+        query: {'Id': id, 'Qty': quantity}).then((value) {
+      print(value.data);
+      value.data == true
+          ? emit(UpdateProductQuantitySuccessState())
+          : emit(UpdateProductQuantityErrorState());
+    }).catchError((error) {
+      emit(UpdateProductQuantityErrorState());
+      print(error);
     });
   }
 

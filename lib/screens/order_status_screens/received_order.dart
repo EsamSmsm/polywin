@@ -36,6 +36,7 @@ class _ReceivedOrderTabScreenState extends State<ReceivedOrderTabScreen> {
                     ///listview
                     cubit.getAllInvoicesModel.payload.length != 0
                         ? ListView.builder(
+                            reverse: true,
                             shrinkWrap: true,
                             physics: NeverScrollableScrollPhysics(),
                             itemCount: cubit.getAllInvoicesModel.payload.length,

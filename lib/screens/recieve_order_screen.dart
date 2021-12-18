@@ -56,19 +56,19 @@ class ReceiveOrderScreen extends StatelessWidget {
                 SizedBox(
                   height: 24,
                 ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 30),
-                  child: Column(
-                    children: [
-                      // Row(
-                      //   mainAxisAlignment: MainAxisAlignment.end,
-                      //   children: [
-                      //     Text('محتويات الطلبية', style: TextStyle(
-                      //         fontSize: 18, fontWeight: FontWeight.bold),),
-                      //   ],
-                      // ),
-                      //SizedBox(height: 16,),
-                      Row(
+                Column(
+                  children: [
+                    // Row(
+                    //   mainAxisAlignment: MainAxisAlignment.end,
+                    //   children: [
+                    //     Text('محتويات الطلبية', style: TextStyle(
+                    //         fontSize: 18, fontWeight: FontWeight.bold),),
+                    //   ],
+                    // ),
+                    //SizedBox(height: 16,),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 16),
+                      child: Row(
                         textDirection: TextDirection.rtl,
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
@@ -88,66 +88,76 @@ class ReceiveOrderScreen extends StatelessWidget {
                           ),
                         ],
                       ),
-                      ListView.separated(
-                        shrinkWrap: true,
-                        physics: NeverScrollableScrollPhysics(),
-                        itemCount: cubit.getAllInvoicesModel
-                            .payload[invoiceIndex].details.length,
-                        itemBuilder: (context, index) => Container(
-                          height: MediaQuery.of(context).size.height * 0.09,
-                          color: Colors.white,
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            textDirection: TextDirection.rtl,
-                            children: [
-                              Container(
-                                width: MediaQuery.of(context).size.width - 150,
-                                child: Text(
-                                  cubit
+                    ),
+                    SizedBox(
+                      height: 20,
+                    ),
+                    ListView.separated(
+                      shrinkWrap: true,
+                      physics: NeverScrollableScrollPhysics(),
+                      itemCount: cubit.getAllInvoicesModel.payload[invoiceIndex]
+                          .details.length,
+                      itemBuilder: (context, index) => ListTile(
+                        leading: Text(
+                          cubit.getAllInvoicesModel.payload[invoiceIndex]
+                              .details[index].quantity
+                              .toString(),
+                          textDirection: TextDirection.rtl,
+                          style: TextStyle(fontSize: 18, fontFamily: 'roboto'),
+                        ),
+                        trailing: Container(
+                          width: 50,
+                          height: 50,
+                          decoration: BoxDecoration(
+                              color: Colors.grey.shade300,
+                              image: DecorationImage(
+                                  image: NetworkImage(cubit
                                           .getAllInvoicesModel
                                           .payload[invoiceIndex]
                                           .details[index]
-                                          .productName ??
-                                      '',
-                                  style: TextStyle(
-                                    color: Color(0xff636363),
-                                    fontSize: 14,
-                                  ),
-                                  textDirection: TextDirection.rtl,
-                                ),
-                              ),
-                              Text(
-                                cubit.getAllInvoicesModel.payload[invoiceIndex]
-                                    .details[index].quantity
-                                    .toString(),
-                                textDirection: TextDirection.rtl,
-                                style: TextStyle(
-                                    fontSize: 18, fontFamily: 'roboto'),
-                              )
-                            ],
-                          ),
+                                          .imgUrl ??
+                                      ''))),
                         ),
-                        separatorBuilder: (context, index) => Divider(),
+                        title: Text(
+                          cubit.getAllInvoicesModel.payload[invoiceIndex]
+                                      .details[index].productName +
+                                  "- " +
+                                  cubit
+                                      .getAllInvoicesModel
+                                      .payload[invoiceIndex]
+                                      .details[index]
+                                      .color ??
+                              '',
+                          style: TextStyle(
+                            color: Color(0xff636363),
+                            fontSize: 14,
+                          ),
+                          textDirection: TextDirection.rtl,
+                        ),
+                        subtitle: Text(cubit.getAllInvoicesModel
+                            .payload[invoiceIndex].details[index].totalOrder
+                            .toString()),
                       ),
-                      // SizedBox(
-                      //   height: 24,
-                      // ),
-                      // CustomButton(
-                      //   color: kBlueColor,
-                      //   label: 'استلام الطلبية',
-                      //   onTab: () {
-                      //     showAlertDialog(
-                      //         context: context,
-                      //         message: 'تم الاستلام بنجاح',
-                      //         imagePath: 'assets/images/vector1.png',
-                      //         buttonText: 'شكرا');
-                      //   },
-                      // ),
-                      SizedBox(
-                        height: 40,
-                      )
-                    ],
-                  ),
+                      separatorBuilder: (context, index) => Divider(),
+                    ),
+                    // SizedBox(
+                    //   height: 24,
+                    // ),
+                    // CustomButton(
+                    //   color: kBlueColor,
+                    //   label: 'استلام الطلبية',
+                    //   onTab: () {
+                    //     showAlertDialog(
+                    //         context: context,
+                    //         message: 'تم الاستلام بنجاح',
+                    //         imagePath: 'assets/images/vector1.png',
+                    //         buttonText: 'شكرا');
+                    //   },
+                    // ),
+                    SizedBox(
+                      height: 40,
+                    )
+                  ],
                 )
               ],
             ),

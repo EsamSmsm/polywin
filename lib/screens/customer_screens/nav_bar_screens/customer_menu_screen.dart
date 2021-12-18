@@ -11,7 +11,7 @@ import 'package:polywin/screens/work_shop_screens/workshop_nav_bar_screens/works
 import 'package:polywin/shared/components/defaults.dart';
 import 'package:polywin/shared/components/social_row.dart';
 import 'package:polywin/shared/constants.dart';
-
+import 'package:share/share.dart';
 
 class CustomerMenuScreen extends StatelessWidget {
   const CustomerMenuScreen({Key key}) : super(key: key);
@@ -23,7 +23,7 @@ class CustomerMenuScreen extends StatelessWidget {
         child: Column(
           children: [
             Padding(
-              padding: const EdgeInsets.symmetric(vertical: 80,horizontal: 16),
+              padding: const EdgeInsets.symmetric(vertical: 80, horizontal: 16),
               child: Column(
                 textDirection: TextDirection.rtl,
                 children: [
@@ -36,43 +36,95 @@ class CustomerMenuScreen extends StatelessWidget {
                       ),
                     ),
                   ),
-                                    /// navigate to public screens
+
+                  /// navigate to public screens
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 20),
                     child: SizedBox(
-                      child : ListView(
+                      child: ListView(
                         shrinkWrap: true,
                         physics: NeverScrollableScrollPhysics(),
                         children: [
-                          NavigatorToPublicScreen(title: 'عن',screen: InfoScreen(),),
-                          NavigatorToPublicScreen(title: 'معرض',screen: GalleryScreen(),),
-                          NavigatorToPublicScreen(title: 'داتا شيت',screen: DataSheetScreen(),),
-                          NavigatorToPublicScreen(title: 'كتالوجات',screen: CatalogueScreen(),),
-                          NavigatorToPublicScreen(title: 'وكلاء',screen: AgentsScreen(),),
+                          NavigatorToPublicScreen(
+                            title: 'عن',
+                            screen: InfoScreen(),
+                          ),
+                          NavigatorToPublicScreen(
+                            title: 'معرض',
+                            screen: GalleryScreen(),
+                          ),
+                          NavigatorToPublicScreen(
+                            title: 'داتا شيت',
+                            screen: DataSheetScreen(),
+                          ),
+                          NavigatorToPublicScreen(
+                            title: 'كتالوجات',
+                            screen: CatalogueScreen(),
+                          ),
+                          NavigatorToPublicScreen(
+                            title: 'وكلاء',
+                            screen: AgentsScreen(),
+                          ),
                         ],
                       ),
                     ),
                   ),
-                  Divider(thickness: 2,),
-                  SizedBox(height: 40,),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text('شارك التطبيق',style: TextStyle(color: kBlueColor,fontSize: 24),),
-                      SizedBox(width: 10,),
-                      Icon(Icons.share,size: 30,color: kBlueColor,)
-                    ],
+                  Divider(
+                    thickness: 2,
                   ),
-                  SizedBox(height: 20,),
-                  Text("اتصل الان  15231",style: TextStyle(fontSize: 24,color: kOrangeColor),),
-                  SizedBox(height: 20,),
-                  SocialRow(),
-                  SizedBox(height: 50,),
+                  SizedBox(
+                    height: 40,
+                  ),
                   GestureDetector(
-                    onTap: (){
+                    onTap: () {
+                      Share.share(
+                          'https://play.google.com/store/apps/details?id=com.polywin.polywin');
+                    },
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          'شارك التطبيق',
+                          style: TextStyle(color: kBlueColor, fontSize: 24),
+                        ),
+                        SizedBox(
+                          width: 10,
+                        ),
+                        Icon(
+                          Icons.share,
+                          size: 30,
+                          color: kBlueColor,
+                        )
+                      ],
+                    ),
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  TextButton(
+                    child: Text(
+                      "اتصل الان  15231",
+                      style: TextStyle(fontSize: 24, color: kOrangeColor),
+                    ),
+                    onPressed: () {
+                      launchURL('tel:15231');
+                    },
+                  ),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  SocialRow(),
+                  SizedBox(
+                    height: 50,
+                  ),
+                  GestureDetector(
+                    onTap: () {
                       logOut(context);
                     },
-                    child: Text('تسجيل الخروج',style: TextStyle(color: Colors.red,fontSize: 18),),
+                    child: Text(
+                      'تسجيل الخروج',
+                      style: TextStyle(color: Colors.red, fontSize: 18),
+                    ),
                   ),
                 ],
               ),

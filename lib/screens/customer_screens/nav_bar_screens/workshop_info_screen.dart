@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:maps_launcher/maps_launcher.dart';
 import 'package:polywin/shared/components/custom_appbar.dart';
+import 'package:polywin/shared/components/defaults.dart';
 import 'package:polywin/shared/constants.dart';
 import 'package:polywin/shared/cubit/customer_cubit.dart';
 import 'package:polywin/shared/cubit/customer_states.dart';
@@ -69,38 +70,45 @@ class WorkshopInfoScreen extends StatelessWidget {
                           children: [
                             Icon(CupertinoIcons.phone_fill),
                             SizedBox(
-                              width: 20,
+                              width: 10,
                             ),
-                            Text(
-                              cubit.workShopInfoModel.result.payload[0]
-                                  .agentPhone,
-                              textDirection: TextDirection.rtl,
-                              style:
-                                  TextStyle(fontSize: 20, fontFamily: 'roboto'),
+                            TextButton(
+                              onPressed: () {
+                                launchURL(
+                                    'tel:${cubit.workShopInfoModel.result.payload[0].agentPhone}');
+                              },
+                              child: Text(
+                                cubit.workShopInfoModel.result.payload[0]
+                                    .agentPhone,
+                                textDirection: TextDirection.rtl,
+                                style: TextStyle(
+                                    fontSize: 18,
+                                    fontFamily: 'roboto',
+                                    color: Colors.black),
+                              ),
                             )
                           ],
-                        ),
-                        SizedBox(
-                          height: 20,
                         ),
                         Row(
                           textDirection: TextDirection.rtl,
                           children: [
                             Icon(Icons.mail_rounded),
                             SizedBox(
-                              width: 20,
+                              width: 10,
                             ),
-                            Text(
-                              cubit.workShopInfoModel.result.payload[0].email ??
-                                  '',
-                              textDirection: TextDirection.rtl,
-                              style:
-                                  TextStyle(fontSize: 20, fontFamily: 'roboto'),
+                            TextButton(
+                              child: Text(
+                                cubit.workShopInfoModel.result.payload[0]
+                                        .email ??
+                                    '',
+                                textDirection: TextDirection.rtl,
+                                style: TextStyle(
+                                    fontSize: 18,
+                                    fontFamily: 'roboto',
+                                    color: Colors.black),
+                              ),
                             )
                           ],
-                        ),
-                        SizedBox(
-                          height: 20,
                         ),
                         Row(
                           textDirection: TextDirection.rtl,
@@ -119,7 +127,9 @@ class WorkshopInfoScreen extends StatelessWidget {
                                 );
                               },
                               child: Text(
-                                'عرض الموقع علي الخريطة',
+                                cubit.workShopInfoModel.result.payload[0]
+                                        .agentAddress ??
+                                    'عرض الموقع علي الخريطة',
                                 textDirection: TextDirection.rtl,
                                 style: TextStyle(
                                     color: Colors.black,
@@ -127,6 +137,7 @@ class WorkshopInfoScreen extends StatelessWidget {
                                     decoration: TextDecoration.underline,
                                     decorationColor: Colors.black54),
                               ),
+                              style: ButtonStyle(),
                             )
                           ],
                         ),

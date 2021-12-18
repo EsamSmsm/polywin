@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:polywin/layout/customert_layout.dart';
 import 'package:polywin/shared/components/custom_appbar.dart';
 import 'package:polywin/shared/components/defaults.dart';
 import 'package:polywin/shared/constants.dart';
@@ -29,13 +30,31 @@ class CustomerGuaranteesScreen extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.all(22),
                   child: Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    textDirection: TextDirection.rtl,
                     children: [
                       Text(
                         'الضمانات',
                         style: TextStyle(
                             fontSize: 20, fontWeight: FontWeight.w500),
                         textDirection: TextDirection.rtl,
+                      ),
+                      TextButton(
+                        onPressed: () {
+                          navigateTo(
+                              context,
+                              CustomerLayout(
+                                selectedIndex: cubit.selectedIndex = 1,
+                              ));
+                        },
+                        child: Text(
+                          'بيانات الورشة',
+                          textDirection: TextDirection.rtl,
+                          style: TextStyle(
+                              color: kOrangeColor,
+                              fontSize: 17,
+                              decoration: TextDecoration.underline),
+                        ),
                       )
                     ],
                   ),
