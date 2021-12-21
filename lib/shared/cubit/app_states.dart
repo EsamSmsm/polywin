@@ -72,6 +72,12 @@ class GetPolywinInvoicesSuccessState extends AppStates {}
 
 class GetPolywinInvoicesErrorState extends AppStates {}
 
+class GetPolywinRejInvoicesLoadingState extends AppStates {}
+
+class GetPolywinRejInvoicesSuccessState extends AppStates {}
+
+class GetPolywinRejInvoicesErrorState extends AppStates {}
+
 class GetSearchResultLoadingState extends AppStates {}
 
 class GetSearchResultSuccessState extends AppStates {}

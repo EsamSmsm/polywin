@@ -6,7 +6,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   final String title;
   final bool isHomeScreen;
   final bool isSigned;
-  const CustomAppBar({this.title, this.isHomeScreen, this.isSigned=true});
+  const CustomAppBar({this.title, this.isHomeScreen, this.isSigned = true});
 
   @override
   Widget build(BuildContext context) {
@@ -54,5 +54,5 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   }
 
   @override
-  Size get preferredSize => Size.fromHeight(80);
+  Size get preferredSize => Size.fromHeight(90);
 }

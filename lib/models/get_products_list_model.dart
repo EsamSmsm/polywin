@@ -71,6 +71,7 @@ class ListProduct {
     this.productCode,
     this.categoryId,
     this.categoryName,
+    this.descount,
     this.pricePerOne,
     this.name,
     this.imgUrl,
@@ -85,6 +86,7 @@ class ListProduct {
   int id;
   String productCode;
   int categoryId;
+  dynamic descount;
   dynamic categoryName;
   double pricePerOne;
   String name;
@@ -108,6 +110,7 @@ class ListProduct {
         measruingUnit: json["measruingUnit"],
         pricePerMeter: json["pricePerMeter"].toDouble(),
         photo: json["photo"],
+        descount: json["descount"],
         typeOfCategory: json["typeOfCategory"],
         numberIron: json["numberIron"],
       );
@@ -124,6 +127,7 @@ class ListProduct {
         "measruingUnit": measruingUnit,
         "pricePerMeter": pricePerMeter,
         "photo": photo,
+        "descount": descount,
         "typeOfCategory": typeOfCategory,
         "numberIron": numberIron,
       };

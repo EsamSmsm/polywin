@@ -2,7 +2,7 @@ import 'package:conditional_builder/conditional_builder.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:polywin/screens/polywin_admin_screens/send_order_screen.dart';
-import 'package:polywin/screens/rejected_invoices_screen.dart';
+import 'package:polywin/screens/resend_rejected_invoice_screen.dart';
 import 'package:polywin/shared/components/custom_appbar.dart';
 import 'package:polywin/shared/components/custom_button_2.dart';
 import 'package:polywin/shared/components/defaults.dart';
@@ -10,17 +10,17 @@ import 'package:polywin/shared/constants.dart';
 import 'package:polywin/shared/cubit/app_cubit.dart';
 import 'package:polywin/shared/cubit/app_states.dart';
 
-class AdminOrdersScreen extends StatefulWidget {
-  const AdminOrdersScreen({Key key}) : super(key: key);
+class RejectedInvoicesScreen extends StatefulWidget {
+  const RejectedInvoicesScreen({Key key}) : super(key: key);
 
   @override
-  State<AdminOrdersScreen> createState() => _AdminOrdersScreenState();
+  State<RejectedInvoicesScreen> createState() => _RejectedInvoicesScreenState();
 }
 
-class _AdminOrdersScreenState extends State<AdminOrdersScreen> {
+class _RejectedInvoicesScreenState extends State<RejectedInvoicesScreen> {
   @override
   void initState() {
-    AppCubit.get(context).getPolywinInvoices();
+    AppCubit.get(context).getPolywinRejInvoices();
     super.initState();
   }
 
@@ -28,22 +28,21 @@ class _AdminOrdersScreenState extends State<AdminOrdersScreen> {
   Widget build(BuildContext context) {
     return BlocConsumer<AppCubit, AppStates>(
       listener: (context, state) {
-        if (state is GetPolywinInvoicesErrorState) {
+        if (state is GetPolywinRejInvoicesErrorState) {
           showToast(text: 'حدث خطأفي تحميل البيانات', color: Colors.redAccent);
         }
       },
-      bloc: AppCubit()..getPolywinInvoices(),
       builder: (context, state) {
         AppCubit cubit = AppCubit.get(context);
         return Scaffold(
           appBar: CustomAppBar(
-            title: 'الطلبيات المستلمة',
+            title: 'الطلبيات المرفوضة',
             isSigned: true,
           ),
           body: RefreshIndicator(
             color: kOrangeColor,
             onRefresh: () {
-              AppCubit.get(context).getPolywinInvoices();
+              AppCubit.get(context).getPolywinRejInvoices();
               setState(() {});
               return Future.delayed(Duration(seconds: 0));
             },
@@ -51,32 +50,9 @@ class _AdminOrdersScreenState extends State<AdminOrdersScreen> {
               physics: AlwaysScrollableScrollPhysics(),
               child: Column(
                 children: [
-                  Padding(
-                    padding: const EdgeInsets.all(22),
-                    child: Row(
-                      textDirection: TextDirection.rtl,
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          'الطلبيات',
-                          style: TextStyle(
-                              fontSize: 20, fontWeight: FontWeight.w500),
-                          textDirection: TextDirection.rtl,
-                        ),
-                        CustomButton2(
-                          label: 'المرفوضة',
-                          color: Colors.red,
-                          onTab: () {
-                            navigateTo(context, RejectedInvoicesScreen());
-                          },
-                        )
-                      ],
-                    ),
-                  ),
-
                   ///listview
                   ConditionalBuilder(
-                    condition: cubit.getPolywinInvoicesModel != null,
+                    condition: cubit.getPolywinRejInvoicesModel != null,
                     fallback: (context) => LinearProgressIndicator(
                       backgroundColor: kOrangeColor,
                     ),
@@ -84,7 +60,8 @@ class _AdminOrdersScreenState extends State<AdminOrdersScreen> {
                       reverse: true,
                       shrinkWrap: true,
                       physics: NeverScrollableScrollPhysics(),
-                      itemCount: cubit.getPolywinInvoicesModel.payload.length,
+                      itemCount:
+                          cubit.getPolywinRejInvoicesModel.payload.length,
                       itemBuilder: (context, index) => Container(
                         margin: EdgeInsets.symmetric(vertical: 10),
                         padding:
@@ -125,7 +102,7 @@ class _AdminOrdersScreenState extends State<AdminOrdersScreen> {
                                       MainAxisAlignment.spaceBetween,
                                   children: [
                                     Text(
-                                      cubit.getPolywinInvoicesModel
+                                      cubit.getPolywinRejInvoicesModel
                                           .payload[index].agent,
                                       style: TextStyle(
                                           color: Color(0xff707070),
@@ -133,7 +110,7 @@ class _AdminOrdersScreenState extends State<AdminOrdersScreen> {
                                     ),
                                     SizedBox(width: 50),
                                     Text(
-                                      'اسم الوكيل',
+                                      'الاسم ',
                                       style: TextStyle(fontSize: 17),
                                       textDirection: TextDirection.rtl,
                                     )
@@ -147,7 +124,7 @@ class _AdminOrdersScreenState extends State<AdminOrdersScreen> {
                                       MainAxisAlignment.spaceBetween,
                                   children: [
                                     Text(
-                                      cubit.getPolywinInvoicesModel
+                                      cubit.getPolywinRejInvoicesModel
                                           .payload[index].invoicesDate
                                           .toString()
                                           .substring(0, 10),
@@ -171,7 +148,7 @@ class _AdminOrdersScreenState extends State<AdminOrdersScreen> {
                                       MainAxisAlignment.spaceBetween,
                                   children: [
                                     Text(
-                                      cubit.getPolywinInvoicesModel
+                                      cubit.getPolywinRejInvoicesModel
                                               .payload[index].totalWithInvoices
                                               .toString() +
                                           '  ج.م',
@@ -201,7 +178,7 @@ class _AdminOrdersScreenState extends State<AdminOrdersScreen> {
                                   onTab: () {
                                     navigateTo(
                                         context,
-                                        SendOrderScreen(
+                                        ResendRejectedInvoiceScreen(
                                           invoiceIndex: index,
                                         ));
                                   },

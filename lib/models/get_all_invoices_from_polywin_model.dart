@@ -157,7 +157,7 @@ class Detail {
   dynamic pricePerMeter;
   dynamic isRecived;
   dynamic imgUrl;
-  int totalOrder;
+  dynamic totalOrder;
   dynamic description;
 
   factory Detail.fromJson(Map<String, dynamic> json) => Detail(

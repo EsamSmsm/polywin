@@ -49,7 +49,7 @@ class OrderDetailsScreen extends StatelessWidget {
         double getTotal() {
           double count = 0;
           cubit.order.forEach((element) {
-            count += element['pricePerOne'] * element['quantity'];
+            count += element['pricePerOne'] ?? 0 * element['quantity'];
           });
           return double.parse(count.toStringAsFixed(2));
         }

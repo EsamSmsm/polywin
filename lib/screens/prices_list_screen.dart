@@ -112,18 +112,42 @@ class PricesListScreen extends StatelessWidget {
                                                 .payload[ndx]
                                                 .listProduct[index]
                                                 .name,
-                                            pricePerMeter: cubit
-                                                .productsListModel
-                                                .payload[ndx]
-                                                .listProduct[index]
-                                                .pricePerMeter
-                                                .toString(),
-                                            pricePerOne: cubit
-                                                .productsListModel
-                                                .payload[ndx]
-                                                .listProduct[index]
-                                                .pricePerOne
-                                                .toString(),
+                                            pricePerMeter: (cubit
+                                                        .productsListModel
+                                                        .payload[ndx]
+                                                        .listProduct[index]
+                                                        .pricePerMeter -
+                                                    (cubit
+                                                            .productsListModel
+                                                            .payload[ndx]
+                                                            .listProduct[index]
+                                                            .pricePerMeter *
+                                                        (cubit
+                                                                .productsListModel
+                                                                .payload[ndx]
+                                                                .listProduct[
+                                                                    index]
+                                                                .descount /
+                                                            100)))
+                                                .toStringAsFixed(2),
+                                            pricePerOne: (cubit
+                                                        .productsListModel
+                                                        .payload[ndx]
+                                                        .listProduct[index]
+                                                        .pricePerOne -
+                                                    (cubit
+                                                            .productsListModel
+                                                            .payload[ndx]
+                                                            .listProduct[index]
+                                                            .pricePerOne *
+                                                        (cubit
+                                                                .productsListModel
+                                                                .payload[ndx]
+                                                                .listProduct[
+                                                                    index]
+                                                                .descount /
+                                                            100)))
+                                                .toStringAsFixed(2),
                                             imagePath: '$kBaseURL'
                                                 '${cubit.productsListModel.payload[ndx].listProduct[index].imgUrl}',
                                           ),

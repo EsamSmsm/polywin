@@ -2,7 +2,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:nil/nil.dart';
-import 'package:polywin/models/get_all_invoices_from_polywin_model.dart';
 import 'package:polywin/shared/components/custom_appbar.dart';
 import 'package:polywin/shared/components/custom_button.dart';
 import 'package:polywin/shared/components/custom_button_2.dart';
@@ -11,8 +10,8 @@ import 'package:polywin/shared/constants.dart';
 import 'package:polywin/shared/cubit/app_cubit.dart';
 import 'package:polywin/shared/cubit/app_states.dart';
 
-class SendOrderScreen extends StatelessWidget {
-  SendOrderScreen({Key key, this.invoiceIndex}) : super(key: key);
+class ResendRejectedInvoiceScreen extends StatelessWidget {
+  ResendRejectedInvoiceScreen({Key key, this.invoiceIndex}) : super(key: key);
 
   final int invoiceIndex;
 
@@ -33,19 +32,7 @@ class SendOrderScreen extends StatelessWidget {
               buttonText: 'شكرا',
               action: () {
                 cubit.invoiceDetails = [];
-                Navigator.pop(context);
-                Navigator.pop(context);
-              });
-        } else if (state is RefuseInvoiceSuccessState) {
-          showAlertDialogWithAction(
-              context: context,
-              messageColor: Colors.redAccent,
-              message: 'تم رفض الطلبية',
-              imagePath: 'assets/images/vector1.png',
-              buttonText: 'شكرا',
-              action: () {
-                cubit.invoiceDetails = [];
-                cubit.getPolywinInvoices();
+                AppCubit.get(context).getPolywinRejInvoices();
                 Navigator.pop(context);
                 Navigator.pop(context);
               });
@@ -54,9 +41,10 @@ class SendOrderScreen extends StatelessWidget {
       builder: (context, state) {
         AppCubit cubit = AppCubit.get(context);
         cubit.invoiceDetails = [];
-        if (cubit.getPolywinInvoicesModel.payload[invoiceIndex].details.length >
+        if (cubit.getPolywinRejInvoicesModel.payload[invoiceIndex].details
+                .length >
             0) {
-          cubit.getPolywinInvoicesModel.payload[invoiceIndex].details
+          cubit.getPolywinRejInvoicesModel.payload[invoiceIndex].details
               .forEach((element) {
             isReceived.add(false);
             quantityControllers
@@ -68,11 +56,6 @@ class SendOrderScreen extends StatelessWidget {
                 quantity: element.quantity);
           });
         }
-        List<Detail> products =
-            cubit.getPolywinInvoicesModel.payload[invoiceIndex].details;
-
-        double totalInvoice = cubit
-            .getPolywinInvoicesModel.payload[invoiceIndex].totalWithInvoices;
         return Scaffold(
           backgroundColor: Colors.white,
           appBar: CustomAppBar(
@@ -91,17 +74,11 @@ class SendOrderScreen extends StatelessWidget {
                     children: [
                       Row(
                         textDirection: TextDirection.rtl,
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text('محتويات الطلبية',
                               textDirection: TextDirection.rtl,
                               style: TextStyle(
                                   fontSize: 18, fontWeight: FontWeight.bold)),
-                          Text(totalInvoice.toString() + ' ج.م',
-                              textDirection: TextDirection.rtl,
-                              style: TextStyle(
-                                fontSize: 18,
-                              )),
                         ],
                       ),
                       SizedBox(
@@ -110,7 +87,7 @@ class SendOrderScreen extends StatelessWidget {
                       ListView.separated(
                         shrinkWrap: true,
                         physics: NeverScrollableScrollPhysics(),
-                        itemCount: cubit.getPolywinInvoicesModel
+                        itemCount: cubit.getPolywinRejInvoicesModel
                             .payload[invoiceIndex].details.length,
                         itemBuilder: (context, index) => Container(
                           padding:
@@ -127,7 +104,7 @@ class SendOrderScreen extends StatelessWidget {
                                   color: Colors.white,
                                   image: DecorationImage(
                                     image: NetworkImage('$kBaseURL'
-                                        ' ${cubit.getPolywinInvoicesModel.payload[invoiceIndex].details[index].imgUrl}'),
+                                        ' ${cubit.getPolywinRejInvoicesModel.payload[invoiceIndex].details[index].imgUrl}'),
                                   ),
                                 ),
                               ),
@@ -142,13 +119,13 @@ class SendOrderScreen extends StatelessWidget {
                                         MediaQuery.of(context).size.width * 0.5,
                                     child: Text(
                                       cubit
-                                              .getPolywinInvoicesModel
+                                              .getPolywinRejInvoicesModel
                                               .payload[invoiceIndex]
                                               .details[index]
                                               .productName +
                                           '- ' +
                                           cubit
-                                              .getPolywinInvoicesModel
+                                              .getPolywinRejInvoicesModel
                                               .payload[invoiceIndex]
                                               .details[index]
                                               .color,
@@ -163,7 +140,7 @@ class SendOrderScreen extends StatelessWidget {
                                     textDirection: TextDirection.rtl,
                                     children: [
                                       Text(
-                                        'المطلوب : ${cubit.getPolywinInvoicesModel.payload[invoiceIndex].details[index].quantity.toString()}',
+                                        'المطلوب : ${cubit.getPolywinRejInvoicesModel.payload[invoiceIndex].details[index].quantity.toString()}',
                                         style: TextStyle(
                                             color: kOrangeColor,
                                             fontSize: 14,
@@ -174,13 +151,13 @@ class SendOrderScreen extends StatelessWidget {
                                         width: 20,
                                       ),
                                       cubit
-                                                  .getPolywinInvoicesModel
+                                                  .getPolywinRejInvoicesModel
                                                   .payload[invoiceIndex]
                                                   .details[index]
                                                   .numberIron !=
                                               0
                                           ? Text(
-                                              'الحديد : ${cubit.getPolywinInvoicesModel.payload[invoiceIndex].details[index].numberIron.toString()}',
+                                              'الحديد : ${cubit.getPolywinRejInvoicesModel.payload[invoiceIndex].details[index].numberIron.toString()}',
                                               style: TextStyle(
                                                   color: kOrangeColor,
                                                   fontSize: 14,
@@ -207,7 +184,8 @@ class SendOrderScreen extends StatelessWidget {
                                     ),
                                     child: TextFormField(
                                       controller: quantityControllers[index],
-                                      keyboardType: TextInputType.number,
+                                      keyboardType:
+                                          TextInputType.numberWithOptions(),
                                       cursorColor: Colors.grey,
                                       style: TextStyle(
                                           fontFamily: 'roboto', fontSize: 14),
@@ -217,6 +195,20 @@ class SendOrderScreen extends StatelessWidget {
                                         hintTextDirection: TextDirection.rtl,
                                       ),
                                     ),
+                                    // TextFormField(
+                                    //   cursorColor: Colors.black,
+                                    //   //controller: quantityControllers[index],
+                                    //   initialValue: cubit
+                                    //       .getPolywinInvoicesModel
+                                    //       .payload[invoiceIndex]
+                                    //       .details[index]
+                                    //       .quantity
+                                    //       .toString(),
+                                    //   decoration: InputDecoration(
+                                    //       border: InputBorder.none),
+                                    //   style: TextStyle(
+                                    //       fontFamily: 'roboto', fontSize: 14),
+                                    // ),
                                   ),
                                   SizedBox(
                                     width: 10,
@@ -238,14 +230,14 @@ class SendOrderScreen extends StatelessWidget {
                                               isReceived[index] = value;
                                               cubit.updateInvoice(
                                                   index: index,
-                                                  quantity: int.parse(
-                                                      quantityControllers[index]
-                                                          .text),
                                                   id: cubit
-                                                      .getPolywinInvoicesModel
+                                                      .getPolywinRejInvoicesModel
                                                       .payload[invoiceIndex]
                                                       .details[index]
                                                       .id,
+                                                  quantity: int.parse(
+                                                      quantityControllers[index]
+                                                          .text),
                                                   description: '',
                                                   isReceived:
                                                       isReceived[index]);
@@ -286,44 +278,49 @@ class SendOrderScreen extends StatelessWidget {
                                 onTab: () {
                                   isSent = true;
                                   cubit.sendInvoice(
-                                    invoiceId: cubit.getPolywinInvoicesModel
-                                        .payload[invoiceIndex].id,
-                                    totalInvoices: cubit.getPolywinInvoicesModel
-                                        .payload[invoiceIndex].totalInvoices,
-                                    discount: cubit.getPolywinInvoicesModel
-                                        .payload[invoiceIndex].descountInvoices,
-                                    totalWithDiscount: cubit
-                                        .getPolywinInvoicesModel
-                                        .payload[invoiceIndex]
-                                        .totalWithInvoices,
-                                    description: descriptionController.text,
-                                  );
+                                      invoiceId: cubit
+                                          .getPolywinRejInvoicesModel
+                                          .payload[invoiceIndex]
+                                          .id,
+                                      description: descriptionController.text,
+                                      totalInvoices: cubit
+                                          .getPolywinRejInvoicesModel
+                                          .payload[invoiceIndex]
+                                          .totalInvoices,
+                                      discount: cubit
+                                          .getPolywinRejInvoicesModel
+                                          .payload[invoiceIndex]
+                                          .descountInvoices,
+                                      totalWithDiscount: cubit
+                                          .getPolywinRejInvoicesModel
+                                          .payload[invoiceIndex]
+                                          .totalWithInvoices);
                                 },
                               ),
                             ),
-                      SizedBox(
-                        height: 24,
-                      ),
-                      state is RefuseInvoiceLoadingState
-                          ? CircularProgressIndicator(
-                              color: Colors.redAccent,
-                            )
-                          : Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 16),
-                              child: CustomButton(
-                                color: Colors.redAccent,
-                                label: 'رفض الطلبية',
-                                onTab: () {
-                                  isSent = false;
-                                  cubit.refuseInvoice(
-                                    invoiceId: cubit.getPolywinInvoicesModel
-                                        .payload[invoiceIndex].id,
-                                    description: descriptionController.text,
-                                  );
-                                },
-                              ),
-                            ),
+                      // SizedBox(
+                      //   height: 24,
+                      // ),
+                      // state is RefuseInvoiceLoadingState
+                      //     ? CircularProgressIndicator(
+                      //         color: Colors.redAccent,
+                      //       )
+                      //     : Padding(
+                      //         padding:
+                      //             const EdgeInsets.symmetric(horizontal: 16),
+                      //         child: CustomButton(
+                      //           color: Colors.redAccent,
+                      //           label: 'رفض الطلبية',
+                      //           onTab: () {
+                      //             isSent = false;
+                      //             cubit.refuseInvoice(
+                      //               invoiceId: cubit.getPolywinRejInvoicesModel
+                      //                   .payload[invoiceIndex].id,
+                      //               description: descriptionController.text,
+                      //             );
+                      //           },
+                      //         ),
+                      //       ),
                       SizedBox(
                         height: 40,
                       )

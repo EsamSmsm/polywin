@@ -11,9 +11,8 @@ class SearchResultScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<AppCubit,AppStates>(
-      listener: (context, state) {
-      },
+    return BlocConsumer<AppCubit, AppStates>(
+      listener: (context, state) {},
       builder: (context, state) {
         AppCubit cubit = AppCubit.get(context);
         return Scaffold(
@@ -23,47 +22,41 @@ class SearchResultScreen extends StatelessWidget {
             isSigned: true,
           ),
           body: SingleChildScrollView(
-            child:cubit.searchProductModel != null?Column(
-              children: [
-                SizedBox(
-                  height: 20,
-                ),
-                ListView.separated(
-                  shrinkWrap: true,
-                  physics:
-                  NeverScrollableScrollPhysics(),
-                  itemCount: cubit.searchProductModel.result.payload.length,
-                  itemBuilder: (context, index) =>
-                      ProductPriceCard(
-                        productCode:cubit
-                            .searchProductModel
-                            .result.payload[index]
-                            .productCode,
-                        productName: cubit
-                            .searchProductModel
-                            .result.payload[index].name,
-                        pricePerMeter: cubit
-                            .searchProductModel.result
-                            .payload[index]
-                            .pricePerMeter.toString(),
-                        pricePerOne: cubit
-                            .searchProductModel
-                            .result.payload[index]
-                            .pricePerOne.toString(),
-                      ),
-                  separatorBuilder: (context, index) =>
+            child: cubit.searchProductModel != null
+                ? Column(
+                    children: [
                       SizedBox(
                         height: 20,
                       ),
-                ),
-                SizedBox(
-                  height: 20,
-                )
-              ],
-            )
-            :Center(
-              child: Text('لا يوجد نتائج'),
-            ),
+                      ListView.separated(
+                        shrinkWrap: true,
+                        physics: NeverScrollableScrollPhysics(),
+                        itemCount:
+                            cubit.searchProductModel.result.payload.length,
+                        itemBuilder: (context, index) => ProductPriceCard(
+                          productCode: cubit.searchProductModel.result
+                              .payload[index].productCode,
+                          productName: cubit
+                              .searchProductModel.result.payload[index].name,
+                          pricePerMeter: cubit.searchProductModel.result
+                              .payload[index].pricePerMeter
+                              .toString(),
+                          pricePerOne: cubit.searchProductModel.result
+                              .payload[index].pricePerOne
+                              .toString(),
+                        ),
+                        separatorBuilder: (context, index) => SizedBox(
+                          height: 20,
+                        ),
+                      ),
+                      SizedBox(
+                        height: 20,
+                      )
+                    ],
+                  )
+                : Center(
+                    child: Text('لا يوجد نتائج'),
+                  ),
           ),
         );
       },

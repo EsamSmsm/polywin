@@ -30,15 +30,17 @@ class AgentsScreen extends StatelessWidget {
                       children: [
                         Text(
                           'قائمة الوكلاء و الموزعين',
-                          style: TextStyle(color: kDarkBlueColor, fontSize: 20,
-                          fontWeight: FontWeight.bold),
+                          style: TextStyle(
+                              color: kDarkBlueColor,
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold),
                         ),
                       ],
                     ),
                   ),
                   ConditionalBuilder(
                     condition: cubit.agentsModel != null,
-                    fallback:(context) =>  Center(
+                    fallback: (context) => Center(
                       child: LinearProgressIndicator(
                         color: kOrangeColor,
                       ),
@@ -49,9 +51,11 @@ class AgentsScreen extends StatelessWidget {
                       itemCount: cubit.agentsModel.payload.length,
                       itemBuilder: (context, index) => AgentDataCard(
                         name: cubit.agentsModel.payload[index].name,
-                        logo: '$kBaseURL${cubit.agentsModel.payload[index].agentLogo}',
-                        address:cubit.agentsModel.payload[index].agentAddress,
-                        governorate: cubit.agentsModel.payload[index].agentGovernorate,
+                        logo:
+                            '$kBaseURL${cubit.agentsModel.payload[index].agentLogo}',
+                        address: cubit.agentsModel.payload[index].agentAddress,
+                        governorate:
+                            cubit.agentsModel.payload[index].agentGovernorate,
                         phone: cubit.agentsModel.payload[index].agentPhone,
                         index: index,
                       ),
@@ -78,7 +82,8 @@ class AgentDataCard extends StatelessWidget {
     this.logo,
     this.governorate,
     this.address,
-    this.phone, this.index,
+    this.phone,
+    this.index,
   }) : super(key: key);
 
   final String name;
@@ -91,8 +96,9 @@ class AgentDataCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: MediaQuery.of(context).size.height * 0.18,
-      margin: EdgeInsets.symmetric(horizontal: 12),
+      // height: MediaQuery.of(context).size.height * 0.2,
+      margin: EdgeInsets.symmetric(horizontal: 10),
+      padding: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(10),
@@ -142,8 +148,9 @@ class AgentDataCard extends StatelessWidget {
                           width: 5,
                         ),
                         Text(
-                          governorate !=null?governorate:'',
-                          style:TextStyle(fontSize: 13, color: Color(0xff707070)),
+                          governorate != null ? governorate : '',
+                          style:
+                              TextStyle(fontSize: 13, color: Color(0xff707070)),
                           textDirection: TextDirection.rtl,
                         ),
                       ],
@@ -201,7 +208,9 @@ class AgentDataCard extends StatelessWidget {
                                 'assets/images/phone-call (1)@2x.png'),
                           )),
                         ),
-                        SizedBox(width: 5,),
+                        SizedBox(
+                          width: 5,
+                        ),
                         Text(
                           'الهاتف',
                           style: TextStyle(fontSize: 13),
@@ -213,9 +222,17 @@ class AgentDataCard extends StatelessWidget {
                         Container(
                           width: 170,
                           child: Text(
-                            AppCubit.get(context).agentsModel.payload[index].agentPhone == null?'-':phone,
-                            style:TextStyle(fontSize: 13, color: Color(0xff707070),
-                                ),
+                            AppCubit.get(context)
+                                        .agentsModel
+                                        .payload[index]
+                                        .agentPhone ==
+                                    null
+                                ? '-'
+                                : phone,
+                            style: TextStyle(
+                              fontSize: 13,
+                              color: Color(0xff707070),
+                            ),
                             softWrap: true,
                             overflow: TextOverflow.ellipsis,
                             textDirection: TextDirection.rtl,
@@ -226,14 +243,16 @@ class AgentDataCard extends StatelessWidget {
                   ],
                 ),
               )),
-          SizedBox(width: 10,),
+          SizedBox(
+            width: 10,
+          ),
           Expanded(
             flex: 2,
             child: Container(
               decoration: BoxDecoration(
                   color: Colors.white,
-                  image: DecorationImage(image: NetworkImage(logo),
-                      fit:BoxFit.contain)),
+                  image: DecorationImage(
+                      image: NetworkImage(logo), fit: BoxFit.contain)),
             ),
           ),
         ],

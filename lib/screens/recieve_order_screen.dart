@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:polywin/screens/new_order_pricing_screen.dart';
+import 'package:polywin/screens/order_details_screen.dart';
 import 'package:polywin/shared/components/custom_appbar.dart';
 import 'package:polywin/shared/components/custom_button.dart';
 import 'package:polywin/shared/components/defaults.dart';
@@ -140,20 +142,37 @@ class ReceiveOrderScreen extends StatelessWidget {
                       ),
                       separatorBuilder: (context, index) => Divider(),
                     ),
-                    // SizedBox(
-                    //   height: 24,
-                    // ),
-                    // CustomButton(
-                    //   color: kBlueColor,
-                    //   label: 'استلام الطلبية',
-                    //   onTab: () {
-                    //     showAlertDialog(
-                    //         context: context,
-                    //         message: 'تم الاستلام بنجاح',
-                    //         imagePath: 'assets/images/vector1.png',
-                    //         buttonText: 'شكرا');
-                    //   },
-                    // ),
+                    SizedBox(
+                      height: 24,
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 20),
+                      child: CustomButton(
+                        color: kBlueColor,
+                        label: 'اعادة ارسال الطلبية',
+                        onTab: () {
+                          cubit.order = [];
+                          cubit
+                              .getAllInvoicesModel.payload[invoiceIndex].details
+                              .forEach((element) {
+                            cubit.addProduct(
+                                id: element.id,
+                                quantity: element.quantity,
+                                color: element.color,
+                                name: element.productName,
+                                imgURL: element.imgUrl,
+                                discount: element.descount,
+                                numberIron: element.numberIron,
+                                pricePerMeter: element.pricePerMeter,
+                                pricePerOne: element.pricePerOne,
+                                priceWithDiscount: element.priceWithDescount,
+                                totalOrder: element.totalOrder);
+                          });
+                          navigateTo(context, NewOrderPricingScreen());
+                          navigateTo(context, OrderDetailsScreen());
+                        },
+                      ),
+                    ),
                     SizedBox(
                       height: 40,
                     )

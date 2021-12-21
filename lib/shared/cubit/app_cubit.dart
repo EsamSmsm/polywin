@@ -196,6 +196,21 @@ class AppCubit extends Cubit<AppStates> {
     });
   }
 
+  GetAllInvoicesFromPolyWinModel getPolywinRejInvoicesModel;
+  void getPolywinRejInvoices() {
+    emit(GetPolywinRejInvoicesLoadingState());
+    DioHelper.getData(
+        url: 'api/UserInfo/GetAllInvoicesFromPolyWin',
+        query: {'isRecived': 3}).then((value) {
+      getPolywinRejInvoicesModel =
+          GetAllInvoicesFromPolyWinModel.fromJson(value.data);
+      emit(GetPolywinRejInvoicesSuccessState());
+    }).catchError((error) {
+      emit(GetPolywinRejInvoicesErrorState());
+      print(error.toString());
+    });
+  }
+
   GetColorsModel colorsModel;
   void getColors() {
     emit(GetColorsLoadingState());
@@ -247,7 +262,7 @@ class AppCubit extends Cubit<AppStates> {
     getColors();
   }
 
-  List<Map<String, dynamic>> order = [];
+  List<dynamic> order = [];
   void addProduct(
       {int id,
       String name,
@@ -260,7 +275,7 @@ class AppCubit extends Cubit<AppStates> {
       double priceWithDiscount,
       String imgURL,
       double pricePerMeter,
-      double totalOrder}) {
+      dynamic totalOrder}) {
     bool isItemFound = false;
     if (order != null) {
       order.forEach((element) {
@@ -374,15 +389,25 @@ class AppCubit extends Cubit<AppStates> {
   }
 
   List<Map<String, dynamic>> invoiceDetails = [];
-  void insertInvoice({int id, String description, bool isReceived}) {
-    invoiceDetails
-        .add({"id": id, "description": description, "isRescived": isReceived});
+  void insertInvoice(
+      {int id, String description, bool isReceived, int quantity}) {
+    invoiceDetails.add({
+      "id": id,
+      "description": description,
+      "isRescived": isReceived,
+      "qty": quantity,
+    });
     //print(invoiceDetails);
   }
 
-  void updateInvoice({int index, int id, String description, bool isReceived}) {
-    invoiceDetails.insert(index,
-        {"id": id, "description": description, "isRescived": isReceived});
+  void updateInvoice(
+      {int index, int id, String description, bool isReceived, int quantity}) {
+    invoiceDetails.insert(index, {
+      "id": id,
+      "description": description,
+      "isRescived": isReceived,
+      "qty": quantity,
+    });
     invoiceDetails.removeAt(index + 1);
     print('$invoiceDetails\n');
   }
@@ -408,12 +433,18 @@ class AppCubit extends Cubit<AppStates> {
   void sendInvoice({
     int invoiceId,
     String description,
+    double totalInvoices,
+    double discount,
+    double totalWithDiscount,
   }) {
     emit(SendInvoiceLoadingState());
     DioHelper.getData(url: 'api/UserInfo/UpdateInvoices', query: {
       'invoiceId': invoiceId,
       'description': description,
       'isRecived': true,
+      'totalinvoices': totalInvoices,
+      'descount': discount,
+      'totalwithdescount': totalWithDiscount
     }).then((value) {
       updateInvoiceResponseModel =
           UpdateInvoiceResponseModel.fromJson(value.data);
