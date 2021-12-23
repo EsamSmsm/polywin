@@ -94,11 +94,13 @@ class CatalogueItem extends StatelessWidget {
     this.label,
     this.onTab,
     this.image,
+    this.fit = BoxFit.cover,
   }) : super(key: key);
 
   final String label;
   final Function onTab;
   final ImageProvider image;
+  final BoxFit fit;
 
   @override
   Widget build(BuildContext context) {
@@ -113,7 +115,7 @@ class CatalogueItem extends StatelessWidget {
               height: 222,
               width: MediaQuery.of(context).size.width,
               decoration: BoxDecoration(
-                image: DecorationImage(image: image, fit: BoxFit.cover),
+                image: DecorationImage(image: image, fit: fit),
                 // boxShadow: [
                 //   BoxShadow(color: Colors.black45,blurRadius: 1)
                 // ]

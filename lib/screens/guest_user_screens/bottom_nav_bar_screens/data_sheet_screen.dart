@@ -60,6 +60,32 @@ class DataSheetScreen extends StatelessWidget {
                             itemBuilder: (context, index) => CatalogueItem(
                               label: cubit
                                   .dataSheetModel.payload[index].description,
+                              fit: BoxFit.contain,
+                              onTab: () {
+                                showDialog(
+                                    context: context,
+                                    builder: (context) => GestureDetector(
+                                          onTap: () {
+                                            Navigator.pop(context);
+                                          },
+                                          child: Container(
+                                            width: MediaQuery.of(context)
+                                                    .size
+                                                    .width -
+                                                60,
+                                            height: MediaQuery.of(context)
+                                                    .size
+                                                    .height *
+                                                0.6,
+                                            decoration: BoxDecoration(
+                                                image: DecorationImage(
+                                              image: NetworkImage(
+                                                '$kBaseURL${cubit.dataSheetModel.payload[index].imagePath}',
+                                              ),
+                                            )),
+                                          ),
+                                        ));
+                              },
                               image: NetworkImage(
                                   '$kBaseURL${cubit.dataSheetModel.payload[index].imagePath}'),
                             ),

@@ -82,6 +82,16 @@ class AdminStatsScreen extends StatelessWidget {
                                   cubit.getClientTypeCountModel.payload.length,
                                   (index) => StatsTile(
                                     onTab: () {
+                                      cubit.clientTypeDetailsModel = [];
+                                      cubit.allClientsDetailsModel.payload
+                                          .forEach((element) {
+                                        if (element.userType ==
+                                            cubit.getClientTypeCountModel
+                                                .payload[index].clientType) {
+                                          cubit.clientTypeDetailsModel
+                                              .add(element);
+                                        }
+                                      });
                                       navigateTo(
                                           context, ClientTypeDetailsScreen());
                                     },

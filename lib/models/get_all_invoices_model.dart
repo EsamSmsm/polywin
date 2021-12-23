@@ -126,6 +126,7 @@ class Detail {
     this.id,
     this.productId,
     this.color,
+    this.productPath,
     this.productName,
     this.numberIron,
     this.typeOfProduct,
@@ -145,6 +146,7 @@ class Detail {
   int productId;
   String color;
   String productName;
+  String productPath;
   int numberIron;
   dynamic typeOfProduct;
   dynamic typeOfProductText;
@@ -163,6 +165,7 @@ class Detail {
         productId: json["productId"],
         color: json["color"],
         productName: json["productName"],
+        productPath: json["productPath"],
         numberIron: json["numberIron"],
         typeOfProduct: json["typeOfProduct"],
         typeOfProductText: json["typeOfProductText"],
@@ -182,6 +185,7 @@ class Detail {
         "productId": productId,
         "color": color,
         "productName": productName,
+        "productPath": productPath,
         "numberIron": numberIron,
         "typeOfProduct": typeOfProduct,
         "typeOfProductText": typeOfProductText,

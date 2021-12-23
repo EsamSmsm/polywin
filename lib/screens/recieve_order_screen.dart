@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:polywin/screens/new_order_pricing_screen.dart';
@@ -47,7 +48,7 @@ class ReceiveOrderScreen extends StatelessWidget {
                                 fontSize: 18, fontWeight: FontWeight.bold),
                           ),
                           Text(
-                              '${cubit.getAllInvoicesModel.payload[invoiceIndex].totalWithInvoices.toString()}   ج م ',
+                              '${cubit.getAllInvoicesModel.payload[invoiceIndex].totalWithInvoices.toString()}   جنيه ',
                               style: TextStyle(
                                   fontSize: 18, fontWeight: FontWeight.bold))
                         ],
@@ -91,9 +92,7 @@ class ReceiveOrderScreen extends StatelessWidget {
                         ],
                       ),
                     ),
-                    SizedBox(
-                      height: 20,
-                    ),
+                    Divider(),
                     ListView.separated(
                       shrinkWrap: true,
                       physics: NeverScrollableScrollPhysics(),
@@ -113,11 +112,12 @@ class ReceiveOrderScreen extends StatelessWidget {
                           decoration: BoxDecoration(
                               color: Colors.grey.shade300,
                               image: DecorationImage(
-                                  image: NetworkImage(cubit
-                                          .getAllInvoicesModel
-                                          .payload[invoiceIndex]
-                                          .details[index]
-                                          .imgUrl ??
+                                  image: NetworkImage(kBaseURL +
+                                          cubit
+                                              .getAllInvoicesModel
+                                              .payload[invoiceIndex]
+                                              .details[index]
+                                              .productPath ??
                                       ''))),
                         ),
                         title: Text(
@@ -136,9 +136,24 @@ class ReceiveOrderScreen extends StatelessWidget {
                           ),
                           textDirection: TextDirection.rtl,
                         ),
-                        subtitle: Text(cubit.getAllInvoicesModel
-                            .payload[invoiceIndex].details[index].totalOrder
-                            .toString()),
+                        subtitle: Text(
+                          (cubit.getAllInvoicesModel.payload[invoiceIndex]
+                                          .details[index].totalOrder -
+                                      (cubit
+                                              .getAllInvoicesModel
+                                              .payload[invoiceIndex]
+                                              .details[index]
+                                              .totalOrder *
+                                          (cubit
+                                                  .getAllInvoicesModel
+                                                  .payload[invoiceIndex]
+                                                  .details[index]
+                                                  .descount /
+                                              100)))
+                                  .toStringAsFixed(2) +
+                              ' جنيه',
+                          textDirection: TextDirection.rtl,
+                        ),
                       ),
                       separatorBuilder: (context, index) => Divider(),
                     ),
@@ -149,7 +164,7 @@ class ReceiveOrderScreen extends StatelessWidget {
                       padding: const EdgeInsets.symmetric(horizontal: 20),
                       child: CustomButton(
                         color: kBlueColor,
-                        label: 'اعادة ارسال الطلبية',
+                        label: 'تعديل و اعادة ارسال ',
                         onTab: () {
                           cubit.order = [];
                           cubit
@@ -160,13 +175,15 @@ class ReceiveOrderScreen extends StatelessWidget {
                                 quantity: element.quantity,
                                 color: element.color,
                                 name: element.productName,
-                                imgURL: element.imgUrl,
+                                imgURL: element.productPath,
                                 discount: element.descount,
                                 numberIron: element.numberIron,
                                 pricePerMeter: element.pricePerMeter,
                                 pricePerOne: element.pricePerOne,
                                 priceWithDiscount: element.priceWithDescount,
-                                totalOrder: element.totalOrder);
+                                totalOrder: element.totalOrder -
+                                    (element.totalOrder *
+                                        (element.descount / 100)));
                           });
                           navigateTo(context, NewOrderPricingScreen());
                           navigateTo(context, OrderDetailsScreen());

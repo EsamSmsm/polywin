@@ -36,8 +36,7 @@ class ClientTypeDetailsScreen extends StatelessWidget {
                         ListView.separated(
                           shrinkWrap: true,
                           physics: NeverScrollableScrollPhysics(),
-                          itemCount:
-                              cubit.clientTypeDetailsModel.payload.length,
+                          itemCount: cubit.clientTypeDetailsModel.length,
                           itemBuilder: (context, index) => Container(
                             padding: EdgeInsets.symmetric(
                                 vertical: 10, horizontal: 20),
@@ -50,8 +49,7 @@ class ClientTypeDetailsScreen extends StatelessWidget {
                                       MainAxisAlignment.spaceBetween,
                                   children: [
                                     Text(
-                                      cubit.clientTypeDetailsModel
-                                          .payload[index].name,
+                                      cubit.clientTypeDetailsModel[index].name,
                                       textDirection: TextDirection.rtl,
                                       style: TextStyle(
                                           color: kDarkBlueColor,
@@ -59,8 +57,8 @@ class ClientTypeDetailsScreen extends StatelessWidget {
                                           fontSize: 16),
                                     ),
                                     Text(
-                                      cubit.clientTypeDetailsModel
-                                          .payload[index].userType,
+                                      cubit.clientTypeDetailsModel[index]
+                                          .userType,
                                       textDirection: TextDirection.rtl,
                                       style: TextStyle(
                                           color: kBlueColor,
@@ -84,8 +82,8 @@ class ClientTypeDetailsScreen extends StatelessWidget {
                                     ),
                                     Expanded(
                                       child: Text(
-                                        cubit.clientTypeDetailsModel
-                                            .payload[index].parentName,
+                                        cubit.clientTypeDetailsModel[index]
+                                            .parentName,
                                         style:
                                             TextStyle(color: Color(0xff707070)),
                                         textDirection: TextDirection.rtl,
@@ -108,8 +106,8 @@ class ClientTypeDetailsScreen extends StatelessWidget {
                                     ),
                                     Expanded(
                                       child: Text(
-                                        cubit.clientTypeDetailsModel
-                                            .payload[index].clientAddress,
+                                        cubit.clientTypeDetailsModel[index]
+                                            .clientAddress,
                                         style:
                                             TextStyle(color: Color(0xff707070)),
                                         textDirection: TextDirection.rtl,
@@ -132,8 +130,8 @@ class ClientTypeDetailsScreen extends StatelessWidget {
                                     ),
                                     Expanded(
                                       child: Text(
-                                        cubit.clientTypeDetailsModel
-                                            .payload[index].clientPhone,
+                                        cubit.clientTypeDetailsModel[index]
+                                            .clientPhone,
                                         style:
                                             TextStyle(color: Color(0xff707070)),
                                         textDirection: TextDirection.rtl,
@@ -156,8 +154,8 @@ class ClientTypeDetailsScreen extends StatelessWidget {
                                     ),
                                     Expanded(
                                       child: Text(
-                                        cubit.clientTypeDetailsModel
-                                            .payload[index].email,
+                                        cubit.clientTypeDetailsModel[index]
+                                            .email,
                                         style:
                                             TextStyle(color: Color(0xff707070)),
                                         textDirection: TextDirection.rtl,

@@ -456,6 +456,32 @@ class AppCubit extends Cubit<AppStates> {
     });
   }
 
+  void refuseInvoice({
+    int invoiceId,
+    String description,
+    double totalInvoices,
+    double discount,
+    double totalWithDiscount,
+  }) {
+    emit(RefuseInvoiceLoadingState());
+    DioHelper.getData(url: 'api/UserInfo/UpdateInvoices', query: {
+      'invoiceId': invoiceId,
+      'description': description,
+      'isRecived': false,
+      'totalinvoices': totalInvoices,
+      'descount': discount,
+      'totalwithdescount': totalWithDiscount
+    }).then((value) {
+      updateInvoiceResponseModel =
+          UpdateInvoiceResponseModel.fromJson(value.data);
+      //updateInvoiceDetails(invoiceId: invoiceId);
+      emit(RefuseInvoiceSuccessState());
+    }).catchError((error) {
+      emit(RefuseInvoiceErrorState());
+      print(error.toString());
+    });
+  }
+
   void updateProductQuantity({int id, int quantity}) {
     emit(UpdateProductQuantityLoadingState());
     DioHelper.getData(
@@ -525,26 +551,6 @@ class AppCubit extends Cubit<AppStates> {
     }).catchError((error) {
       emit(ChangePasswordErrorState());
       print(error);
-    });
-  }
-
-  void refuseInvoice({
-    int invoiceId,
-    String description,
-  }) {
-    emit(RefuseInvoiceLoadingState());
-    DioHelper.getData(url: 'api/UserInfo/UpdateInvoices', query: {
-      'invoiceId': invoiceId,
-      'description': description,
-      'isRecived': false,
-    }).then((value) {
-      updateInvoiceResponseModel =
-          UpdateInvoiceResponseModel.fromJson(value.data);
-      //updateInvoiceDetails(invoiceId: invoiceId);
-      emit(RefuseInvoiceSuccessState());
-    }).catchError((error) {
-      emit(RefuseInvoiceErrorState());
-      print(error.toString());
     });
   }
 

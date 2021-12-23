@@ -368,6 +368,12 @@ class AddAgentScreen extends StatelessWidget {
                                       text: 'تأكد من ملئ البيانات بشكل صحيح',
                                       color: Colors.red);
                                   cubit.emit(AddAgentErrorState());
+                                } else if (agentIDController.text.length > 0 &&
+                                    agentIDController.text.length != 14) {
+                                  showToast(
+                                      text:
+                                          'يجب ان يكون الرقم القومي مكون من 14 رقم',
+                                      color: Colors.red);
                                 } else {
                                   cubit.addAgentAccount(
                                     name: agentNameController.text,

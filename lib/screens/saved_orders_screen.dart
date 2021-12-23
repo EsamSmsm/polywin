@@ -76,7 +76,7 @@ class SavedOrdersScreen extends StatelessWidget {
                           ),
                           Expanded(
                             child: TabBarView(
-                                physics: BouncingScrollPhysics(),
+                                physics: NeverScrollableScrollPhysics(),
                                 children: [
                                   RefusedOrderTabScreen(),
                                   ReceivedOrderTabScreen(),

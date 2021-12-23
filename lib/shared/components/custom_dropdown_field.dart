@@ -23,6 +23,7 @@ class CustomDropdownField extends StatelessWidget {
       child: Directionality(
         textDirection: TextDirection.rtl,
         child: DropdownButton(
+          menuMaxHeight: MediaQuery.of(context).size.height * 0.5,
           underline: SizedBox(),
           isExpanded: true,
           onChanged: onChanged,

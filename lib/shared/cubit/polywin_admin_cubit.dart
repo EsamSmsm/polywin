@@ -113,11 +113,12 @@ class PolywinAdminCubit extends Cubit<PolywinAdminStates> {
     });
   }
 
-  ClientTypeDetailsModel clientTypeDetailsModel;
+  List<dynamic> clientTypeDetailsModel = [];
+  ClientTypeDetailsModel allClientsDetailsModel;
   void getClientTypeDetails() {
     emit(GetClientTypeDetailsLoadingState());
     DioHelper.getData(url: 'api/UserInfo/GetClientTypeDetails').then((value) {
-      clientTypeDetailsModel = ClientTypeDetailsModel.fromJson(value.data);
+      allClientsDetailsModel = ClientTypeDetailsModel.fromJson(value.data);
       emit(GetClientTypeDetailsSuccessState());
     }).catchError((error) {
       emit(GetClientTypeDetailsErrorState());

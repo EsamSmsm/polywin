@@ -39,8 +39,8 @@ class WorkshopCalculatePricingScreen extends StatelessWidget {
         navigateTo(
             context,
             WorkshopTotalPriceScreen(
-              width: '$widthMeterValue.${widthCMValue - 1}',
-              height: '$heightMeterValue.${heightCMValue - 1}',
+              width: '${widthMeterValue.abs()}.$widthCMValue',
+              height: '${heightMeterValue.abs()}.$heightCMValue',
             ));
         isLoading1 = false;
         isLoading2 = false;
@@ -48,8 +48,8 @@ class WorkshopCalculatePricingScreen extends StatelessWidget {
         navigateTo(
             context,
             WorkshopDisplayPriceScreen(
-              width: '$widthMeterValue.${widthCMValue - 1}',
-              height: '$heightMeterValue.${heightCMValue - 1}',
+              width: '$widthMeterValue.$widthCMValue',
+              height: '$heightMeterValue.$heightCMValue',
             ));
         isLoading1 = false;
         isLoading2 = false;
@@ -60,6 +60,7 @@ class WorkshopCalculatePricingScreen extends StatelessWidget {
       }
     }, builder: (context, WorkshopStates state) {
       WorkshopCubit cubit = WorkshopCubit.get(context);
+      List<int> centimeters = List.generate(100, (index) => index);
       return Scaffold(
         backgroundColor: Colors.white,
         appBar: CustomAppBar(
@@ -259,67 +260,91 @@ class WorkshopCalculatePricingScreen extends StatelessWidget {
                           width: 20,
                         ),
                         Expanded(
-                          child: Container(
-                              height: 48,
-                              padding: EdgeInsets.symmetric(horizontal: 10),
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(10),
-                                border: Border.all(color: Color(0xffc8c8c8)),
-                                color: Color(0xfffcfcfc),
-                              ),
-                              child: StatefulBuilder(
-                                builder: (context, setState) => Row(
-                                  textDirection: TextDirection.rtl,
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Text(
-                                      'سنتميتر',
-                                      style: TextStyle(color: kBlueColor),
-                                    ),
-                                    SizedBox(
-                                      width: 35,
-                                      child: NumberPicker(
-                                        value: heightCMValue,
-                                        axis: Axis.vertical,
-                                        onChanged: (value) {
-                                          setState(() {
-                                            heightCMValue = value;
-                                          });
-                                        },
-                                        textStyle: TextStyle(
-                                            fontFamily: 'roboto',
-                                            color: Colors.black87,
-                                            fontWeight: FontWeight.bold),
-                                        selectedTextStyle: TextStyle(
-                                            fontFamily: 'roboto',
-                                            color: Colors.black87,
-                                            fontWeight: FontWeight.bold),
-                                        minValue: 0,
-                                        maxValue: 100,
+                          child: StatefulBuilder(
+                            builder: (context, setState) => CustomDropdownField(
+                              value: heightCMValue,
+                              hint: 'سنتميتر',
+                              itemsList: centimeters.map((e) {
+                                    return DropdownMenuItem(
+                                      child: Text(
+                                        e.toString() + " سم",
+                                        textDirection: TextDirection.rtl,
+                                        style: TextStyle(fontFamily: 'roboto'),
                                       ),
-                                    ),
-                                    Column(
-                                      mainAxisSize: MainAxisSize.min,
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: [
-                                        Icon(
-                                          Icons.expand_less,
-                                          size: 20,
-                                          color: Colors.black54,
-                                        ),
-                                        Icon(
-                                          Icons.expand_more,
-                                          size: 20,
-                                          color: Colors.black54,
-                                        )
-                                      ],
-                                    )
-                                  ],
-                                ),
-                              )),
-                        ),
+                                      value: e,
+                                      alignment: Alignment.centerRight,
+                                    );
+                                  }).toList() ??
+                                  [],
+                              onChanged: (value) {
+                                heightCMValue = value;
+                                setState(() {});
+                              },
+                            ),
+                          ),
+                        )
+                        // Expanded(
+                        //   child: Container(
+                        //       height: 48,
+                        //       padding: EdgeInsets.symmetric(horizontal: 10),
+                        //       decoration: BoxDecoration(
+                        //         borderRadius: BorderRadius.circular(10),
+                        //         border: Border.all(color: Color(0xffc8c8c8)),
+                        //         color: Color(0xfffcfcfc),
+                        //       ),
+                        //       child: StatefulBuilder(
+                        //         builder: (context, setState) => Row(
+                        //           textDirection: TextDirection.rtl,
+                        //           mainAxisAlignment:
+                        //               MainAxisAlignment.spaceBetween,
+                        //           children: [
+                        //             Text(
+                        //               'سنتميتر',
+                        //               style: TextStyle(color: kBlueColor),
+                        //             ),
+                        //             SizedBox(
+                        //               width: 35,
+                        //               child: NumberPicker(
+                        //                 value: heightCMValue,
+                        //                 axis: Axis.vertical,
+                        //                 onChanged: (value) {
+                        //                   setState(() {
+                        //                     heightCMValue = value;
+                        //                   });
+                        //                 },
+                        //                 textStyle: TextStyle(
+                        //                     fontFamily: 'roboto',
+                        //                     color: Colors.black87,
+                        //                     fontWeight: FontWeight.bold),
+                        //                 selectedTextStyle: TextStyle(
+                        //                     fontFamily: 'roboto',
+                        //                     color: Colors.black87,
+                        //                     fontWeight: FontWeight.bold),
+                        //                 minValue: 0,
+                        //                 maxValue: 100,
+                        //               ),
+                        //             ),
+                        //             Column(
+                        //               mainAxisSize: MainAxisSize.min,
+                        //               mainAxisAlignment:
+                        //                   MainAxisAlignment.center,
+                        //               children: [
+                        //                 Icon(
+                        //                   Icons.expand_less,
+                        //                   size: 20,
+                        //                   color: Colors.black54,
+                        //                 ),
+                        //                 Icon(
+                        //                   Icons.expand_more,
+                        //                   size: 20,
+                        //                   color: Colors.black54,
+                        //                 )
+                        //               ],
+                        //             )
+                        //           ],
+                        //         ),
+                        //       )),
+                        // ),
                       ],
                     ),
                     SizedBox(
@@ -390,67 +415,28 @@ class WorkshopCalculatePricingScreen extends StatelessWidget {
                           width: 20,
                         ),
                         Expanded(
-                          child: Container(
-                              height: 48,
-                              padding: EdgeInsets.symmetric(horizontal: 10),
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(10),
-                                border: Border.all(color: Color(0xffc8c8c8)),
-                                color: Color(0xfffcfcfc),
-                              ),
-                              child: StatefulBuilder(
-                                builder: (context, setState) => Row(
-                                  textDirection: TextDirection.rtl,
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Text(
-                                      'سنتميتر',
-                                      style: TextStyle(color: kBlueColor),
-                                    ),
-                                    SizedBox(
-                                      width: 35,
-                                      child: NumberPicker(
-                                        value: widthCMValue,
-                                        axis: Axis.vertical,
-                                        onChanged: (value) {
-                                          setState(() {
-                                            widthCMValue = value;
-                                            print(widthCMValue);
-                                          });
-                                        },
-                                        textStyle: TextStyle(
-                                            fontFamily: 'roboto',
-                                            color: Colors.black87,
-                                            fontWeight: FontWeight.bold),
-                                        selectedTextStyle: TextStyle(
-                                            fontFamily: 'roboto',
-                                            color: Colors.black87,
-                                            fontWeight: FontWeight.bold),
-                                        minValue: 0,
-                                        maxValue: 100,
+                          child: StatefulBuilder(
+                            builder: (context, setState) => CustomDropdownField(
+                              value: widthCMValue,
+                              hint: 'سنتميتر',
+                              itemsList: centimeters.map((e) {
+                                    return DropdownMenuItem(
+                                      child: Text(
+                                        e.toString() + " سم",
+                                        textDirection: TextDirection.rtl,
+                                        style: TextStyle(fontFamily: 'roboto'),
                                       ),
-                                    ),
-                                    Column(
-                                      mainAxisSize: MainAxisSize.min,
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: [
-                                        Icon(
-                                          Icons.expand_less,
-                                          size: 20,
-                                          color: Colors.black54,
-                                        ),
-                                        Icon(
-                                          Icons.expand_more,
-                                          size: 20,
-                                          color: Colors.black54,
-                                        )
-                                      ],
-                                    )
-                                  ],
-                                ),
-                              )),
+                                      value: e,
+                                      alignment: Alignment.centerRight,
+                                    );
+                                  }).toList() ??
+                                  [],
+                              onChanged: (value) {
+                                widthCMValue = value;
+                                setState(() {});
+                              },
+                            ),
+                          ),
                         ),
                       ],
                     ),
@@ -567,9 +553,8 @@ class WorkshopCalculatePricingScreen extends StatelessWidget {
                             cubit.requestTotalPrice(
                                 subCategoryId: cubit.subCategoryId.id,
                                 colorId: cubit.colorId.id,
-                                width: '$widthMeterValue.${widthCMValue - 1}',
-                                height:
-                                    '$heightMeterValue.${heightCMValue - 1}',
+                                width: '$widthMeterValue.$widthCMValue',
+                                height: '$heightMeterValue.$heightCMValue',
                                 mortal: mortalController.text,
                                 net: profitsController.text,
                                 expenses: expensesController.text);
@@ -602,9 +587,8 @@ class WorkshopCalculatePricingScreen extends StatelessWidget {
                             cubit.requestTotalPrice(
                                 subCategoryId: cubit.subCategoryId.id,
                                 colorId: cubit.colorId.id,
-                                width: '$widthMeterValue.${widthCMValue - 1}',
-                                height:
-                                    '$heightMeterValue.${heightCMValue - 1}',
+                                width: '$widthMeterValue.$widthCMValue',
+                                height: '$heightMeterValue.$heightCMValue',
                                 mortal: mortalController.text,
                                 net: profitsController.text,
                                 expenses: expensesController.text);

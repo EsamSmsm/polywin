@@ -97,11 +97,11 @@ class SendOrderScreen extends StatelessWidget {
                               textDirection: TextDirection.rtl,
                               style: TextStyle(
                                   fontSize: 18, fontWeight: FontWeight.bold)),
-                          Text(totalInvoice.toString() + ' ج.م',
-                              textDirection: TextDirection.rtl,
-                              style: TextStyle(
-                                fontSize: 18,
-                              )),
+                          // Text(totalInvoice.toString() + ' ج.م',
+                          //     textDirection: TextDirection.rtl,
+                          //     style: TextStyle(
+                          //       fontSize: 18,
+                          //     )),
                         ],
                       ),
                       SizedBox(
@@ -319,6 +319,14 @@ class SendOrderScreen extends StatelessWidget {
                                   cubit.refuseInvoice(
                                     invoiceId: cubit.getPolywinInvoicesModel
                                         .payload[invoiceIndex].id,
+                                    totalInvoices: cubit.getPolywinInvoicesModel
+                                        .payload[invoiceIndex].totalInvoices,
+                                    discount: cubit.getPolywinInvoicesModel
+                                        .payload[invoiceIndex].descountInvoices,
+                                    totalWithDiscount: cubit
+                                        .getPolywinInvoicesModel
+                                        .payload[invoiceIndex]
+                                        .totalWithInvoices,
                                     description: descriptionController.text,
                                   );
                                 },
