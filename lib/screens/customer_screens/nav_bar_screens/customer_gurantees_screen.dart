@@ -99,9 +99,10 @@ class CustomerGuaranteesScreen extends StatelessWidget {
                                             Expanded(
                                               child: Text(
                                                 cubit
-                                                    .clientWarrantiesModel[
-                                                        index]
-                                                    .productName,
+                                                        .clientWarrantiesModel[
+                                                            index]
+                                                        .productName ??
+                                                    '',
                                                 textDirection:
                                                     TextDirection.rtl,
                                                 style: TextStyle(

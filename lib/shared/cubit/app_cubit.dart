@@ -482,20 +482,20 @@ class AppCubit extends Cubit<AppStates> {
     });
   }
 
-  void updateProductQuantity({int id, int quantity}) {
-    emit(UpdateProductQuantityLoadingState());
-    DioHelper.getData(
-        url: 'api/UserInfo/UpdateQuantityInvoicesDetails',
-        query: {'Id': id, 'Qty': quantity}).then((value) {
-      print(value.data);
-      value.data == true
-          ? emit(UpdateProductQuantitySuccessState())
-          : emit(UpdateProductQuantityErrorState());
-    }).catchError((error) {
-      emit(UpdateProductQuantityErrorState());
-      print(error);
-    });
-  }
+  // void updateProductQuantity({int id, int quantity}) {
+  //   emit(UpdateProductQuantityLoadingState());
+  //   DioHelper.getData(
+  //       url: 'api/UserInfo/UpdateQuantityInvoicesDetails',
+  //       query: {'Id': id, 'Qty': quantity}).then((value) {
+  //     print(value.data);
+  //     value.data == true
+  //         ? emit(UpdateProductQuantitySuccessState())
+  //         : emit(UpdateProductQuantityErrorState());
+  //   }).catchError((error) {
+  //     emit(UpdateProductQuantityErrorState());
+  //     print(error);
+  //   });
+  // }
 
   UpdateProfileResponseModel updateProfileResponseModel;
   Future<void> updateProfile({
