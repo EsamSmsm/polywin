@@ -170,7 +170,7 @@ class Product {
         pricePerMeter: json["pricePerMeter"],
         fileUpload: json["fileUpload"],
         numberIron: json["numberIron"],
-        descount: json["descount"],
+        descount: json["descount"] ?? 0,
         typeOfCategory: json["typeOfCategory"],
         productId: json["productId"],
         productName: json["productName"],

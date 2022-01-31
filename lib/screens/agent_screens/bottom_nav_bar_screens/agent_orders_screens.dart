@@ -131,7 +131,8 @@ class _AgentOrdersScreenState extends State<AgentOrdersScreen> {
                                         children: [
                                           Text(
                                             cubit.getPolywinInvoicesModel
-                                                .payload[index].agent,
+                                                    .payload[index].agent ??
+                                                '',
                                             style: TextStyle(
                                                 color: Color(0xff707070),
                                                 fontSize: 17),

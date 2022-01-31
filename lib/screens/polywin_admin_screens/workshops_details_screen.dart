@@ -157,7 +157,8 @@ class WorkshopsDetailsScreen extends StatelessWidget {
                                     Expanded(
                                       child: Text(
                                         cubit.workshopsDetailsModel.result
-                                            .payload[index].agentPhone,
+                                                .payload[index].agentPhone ??
+                                            '',
                                         style:
                                             TextStyle(color: Color(0xff707070)),
                                         textDirection: TextDirection.rtl,

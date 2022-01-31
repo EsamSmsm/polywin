@@ -4,9 +4,11 @@
 
 import 'dart:convert';
 
-InstallmentByContractIdModel installmentByContractIdModelFromJson(String str) => InstallmentByContractIdModel.fromJson(json.decode(str));
+InstallmentByContractIdModel installmentByContractIdModelFromJson(String str) =>
+    InstallmentByContractIdModel.fromJson(json.decode(str));
 
-String installmentByContractIdModelToJson(InstallmentByContractIdModel data) => json.encode(data.toJson());
+String installmentByContractIdModelToJson(InstallmentByContractIdModel data) =>
+    json.encode(data.toJson());
 
 class InstallmentByContractIdModel {
   InstallmentByContractIdModel({
@@ -19,23 +21,24 @@ class InstallmentByContractIdModel {
 
   int id;
   String clientName;
-  int costPerMonth;
+  dynamic costPerMonth;
   dynamic dateOfMonth;
   String type;
 
-  factory InstallmentByContractIdModel.fromJson(Map<String, dynamic> json) => InstallmentByContractIdModel(
-    id: json["id"],
-    clientName: json["clientName"],
-    costPerMonth: json["costPerMonth"],
-    dateOfMonth: json["dateOfMonth"],
-    type: json["type"],
-  );
+  factory InstallmentByContractIdModel.fromJson(Map<String, dynamic> json) =>
+      InstallmentByContractIdModel(
+        id: json["id"],
+        clientName: json["clientName"],
+        costPerMonth: json["costPerMonth"],
+        dateOfMonth: json["dateOfMonth"],
+        type: json["type"],
+      );
 
   Map<String, dynamic> toJson() => {
-    "id": id,
-    "clientName": clientName,
-    "costPerMonth": costPerMonth,
-    "dateOfMonth": dateOfMonth,
-    "type": type,
-  };
+        "id": id,
+        "clientName": clientName,
+        "costPerMonth": costPerMonth,
+        "dateOfMonth": dateOfMonth,
+        "type": type,
+      };
 }

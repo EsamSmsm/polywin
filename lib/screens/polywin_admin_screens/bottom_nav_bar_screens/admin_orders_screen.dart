@@ -126,7 +126,8 @@ class _AdminOrdersScreenState extends State<AdminOrdersScreen> {
                                   children: [
                                     Text(
                                       cubit.getPolywinInvoicesModel
-                                          .payload[index].agent,
+                                              .payload[index].agent ??
+                                          '',
                                       style: TextStyle(
                                           color: Color(0xff707070),
                                           fontSize: 17),

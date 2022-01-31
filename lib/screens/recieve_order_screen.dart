@@ -107,11 +107,12 @@ class ReceiveOrderScreen extends StatelessWidget {
                           style: TextStyle(fontSize: 18, fontFamily: 'roboto'),
                         ),
                         trailing: Container(
-                          width: 50,
-                          height: 50,
+                          width: 80,
+                          height: 80,
                           decoration: BoxDecoration(
-                              color: Colors.grey.shade300,
+                              color: Colors.white70,
                               image: DecorationImage(
+                                  fit: BoxFit.cover,
                                   image: NetworkImage(kBaseURL +
                                           cubit
                                               .getAllInvoicesModel
@@ -171,7 +172,7 @@ class ReceiveOrderScreen extends StatelessWidget {
                               .getAllInvoicesModel.payload[invoiceIndex].details
                               .forEach((element) {
                             cubit.addProduct(
-                                id: element.id,
+                                id: element.productId,
                                 quantity: element.quantity,
                                 color: element.color,
                                 name: element.productName,

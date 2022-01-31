@@ -38,12 +38,24 @@ class SearchResultScreen extends StatelessWidget {
                               .payload[index].productCode,
                           productName: cubit
                               .searchProductModel.result.payload[index].name,
-                          pricePerMeter: cubit.searchProductModel.result
-                              .payload[index].pricePerMeter
-                              .toString(),
-                          pricePerOne: cubit.searchProductModel.result
-                              .payload[index].pricePerOne
-                              .toString(),
+                          imagePath: cubit
+                              .searchProductModel.result.payload[index].imgUrl,
+                          pricePerMeter: (cubit.searchProductModel.result
+                                      .payload[index].pricePerMeter -
+                                  (cubit.searchProductModel.result
+                                          .payload[index].pricePerMeter *
+                                      (cubit.searchProductModel.result
+                                              .payload[index].descount /
+                                          100)))
+                              .toStringAsFixed(2),
+                          pricePerOne: (cubit.searchProductModel.result
+                                      .payload[index].pricePerOne -
+                                  (cubit.searchProductModel.result
+                                          .payload[index].pricePerOne *
+                                      (cubit.searchProductModel.result
+                                              .payload[index].descount /
+                                          100)))
+                              .toStringAsFixed(2),
                         ),
                         separatorBuilder: (context, index) => SizedBox(
                           height: 20,

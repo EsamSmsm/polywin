@@ -20,6 +20,7 @@ class OrderDetailsScreen extends StatelessWidget {
       listener: (context, state) {
         AppCubit cubit = AppCubit.get(context);
         if (state is AddInvoiceDetailsSuccessState) {
+          cubit.getMaxInvoicesNumber();
           if (cubit.addInvoiceDetailsResponse == true) {
             showAlertDialogWithAction(
                 context: context,

@@ -2,8 +2,6 @@ import 'package:bloc/bloc.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:polywin/models/get_invoices_number.dart';
-import 'package:polywin/models/get_parent_category.dart';
 import 'package:polywin/models/login_model.dart';
 import 'package:polywin/network/remote/dio_helper.dart';
 
@@ -17,7 +15,7 @@ class LoginCubit extends Cubit<LoginStates> {
   LoginModel loginModel;
   void userLogin({@required String userName, @required String password}) {
     emit(LoginLoadingState());
-    DioHelper.postData(url: 'PolyWinLogIn/login', data: {
+    DioHelper.postData(url: 'api/UserInfo/login', data: {
       "userName": userName,
       "password": password,
     }).then((value) {
@@ -30,8 +28,6 @@ class LoginCubit extends Cubit<LoginStates> {
     });
   }
 
-
-
   bool showPassword = true;
   IconData passwordIcon = Icons.visibility_outlined;
   void changePasswordVisibility() {
@@ -42,8 +38,4 @@ class LoginCubit extends Cubit<LoginStates> {
 
     emit(ChangePasswordVisibilityState());
   }
-
-
-
 }
-

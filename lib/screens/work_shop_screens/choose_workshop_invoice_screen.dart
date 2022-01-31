@@ -133,7 +133,7 @@ class ChooseInvoiceScreen extends StatelessWidget {
                     textDirection: TextDirection.rtl,
                   ),
                   Text(
-                    '  ${cubit.getTotalCost().toStringAsFixed(0)} ج.م ',
+                    '  ${cubit.getTotalCost().toStringAsFixed(2)} ج.م ',
                     style: TextStyle(
                         fontSize: 20,
                         color: Colors.black54,
@@ -197,12 +197,21 @@ class ChooseInvoiceScreen extends StatelessWidget {
                         color: kDarkBlueColor,
                         label: "تأكيد",
                         onTab: () {
-                          cubit.setInstallmentValues();
-                          cubit.sendInstallment(
-                              contractId:
-                                  cubit.addNewContractResponseModel.payload,
-                              clientId: cubit.costsByClientModel[0].clientId);
-                          Navigator.pop(context);
+                          int totalPercent = 0;
+                          cubit.instalmentControllers.forEach((element) {
+                            totalPercent += int.parse(element.text);
+                          });
+                          if (totalPercent == 100) {
+                            cubit.setInstallmentValues();
+                            cubit.sendInstallment(
+                                contractId:
+                                    cubit.addNewContractResponseModel.payload,
+                                clientId: cubit.costsByClientModel[0].clientId);
+                            Navigator.pop(context);
+                          } else
+                            showToast(
+                                text: 'يجب ان يكون مجموع نسب الدفعات = 100',
+                                color: Colors.red);
                         },
                       )
               ],

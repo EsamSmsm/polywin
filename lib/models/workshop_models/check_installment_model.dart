@@ -19,7 +19,7 @@ class CheckInstallmentsModel {
   });
 
   dynamic clientId;
-  int costPerMonth;
+  dynamic costPerMonth;
   String dateOfMonth;
 
   factory CheckInstallmentsModel.fromJson(Map<String, dynamic> json) =>

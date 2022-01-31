@@ -22,7 +22,6 @@ class UserProfileScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocConsumer<AppCubit, AppStates>(
       listener: (context, state) {},
-      bloc: AppCubit()..getUserInfo(),
       builder: (context, state) {
         AppCubit cubit = AppCubit.get(context);
         return Scaffold(

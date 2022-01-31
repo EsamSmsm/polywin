@@ -77,8 +77,7 @@ class AgentCubit extends Cubit<AgentStates> {
   StoreDataModel getStoreDataModel;
   void getStoreData() async {
     emit(GetAgentStoreDataLoadingState());
-    await DioHelper.getData(url: 'api/UserInfo/GetAllStoreByUserId')
-        .then((value) {
+    await DioHelper.getData(url: 'api/Store/GetAllStoreByUserId').then((value) {
       getStoreDataModel = StoreDataModel.fromJson(value.data);
       emit(GetAgentStoreDataSuccessState());
     }).catchError((error) {
@@ -90,7 +89,7 @@ class AgentCubit extends Cubit<AgentStates> {
   GetWorkshopsModel workshopsModel;
   void getAllWorkshops() {
     emit(GetWorkshopsLoadingState());
-    DioHelper.getData(url: 'api/UserInfo/GetWorkShopByUserLogin').then((value) {
+    DioHelper.getData(url: 'api/Agent/GetWorkShopByUserLogin').then((value) {
       workshopsModel = GetWorkshopsModel.fromJson(value.data);
       emit(GetWorkshopsSuccessState());
     }).catchError((error) {
@@ -108,7 +107,7 @@ class AgentCubit extends Cubit<AgentStates> {
   List<dynamic> governments = [];
   void getAllGovernments() {
     emit(GetWorkshopGovernmentsLoadingState());
-    DioHelper.getData(url: 'api/UserInfo/GetAllGovernment').then((value) {
+    DioHelper.getData(url: 'api/Government/GetAllGovernment').then((value) {
       governments = value.data;
       emit(GetWorkshopGovernmentsSuccessState());
     }).catchError((error) {

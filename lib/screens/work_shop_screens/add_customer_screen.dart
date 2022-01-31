@@ -251,6 +251,7 @@ class AddClientScreen extends StatelessWidget {
                                 address: addressController.text,
                                 clientTypeId: typeId.id,
                               );
+                              print(typeId.id);
                             }
                           },
                         ),

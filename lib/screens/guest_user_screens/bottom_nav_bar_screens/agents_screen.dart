@@ -249,6 +249,7 @@ class AgentDataCard extends StatelessWidget {
           Expanded(
             flex: 2,
             child: Container(
+              height: MediaQuery.of(context).size.height * 0.15,
               decoration: BoxDecoration(
                   color: Colors.white,
                   image: DecorationImage(

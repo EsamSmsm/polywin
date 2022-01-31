@@ -39,7 +39,7 @@ class CustomerCubit extends Cubit<CustomerStates> {
   GetWorkShopInfoModel workShopInfoModel;
   void getWorkShopInfo() {
     emit(GetWorkshopInfoLoadingState());
-    DioHelper.getData(url: 'api/UserInfo/GetWorkShopByClient').then((value) {
+    DioHelper.getData(url: 'api/Agent/GetWorkShopByClient').then((value) {
       workShopInfoModel = GetWorkShopInfoModel.fromJson(value.data);
       print(value.data);
       emit(GetWorkshopInfoSuccessState());
@@ -52,7 +52,7 @@ class CustomerCubit extends Cubit<CustomerStates> {
   GetClientInfoModel clientInfoModel;
   void getClientInfo() {
     emit(GetClientInfoLoadingState());
-    DioHelper.getData(url: 'api/UserInfo/GetClientInfoById').then((value) {
+    DioHelper.getData(url: 'api/Client/GetClientInfoById').then((value) {
       clientInfoModel = GetClientInfoModel.fromJson(value.data);
       emit(GetClientInfoSuccessState());
     }).catchError((error) {
@@ -64,7 +64,7 @@ class CustomerCubit extends Cubit<CustomerStates> {
   GetClientContractsModel clientContractsModel;
   void getAllClientContracts() {
     emit(GetClientContractsLoadingState());
-    DioHelper.getData(url: 'api/UserInfo/GetAllContractByClient').then((value) {
+    DioHelper.getData(url: 'api/Contract/GetAllContractByClient').then((value) {
       clientContractsModel = GetClientContractsModel.fromJson(value.data);
       emit(GetClientContractsSuccessState());
     }).catchError((error) {
@@ -76,7 +76,7 @@ class CustomerCubit extends Cubit<CustomerStates> {
   List<dynamic> clientWarrantiesModel;
   void getCustomerWarranties() {
     emit(GetWarrantiesLoadingState());
-    DioHelper.getData(url: 'api/UserInfo/GetAllWarrantyByClientId')
+    DioHelper.getData(url: 'api/Warranty/GetAllWarrantyByClientId')
         .then((value) {
       clientWarrantiesModel =
           value.data.map((e) => ClientWarrantiesModel.fromJson(e)).toList();
@@ -92,7 +92,7 @@ class CustomerCubit extends Cubit<CustomerStates> {
   void getInstallmentByClientId({int contractId}) {
     emit(GetInstallmentsLoadingState());
     DioHelper.getData(
-        url: 'api/UserInfo/GetAllInstallmentByContractId',
+        url: 'api/Installment/GetAllInstallmentByContractId',
         query: {'ContractId': contractId}).then((value) {
       installmentByContractIdModel = value.data
           .map((e) => InstallmentByContractIdModel.fromJson(e))
@@ -108,7 +108,7 @@ class CustomerCubit extends Cubit<CustomerStates> {
   void getContractInfo({int contractId}) {
     emit(GetContractInfoLoadingState());
     DioHelper.getData(
-        url: 'api/UserInfo/GetContractInfoByContractId',
+        url: 'api/Contract/GetContractInfoByContractId',
         query: {'contractId': contractId}).then((value) {
       contractInfoModel = ContractInfoModel.fromJson(value.data);
       emit(GetContractInfoSuccessState());

@@ -63,7 +63,7 @@ class AppCubit extends Cubit<AppStates> {
   void getAgentsData() {
     emit(AgentsDataLoadingState());
     DioHelper.getData(
-      url: 'PolyWinLogIn/GetAllAgents',
+      url: 'api/Agent/GetAllAgents',
     ).then((value) {
       //print(value.data);
       agentsModel = GetAgentsModel.fromJson(value.data);
@@ -92,7 +92,7 @@ class AppCubit extends Cubit<AppStates> {
   CatalogueModel catalogueModel;
   void getCatalogues() {
     emit(GetCataloguesLoadingState());
-    DioHelper.getData(url: 'PolyWinLogIn/GetAllCatalogue').then((value) {
+    DioHelper.getData(url: 'api/Catalog/GetAllCatalogue').then((value) {
       catalogueModel = CatalogueModel.fromJson(value.data);
       emit(GetCataloguesSuccessState());
       //print(value.data);
@@ -105,7 +105,7 @@ class AppCubit extends Cubit<AppStates> {
   GetCompanyInfoModel getCompanyInfoModel;
   void getCompanyInfo() {
     emit(GetInfoLoadingState());
-    DioHelper.getData(url: 'PolyWinLogIn/GetCompanyInfo').then((value) {
+    DioHelper.getData(url: 'api/CompanyInfo/GetCompanyInfo').then((value) {
       getCompanyInfoModel = GetCompanyInfoModel.fromJson(value.data);
       emit(GetInfoSuccessState());
     }).catchError((error) {
@@ -117,7 +117,7 @@ class AppCubit extends Cubit<AppStates> {
   ProductsListModel productsListModel;
   void getProductsData() {
     emit(ProductsDataLoadingState());
-    DioHelper.getData(url: 'api/UserInfo/GetAllProductPerCategory')
+    DioHelper.getData(url: 'api/Product/GetAllProductPerCategory')
         .then((value) {
       productsListModel = ProductsListModel.fromJson(value.data);
       emit(ProductsDataSuccessState());
@@ -130,7 +130,7 @@ class AppCubit extends Cubit<AppStates> {
   GetParentCategoryModel getParentCategory;
   void getParentCategoryWithProducts() {
     emit(GetParentCategoryLoadingState());
-    DioHelper.getData(url: 'api/UserInfo/GetParenrCategorywithProduct')
+    DioHelper.getData(url: 'api/Category/GetParenrCategorywithProduct')
         .then((value) {
       getParentCategory = GetParentCategoryModel.fromJson(value.data);
       emit(GetParentCategorySuccessState());
@@ -143,7 +143,7 @@ class AppCubit extends Cubit<AppStates> {
   GetInvoicesNumber invoicesNumberModel;
   void getMaxInvoicesNumber() {
     emit(GetInvoicesNumberLoadingState());
-    DioHelper.getData(url: 'api/UserInfo/GetMaxNumberIncoices').then((value) {
+    DioHelper.getData(url: 'api/Invoice/GetMaxNumberIncoices').then((value) {
       invoicesNumberModel = GetInvoicesNumber.fromJson(value.data);
       emit(GetInvoicesNumberSuccessState());
     }).catchError((error) {
@@ -155,7 +155,7 @@ class AppCubit extends Cubit<AppStates> {
   ResponseModel responseModel;
   void deleteInvoice({String id}) {
     emit(DeleteInvoicesLoadingState());
-    DioHelper.postData(url: 'api/UserInfo/DeleteInvoices', query: {'ids': id})
+    DioHelper.postData(url: 'api/Invoice/DeleteInvoices', query: {'ids': id})
         .then((value) {
       responseModel = ResponseModel.fromJson(value.data);
       print(value.data);
@@ -170,7 +170,7 @@ class AppCubit extends Cubit<AppStates> {
   void getAllInvoices({int invoiceStatus}) {
     emit(GetAllInvoicesLoadingState());
     DioHelper.getData(
-        url: 'api/UserInfo/GetAllInvoicesFromAgentOrWorkShop',
+        url: 'api/Invoice/GetAllInvoicesFromAgentOrWorkShop',
         query: {'isRecived': invoiceStatus}).then((value) {
       getAllInvoicesModel = GetAllInvoicesModel.fromJson(value.data);
       print(value.data);
@@ -185,7 +185,7 @@ class AppCubit extends Cubit<AppStates> {
   void getPolywinInvoices() {
     emit(GetPolywinInvoicesLoadingState());
     DioHelper.getData(
-        url: 'api/UserInfo/GetAllInvoicesFromPolyWin',
+        url: 'api/Invoice/GetAllInvoicesFromPolyWin',
         query: {'isRecived': 1}).then((value) {
       getPolywinInvoicesModel =
           GetAllInvoicesFromPolyWinModel.fromJson(value.data);
@@ -200,7 +200,7 @@ class AppCubit extends Cubit<AppStates> {
   void getPolywinRejInvoices() {
     emit(GetPolywinRejInvoicesLoadingState());
     DioHelper.getData(
-        url: 'api/UserInfo/GetAllInvoicesFromPolyWin',
+        url: 'api/Invoice/GetAllInvoicesFromPolyWin',
         query: {'isRecived': 3}).then((value) {
       getPolywinRejInvoicesModel =
           GetAllInvoicesFromPolyWinModel.fromJson(value.data);
@@ -214,7 +214,7 @@ class AppCubit extends Cubit<AppStates> {
   GetColorsModel colorsModel;
   void getColors() {
     emit(GetColorsLoadingState());
-    DioHelper.getData(url: 'api/UserInfo/GetAllColors').then((value) {
+    DioHelper.getData(url: 'api/Colors/GetAllColors').then((value) {
       colorsModel = GetColorsModel.fromJson(value.data);
       emit(GetColorsSuccessState());
     }).catchError((error) {
@@ -239,7 +239,7 @@ class AppCubit extends Cubit<AppStates> {
   DataSheetModel dataSheetModel;
   void getDataSheet() {
     emit(GetDataSheetLoadingState());
-    DioHelper.getData(url: 'PolyWinLogIn/GetAllDataSheet').then((value) {
+    DioHelper.getData(url: 'api/DataSheets/GetAllDataSheet').then((value) {
       dataSheetModel = DataSheetModel.fromJson(value.data);
       emit(GetDataSheetSuccessState());
     }).catchError((error) {
@@ -308,7 +308,7 @@ class AppCubit extends Cubit<AppStates> {
   Future searchProduct({String search}) {
     emit(GetSearchResultLoadingState());
     DioHelper.getData(
-        url: 'api/UserInfo/SearchProduct',
+        url: 'api/Product/SearchProduct',
         query: {'search': search}).then((value) {
       searchProductModel = SearchProductModel.fromJson(value.data);
       emit(GetSearchResultSuccessState());
@@ -326,10 +326,11 @@ class AppCubit extends Cubit<AppStates> {
     double discountInvoices,
     double totalWithInvoices,
   }) async {
-    print('totalInvoices: $totalInvoices,'
+    print(
+        'invoiceNumber: ${invoicesNumberModel.payload}, totalInvoices: $totalInvoices,'
         'discountInvoices: $discountInvoices, totalWithInvoices: $totalWithInvoices');
     emit(AddInvoiceLoadingState());
-    DioHelper.postData(url: 'api/UserInfo/AddNewInvoices', data: {
+    DioHelper.postData(url: 'api/Invoice/AddNewInvoices', data: {
       "id": 0,
       "invoicesNumber": invoicesNumberModel.payload,
       "isRecived": true,
@@ -340,24 +341,7 @@ class AppCubit extends Cubit<AppStates> {
       "totalWithInvoices": totalWithInvoices,
       "totalPayed": 0,
       "totalAmount": 0,
-      "details": [
-        {
-          "id": 0,
-          "productId": 0,
-          "productName": "string",
-          "numberIron": 0,
-          "typeOfProduct": 0,
-          "typeOfProductText": "string",
-          "quantity": 0,
-          "descount": 0,
-          "pricePerOne": 0,
-          "priceWithDescount": 0,
-          "pricePerMeter": 0,
-          "isRecived": true,
-          "imgURL": "string",
-          "totalOrder": 0
-        }
-      ],
+      "details": [],
       "fromUserId": "string",
       "toUserId": "string"
     }).then((value) {
@@ -376,9 +360,10 @@ class AppCubit extends Cubit<AppStates> {
     emit(AddInvoiceDetailsLoadingState());
     DioHelper.postData(
       query: {'invoiceId': invoiceResponse.payload},
-      url: '/api/UserInfo/AddInvoicesDetails',
+      url: 'api/Invoice/AddInvoicesDetails',
       data: order,
     ).then((value) {
+      print("invoice details: " + order.toString());
       emit(AddInvoiceDetailsSuccessState());
       addInvoiceDetailsResponse = value.data;
       print(value.data);
@@ -416,7 +401,7 @@ class AppCubit extends Cubit<AppStates> {
   Future updateInvoiceDetails({int invoiceId}) {
     emit(UpdateInvoiceDetailsLoadingState());
     DioHelper.postData(
-      url: 'api/UserInfo/UpdateInvoicesDetails',
+      url: 'api/Invoice/UpdateInvoicesDetails',
       query: {'invoiceId': invoiceId},
       data: invoiceDetails,
     ).then((value) {
@@ -438,7 +423,7 @@ class AppCubit extends Cubit<AppStates> {
     double totalWithDiscount,
   }) {
     emit(SendInvoiceLoadingState());
-    DioHelper.getData(url: 'api/UserInfo/UpdateInvoices', query: {
+    DioHelper.getData(url: 'api/Invoice/UpdateInvoices', query: {
       'invoiceId': invoiceId,
       'description': description,
       'isRecived': true,
@@ -464,7 +449,7 @@ class AppCubit extends Cubit<AppStates> {
     double totalWithDiscount,
   }) {
     emit(RefuseInvoiceLoadingState());
-    DioHelper.getData(url: 'api/UserInfo/UpdateInvoices', query: {
+    DioHelper.getData(url: 'api/Invoice/UpdateInvoices', query: {
       'invoiceId': invoiceId,
       'description': description,
       'isRecived': false,

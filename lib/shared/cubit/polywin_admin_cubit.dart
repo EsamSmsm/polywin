@@ -47,7 +47,7 @@ class PolywinAdminCubit extends Cubit<PolywinAdminStates> {
   GetAllDiscountsModel getAllDiscountsModel;
   void getAllDiscounts() {
     emit(GetDiscountsLoadingState());
-    DioHelper.getData(url: 'api/UserInfo/GetAllDescount').then((value) {
+    DioHelper.getData(url: 'api/Discount/GetAllDescount').then((value) {
       getAllDiscountsModel = GetAllDiscountsModel.fromJson(value.data);
       getAllDiscountsModel.payload.forEach((element) {
         if (element.typeOfDescount == 2) {
@@ -92,7 +92,7 @@ class PolywinAdminCubit extends Cubit<PolywinAdminStates> {
   StoreDataModel getStoreDataModel;
   void getStoreData() {
     emit(GetStoreDataLoadingState());
-    DioHelper.getData(url: 'api/UserInfo/GetAllStoreByUserId').then((value) {
+    DioHelper.getData(url: 'api/Store/GetAllStoreByUserId').then((value) {
       getStoreDataModel = StoreDataModel.fromJson(value.data);
       emit(GetStoreDataSuccessState());
     }).catchError((error) {
@@ -104,7 +104,7 @@ class PolywinAdminCubit extends Cubit<PolywinAdminStates> {
   GetClientTypeCountModel getClientTypeCountModel;
   void getClientTypeCount() {
     emit(GetClientTypeCountLoadingState());
-    DioHelper.getData(url: 'api/UserInfo/GetClientTypeCount').then((value) {
+    DioHelper.getData(url: 'api/Client/GetClientTypeCount').then((value) {
       getClientTypeCountModel = GetClientTypeCountModel.fromJson(value.data);
       emit(GetClientTypeCountSuccessState());
     }).catchError((error) {
@@ -117,7 +117,7 @@ class PolywinAdminCubit extends Cubit<PolywinAdminStates> {
   ClientTypeDetailsModel allClientsDetailsModel;
   void getClientTypeDetails() {
     emit(GetClientTypeDetailsLoadingState());
-    DioHelper.getData(url: 'api/UserInfo/GetClientTypeDetails').then((value) {
+    DioHelper.getData(url: 'api/Client/GetClientTypeDetails').then((value) {
       allClientsDetailsModel = ClientTypeDetailsModel.fromJson(value.data);
       emit(GetClientTypeDetailsSuccessState());
     }).catchError((error) {
@@ -130,7 +130,7 @@ class PolywinAdminCubit extends Cubit<PolywinAdminStates> {
   void getAgentsStatistics() {
     emit(GetAgentsStatsLoadingState());
     DioHelper.getData(
-        url: 'api/UserInfo/GetStatisticsForAgent',
+        url: '/api/Invoice/GetStatisticsForAgent',
         query: {'userType': 2}).then((value) {
       getAgentsStatisticsModel = GetAgentsStatisticsModel.fromJson(value.data);
       emit(GetAgentsStatsSuccessState());
@@ -209,7 +209,7 @@ class PolywinAdminCubit extends Cubit<PolywinAdminStates> {
   EditDiscountsResponse editDiscountsResponse;
   void adjustDiscountValues({int id, int typeOfDiscount, double discount}) {
     emit(AdjustDiscountsLoadingState());
-    DioHelper.postData(url: 'api/UserInfo/EditDescount', data: {
+    DioHelper.postData(url: 'api/Discount/AddEditDescount', data: {
       "id": id,
       "typeOfDescount": typeOfDiscount,
       "descount": discount
@@ -226,7 +226,7 @@ class PolywinAdminCubit extends Cubit<PolywinAdminStates> {
   List<dynamic> governments = [];
   void getAllGovernments() {
     emit(GetGovernmentsLoadingState());
-    DioHelper.getData(url: 'api/UserInfo/GetAllGovernment').then((value) {
+    DioHelper.getData(url: 'api/Government/GetAllGovernment').then((value) {
       governments = value.data;
       emit(GetGovernmentsSuccessState());
     }).catchError((error) {

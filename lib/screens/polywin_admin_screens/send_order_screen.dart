@@ -33,6 +33,8 @@ class SendOrderScreen extends StatelessWidget {
               buttonText: 'شكرا',
               action: () {
                 cubit.invoiceDetails = [];
+                cubit.getPolywinInvoices();
+                cubit.emit(GetPolywinInvoicesSuccessState());
                 Navigator.pop(context);
                 Navigator.pop(context);
               });
@@ -121,13 +123,14 @@ class SendOrderScreen extends StatelessWidget {
                             textDirection: TextDirection.rtl,
                             children: [
                               Container(
-                                width: 50,
-                                height: 50,
+                                width: 60,
+                                height: 60,
                                 decoration: BoxDecoration(
                                   color: Colors.white,
                                   image: DecorationImage(
+                                    fit: BoxFit.cover,
                                     image: NetworkImage('$kBaseURL'
-                                        ' ${cubit.getPolywinInvoicesModel.payload[invoiceIndex].details[index].imgUrl}'),
+                                        '${cubit.getPolywinInvoicesModel.payload[invoiceIndex].details[index].imgUrl}'),
                                   ),
                                 ),
                               ),

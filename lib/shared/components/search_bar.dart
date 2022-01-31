@@ -27,6 +27,7 @@ class SearchBar extends StatelessWidget {
       child: TextFormField(
         textDirection: TextDirection.rtl,
         onChanged: (value) => search,
+        onFieldSubmitted: (value) => search,
         controller: controller,
         cursorColor: Colors.grey,
         // cursorHeight: 26,

@@ -118,7 +118,7 @@ class UpdateInstallmentsScreen extends StatelessWidget {
                                         cubit
                                             .installmentByContractIdModel[index]
                                             .costPerMonth
-                                            .toString(),
+                                            .toStringAsFixed(2),
                                         style: TextStyle(
                                             color: Colors.black54,
                                             fontSize: 18,

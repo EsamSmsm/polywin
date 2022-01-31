@@ -109,7 +109,7 @@ class WorkshopCubit extends Cubit<WorkshopStates> {
   GetClientType getClientType;
   void getClientTypeList() {
     emit(GetClientTypeLoadingState());
-    DioHelper.getData(url: 'api/UserInfo/GetAllClientType').then((value) {
+    DioHelper.getData(url: 'api/ClienType/GetAllClientType').then((value) {
       getClientType = GetClientType.fromJson(value.data);
       emit(GetClientTypeSuccessState());
     }).catchError((error) {
@@ -124,7 +124,7 @@ class WorkshopCubit extends Cubit<WorkshopStates> {
   GetWorkShopProductsModel workShopProductsModel;
   void getWorkShopProducts() {
     emit(GetWorkshopProductsLoadingState());
-    DioHelper.getData(url: 'api/UserInfo/GetAllParentSubCategory')
+    DioHelper.getData(url: 'api/CategoryCost/GetAllParentSubCategory')
         .then((value) {
       workShopProductsModel = GetWorkShopProductsModel.fromJson(value.data);
       emit(GetWorkshopProductsSuccessState());
@@ -145,8 +145,7 @@ class WorkshopCubit extends Cubit<WorkshopStates> {
   GetAllClientsModel getAllClientsModel;
   void getAllClients() {
     emit(GetAllClientsLoadingState());
-    DioHelper.getData(url: 'api/UserInfo/GetAllClientByUserLogIn')
-        .then((value) {
+    DioHelper.getData(url: 'api/Client/GetAllClientByUserLogIn').then((value) {
       getAllClientsModel = GetAllClientsModel.fromJson(value.data);
       print(value.data);
       emit(GetAllClientsSuccessState());
@@ -184,7 +183,7 @@ class WorkshopCubit extends Cubit<WorkshopStates> {
       dynamic totalWithDiscount,
       String costsIds}) {
     emit(AddContractLoadingState());
-    DioHelper.postData(url: '/api/UserInfo/AddNewContract', data: {
+    DioHelper.postData(url: 'api/Contract/AddNewContract', data: {
       "invoicesNumber": contractNumberModel.payload,
       "clientId": clientId,
       "describtion": description,
@@ -213,15 +212,17 @@ class WorkshopCubit extends Cubit<WorkshopStates> {
       var expenses,
       var net}) {
     emit(RequestPriceLoadingState());
-    DioHelper.postData(url: 'api/UserInfo/GetTotalPriceWithItems', data: {
-      "subCategoryId": subCategoryId,
-      "colorId": colorId,
-      "width": width,
-      "height": height,
-      "mortal": mortal,
-      "expenses": expenses,
-      "net": net
-    }).then((value) {
+    DioHelper.postData(
+        url: 'api/ProductIngredients/GetTotalPriceWithItems',
+        data: {
+          "subCategoryId": subCategoryId,
+          "colorId": colorId,
+          "width": width,
+          "height": height,
+          "mortal": mortal,
+          "expenses": expenses,
+          "net": net
+        }).then((value) {
       totalPriceModel = GetTotalPriceModel.fromJson(value.data);
       emit(RequestPriceSuccessState());
       print(value.data);
@@ -253,7 +254,7 @@ class WorkshopCubit extends Cubit<WorkshopStates> {
     });
     emit(AddClientLoadingState());
     DioHelper.postData(
-      url: 'api/UserInfo/CreateNewClient',
+      url: 'api/Client/CreateNewClient',
       data: formData,
     ).then((value) {
       print(value.data);
@@ -268,7 +269,7 @@ class WorkshopCubit extends Cubit<WorkshopStates> {
   GetContractNumberModel contractNumberModel;
   void getContractNumber() {
     emit(GetContractNumberLoadingState());
-    DioHelper.getData(url: 'api/UserInfo/GetContractNumber').then((value) {
+    DioHelper.getData(url: 'api/Contract/GetContractNumber').then((value) {
       contractNumberModel = GetContractNumberModel.fromJson(value.data);
       emit(GetContractNumberSuccessState());
     }).catchError((error) {
@@ -282,7 +283,7 @@ class WorkshopCubit extends Cubit<WorkshopStates> {
   void getCostsByClient({int clientId}) {
     emit(GetCostByClientLoadingState());
     DioHelper.getData(
-        url: 'api/UserInfo/GetCostCalcAssignClientId',
+        url: 'api/CostCalcToClient/GetCostCalcAssignClientId',
         query: {'ClientId': clientId}).then((value) {
       costs = value.data;
       print(value.data);
@@ -298,7 +299,7 @@ class WorkshopCubit extends Cubit<WorkshopStates> {
   WorkshopContractsModel workshopContractsModel;
   void getWorkshopContracts() {
     emit(GetWorkshopContractsLoadingState());
-    DioHelper.getData(url: 'api/UserInfo/GetAllContractByWorkShop')
+    DioHelper.getData(url: 'api/Contract/GetAllContractByWorkShop')
         .then((value) {
       workshopContractsModel = WorkshopContractsModel.fromJson(value.data);
       emit(GetWorkshopContractsSuccessState());
@@ -312,7 +313,7 @@ class WorkshopCubit extends Cubit<WorkshopStates> {
   void getInstallmentByClientId({int contractId}) {
     emit(GetWorkshopInstallmentsLoadingState());
     DioHelper.getData(
-        url: 'api/UserInfo/GetAllInstallmentByContractId',
+        url: 'api/Installment/GetAllInstallmentByContractId',
         query: {'ContractId': contractId}).then((value) {
       installmentByContractIdModel = value.data
           .map((e) => InstallmentByContractIdModel.fromJson(e))
@@ -327,8 +328,9 @@ class WorkshopCubit extends Cubit<WorkshopStates> {
   bool isInstallmentUpdated;
   void updateInstallment({int id}) {
     emit(UpdateInstallmentLoadingState());
-    DioHelper.getData(url: 'api/UserInfo/UpdateInstallment', query: {'id': id})
-        .then((value) {
+    DioHelper.getData(
+        url: 'api/Installment/UpdateInstallment',
+        query: {'id': id}).then((value) {
       isInstallmentUpdated = value.data;
       print(value.data);
       isInstallmentUpdated
@@ -346,7 +348,7 @@ class WorkshopCubit extends Cubit<WorkshopStates> {
     int costCalcId,
   }) {
     emit(AddWarrantyLoadingState());
-    DioHelper.postData(url: 'api/UserInfo/AddNewWarranty', data: {
+    DioHelper.postData(url: 'api/Warranty/AddNewWarranty', data: {
       "contractId": contractId,
       "contractItemId": costCalcId,
     }).then((value) {
@@ -368,7 +370,7 @@ class WorkshopCubit extends Cubit<WorkshopStates> {
       int installmentNumber,
       int clientId}) {
     emit(CheckInstallmentLoadingState());
-    DioHelper.postData(url: 'api/UserInfo/CheckInstallment', data: {
+    DioHelper.postData(url: 'api/Installment/CheckInstallment', data: {
       "contractId": contractId,
       "totalContract": totalContract,
       "numberInstallment": installmentNumber,
@@ -376,6 +378,7 @@ class WorkshopCubit extends Cubit<WorkshopStates> {
       print(value.data);
       checkInstallmentsModel =
           value.data.map((e) => CheckInstallmentsModel.fromJson(e)).toList();
+      instalmentControllers = [];
       checkInstallmentsModel.forEach((element) {
         instalmentControllers.add(TextEditingController());
       });
@@ -389,14 +392,14 @@ class WorkshopCubit extends Cubit<WorkshopStates> {
   void setInstallmentValues() {
     for (int i = 0; i < checkInstallmentsModel.length; i++) {
       checkInstallmentsModel[i].costPerMonth =
-          int.parse(instalmentControllers[i].text);
+          getTotalCost() * (int.parse(instalmentControllers[i].text) / 100);
     }
   }
 
   void sendInstallment({int clientId, contractId}) {
     emit(SendInstallmentLoadingState());
     DioHelper.postData(
-            url: 'api/UserInfo/AddNewInstallment',
+            url: 'api/Installment/AddNewInstallment',
             query: {'clientId': clientId, 'ContractId': contractId},
             data: checkInstallmentsModel)
         .then((value) {
@@ -426,7 +429,7 @@ class WorkshopCubit extends Cubit<WorkshopStates> {
     }
     emit(AddWarrantyGalleryLoadingState());
     DioHelper.postData(
-            url: 'api/UserInfo/AddGalleryUser',
+            url: 'api/GalleryUser/AddGalleryUser',
             query: {'contractItemId': contractItemId},
             data: formData)
         .then((value) {
@@ -446,7 +449,7 @@ class WorkshopCubit extends Cubit<WorkshopStates> {
   void sendTotalCostToUser({int costId, clientId}) {
     emit(SendTotalCostLoadingState());
     DioHelper.getData(
-        url: 'api/UserInfo/UpdateCostCalcToClient',
+        url: 'api/CostCalcToClient/UpdateCostCalcToClient',
         query: {'CostCalcId': costId, 'ClientId': clientId}).then((value) {
       getCostByClientResponse = value.data;
       emit(SendTotalCostSuccessState());
@@ -459,7 +462,7 @@ class WorkshopCubit extends Cubit<WorkshopStates> {
   WorkshopFactorsFileModel workshopFactorsFileModel;
   void getFactorsFile() {
     emit(GetFactorsFileLoadingState());
-    DioHelper.getData(url: 'PolyWinLogIn/GetAllFactor').then((value) {
+    DioHelper.getData(url: 'api/Factoring/GetAllFactor').then((value) {
       workshopFactorsFileModel = WorkshopFactorsFileModel.fromJson(value.data);
       emit(GetFactorsFileSuccessState());
     }).catchError((error) {

@@ -40,6 +40,7 @@ class PricesListScreen extends StatelessWidget {
                     if (cubit.searchProductModel != null) {
                       navigateTo(context, SearchResultScreen());
                     }
+                    print('searched');
                   },
                 ),
                 SizedBox(height: 20),
@@ -148,7 +149,7 @@ class PricesListScreen extends StatelessWidget {
                                                                 .descount /
                                                             100)))
                                                 .toStringAsFixed(2),
-                                            imagePath: '$kBaseURL'
+                                            imagePath:
                                                 '${cubit.productsListModel.payload[ndx].listProduct[index].imgUrl}',
                                           ),
                                           separatorBuilder: (context, index) =>
@@ -251,7 +252,7 @@ class ProductPriceCard extends StatelessWidget {
                   child: Container(
                     child: Image(
                       image: NetworkImage(
-                        imagePath ?? '',
+                        kBaseURL + imagePath ?? '',
                       ),
                       errorBuilder: (context, error, stackTrace) => Container(
                         color: Colors.blueGrey,

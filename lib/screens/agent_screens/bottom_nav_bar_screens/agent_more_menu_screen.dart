@@ -10,6 +10,7 @@ import 'package:polywin/screens/guest_user_screens/bottom_nav_bar_screens/info_s
 import 'package:polywin/screens/saved_orders_screen.dart';
 import 'package:polywin/screens/work_shop_screens/workshop_nav_bar_screens/workshop_more_menu_screen.dart';
 import 'package:polywin/shared/components/defaults.dart';
+import 'package:polywin/shared/cubit/app_cubit.dart';
 
 import '../../user_profile_screen.dart';
 
@@ -99,6 +100,7 @@ class AgentMoreMenuScreen extends StatelessWidget {
                                   fontSize: 17, color: Colors.black54),
                             ),
                             onTap: () {
+                              AppCubit.get(context).getUserInfo();
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
