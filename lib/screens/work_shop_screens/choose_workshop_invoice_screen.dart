@@ -147,7 +147,7 @@ class ChooseInvoiceScreen extends StatelessWidget {
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    Label(text: 'ادخل قيمة الدفعات'),
+                    Label(text: 'ادخل نسب الدفعات'),
                     SizedBox(
                       height: 20,
                     ),
@@ -172,7 +172,7 @@ class ChooseInvoiceScreen extends StatelessWidget {
                                 decoration: InputDecoration(
                                   border: InputBorder.none,
                                   focusedBorder: InputBorder.none,
-                                  hintText: "قيمة الدفعة",
+                                  hintText: "النسبةالمئويةللدفعة",
                                   hintStyle: TextStyle(color: Colors.black54),
                                   contentPadding: EdgeInsets.all(10),
                                   hintTextDirection: TextDirection.rtl,
@@ -394,16 +394,24 @@ class ChooseInvoiceScreen extends StatelessWidget {
                                     color: kDarkBlueColor,
                                     label: 'انشاء العقد',
                                     onTab: () {
-                                      cubit.getCostsId();
-                                      cubit.getTotalCost();
-                                      print('${cubit.getCostsId()}');
-                                      print(cubit.getTotalCost());
-                                      cubit.addNewContract(
-                                        clientId: cubit
-                                            .costsByClientModel[0].clientId,
-                                        totalCost: cubit.getTotalCost(),
-                                        costsIds: cubit.getCostsId().toString(),
-                                      );
+                                      showEnsureMessage(
+                                          context: context,
+                                          text: 'تأكيد انشاء العقد',
+                                          onTap: () {
+                                            Navigator.pop(context);
+                                            cubit.getCostsId();
+                                            cubit.getTotalCost();
+                                            print('${cubit.getCostsId()}');
+                                            print(cubit.getTotalCost());
+                                            cubit.addNewContract(
+                                              clientId: cubit
+                                                  .costsByClientModel[0]
+                                                  .clientId,
+                                              totalCost: cubit.getTotalCost(),
+                                              costsIds:
+                                                  cubit.getCostsId().toString(),
+                                            );
+                                          });
                                     },
                                   ),
                                 )

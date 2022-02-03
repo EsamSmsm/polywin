@@ -153,3 +153,5 @@ class UpdateProductQuantityLoadingState extends AppStates {}
 class UpdateProductQuantitySuccessState extends AppStates {}
 
 class UpdateProductQuantityErrorState extends AppStates {}
+
+class EditInvoiceState extends AppStates {}

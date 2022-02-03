@@ -12,21 +12,20 @@ class AdminWarehouseScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
-
-    return BlocConsumer<PolywinAdminCubit,PolywinAdminStates>(
+    return BlocConsumer<PolywinAdminCubit, PolywinAdminStates>(
       listener: (context, state) {},
       builder: (context, state) {
         PolywinAdminCubit cubit = PolywinAdminCubit.get(context);
 
-        double calculateTotalValue(){
+        double calculateTotalValue() {
           double total = 0;
-           cubit.getStoreDataModel.payload.forEach((element) {
-             element.listProduct.forEach((element) {
-               total += element.totalPriceProduct;
-             });});
-           print (total.toString());
-           return total;
+          cubit.getStoreDataModel.payload.forEach((element) {
+            element.listProduct.forEach((element) {
+              total += element.totalPriceProduct;
+            });
+          });
+          print(total.toString());
+          return total;
         }
 
         return Scaffold(
@@ -35,84 +34,140 @@ class AdminWarehouseScreen extends StatelessWidget {
             title: 'المخزن',
           ),
           body: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16),
-            child: ConditionalBuilder(
-              condition: cubit.getStoreDataModel != null,
-              fallback: (context) => LinearProgressIndicator(
-                color: kOrangeColor,
-              ),
-              builder: (context) => Column(
-                children: [
-                  SizedBox(
-                    height: 20,
-                  ),
-                  Container(
-                    height: MediaQuery.of(context).size.height*0.1,
-                    color: Colors.white,
-                    child: Directionality(
-                      textDirection: TextDirection.rtl,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: [
-                          Text('الاجمالي',style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold),),
-                          Text(' ${calculateTotalValue().toString()}  جنيه ',style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold))
-                        ],
-                      ),
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              child: ConditionalBuilder(
+                condition: cubit.getStoreDataModel != null,
+                fallback: (context) => LinearProgressIndicator(
+                  color: kOrangeColor,
+                ),
+                builder: (context) => Column(
+                  children: [
+                    SizedBox(
+                      height: 20,
                     ),
-                  ),
-                  SizedBox(height: 20),
-                  DefaultTabController(
-                      length: cubit.getStoreDataModel.payload.length,
-                      initialIndex: 0,
-                      child: Expanded(
-                        child: Column(
+                    Container(
+                      height: MediaQuery.of(context).size.height * 0.1,
+                      color: Colors.white,
+                      child: Directionality(
+                        textDirection: TextDirection.rtl,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
                           children: [
-                            TabBar(
-                              physics: BouncingScrollPhysics(),
-                              indicatorColor: kBlueColor,
-                              labelStyle: TextStyle(fontWeight: FontWeight.bold),
-                              isScrollable: cubit.getStoreDataModel.payload.length>3? true:false,
-                              unselectedLabelStyle:
-                              TextStyle(fontWeight: FontWeight.normal),
-                              tabs: List.generate(cubit.getStoreDataModel.payload.length, (index) => Text(
-                                cubit.getStoreDataModel.payload[index].categoryName,
+                            Text(
+                              'الاجمالي',
+                              style: TextStyle(
+                                  fontSize: 18, fontWeight: FontWeight.bold),
+                            ),
+                            Text(
+                                ' ${calculateTotalValue().toStringAsFixed(2)}  جنيه ',
                                 style: TextStyle(
-                                    color: Colors.black,
-                                    fontSize: 15,
-                                    fontFamily: 'GE_SS'),
-                              ),)
-                            ),
-                            Expanded(
-                              child: TabBarView(
-                                  physics: BouncingScrollPhysics(),
-                                  children: List.generate(cubit.getStoreDataModel.payload.length, (ndx) => Scaffold(
-                                    body: SingleChildScrollView(
-                                      child: Column(
-                                        children: [
-                                          SizedBox(height: 20,),
-                                          ListView.separated(
-                                              shrinkWrap: true,
-                                              physics: NeverScrollableScrollPhysics(),
-                                              itemCount: cubit.getStoreDataModel.payload[ndx].listProduct.length,
-                                              itemBuilder: (context, index) =>  ProductCard(
-                                                name: cubit.getStoreDataModel.payload[ndx].listProduct[index].productName,
-                                                code:  cubit.getStoreDataModel.payload[ndx].listProduct[index].productCode,
-                                                quantity:  cubit.getStoreDataModel.payload[ndx].listProduct[index].quantity.toString(),
-                                                totalProductValue:  cubit.getStoreDataModel.payload[ndx].listProduct[index].totalPriceProduct.toString(),
-                                              ),
-                                              separatorBuilder: (context, index) => SizedBox(height: 20,))
-                                        ],
-                                      ),
-                                    ),
-                                  ),)),
-                            ),
+                                    fontSize: 18, fontWeight: FontWeight.bold))
                           ],
                         ),
-                      )),
-                ],
-              ),
-            )
-          ),
+                      ),
+                    ),
+                    SizedBox(height: 20),
+                    DefaultTabController(
+                        length: cubit.getStoreDataModel.payload.length,
+                        initialIndex:
+                            cubit.getStoreDataModel.payload.length - 1,
+                        child: Expanded(
+                          child: Column(
+                            children: [
+                              TabBar(
+                                  physics: BouncingScrollPhysics(),
+                                  indicatorColor: kBlueColor,
+                                  labelStyle:
+                                      TextStyle(fontWeight: FontWeight.bold),
+                                  isScrollable:
+                                      cubit.getStoreDataModel.payload.length > 3
+                                          ? true
+                                          : false,
+                                  unselectedLabelStyle:
+                                      TextStyle(fontWeight: FontWeight.normal),
+                                  tabs: List.generate(
+                                    cubit.getStoreDataModel.payload.length,
+                                    (index) => Text(
+                                      cubit.getStoreDataModel.payload[index]
+                                          .categoryName,
+                                      style: TextStyle(
+                                          color: Colors.black,
+                                          fontSize: 15,
+                                          fontFamily: 'GE_SS'),
+                                    ),
+                                  )),
+                              Expanded(
+                                child: TabBarView(
+                                    physics: BouncingScrollPhysics(),
+                                    children: List.generate(
+                                      cubit.getStoreDataModel.payload.length,
+                                      (ndx) => Scaffold(
+                                        body: SingleChildScrollView(
+                                          child: Column(
+                                            children: [
+                                              SizedBox(
+                                                height: 20,
+                                              ),
+                                              ListView.separated(
+                                                  shrinkWrap: true,
+                                                  physics:
+                                                      NeverScrollableScrollPhysics(),
+                                                  itemCount: cubit
+                                                      .getStoreDataModel
+                                                      .payload[ndx]
+                                                      .listProduct
+                                                      .length,
+                                                  itemBuilder: (context,
+                                                          index) =>
+                                                      ProductCard(
+                                                        name: cubit
+                                                            .getStoreDataModel
+                                                            .payload[ndx]
+                                                            .listProduct[index]
+                                                            .productName,
+                                                        imagePath: cubit
+                                                            .getStoreDataModel
+                                                            .payload[ndx]
+                                                            .listProduct[index]
+                                                            .productImg,
+                                                        code: cubit
+                                                            .getStoreDataModel
+                                                            .payload[ndx]
+                                                            .listProduct[index]
+                                                            .productCode,
+                                                        quantity: cubit
+                                                            .getStoreDataModel
+                                                            .payload[ndx]
+                                                            .listProduct[index]
+                                                            .quantity
+                                                            .toString(),
+                                                        totalProductValue: cubit
+                                                            .getStoreDataModel
+                                                            .payload[ndx]
+                                                            .listProduct[index]
+                                                            .totalPriceProduct
+                                                            .toString(),
+                                                      ),
+                                                  separatorBuilder:
+                                                      (context, index) =>
+                                                          SizedBox(
+                                                            height: 20,
+                                                          )),
+                                              SizedBox(
+                                                height: 20,
+                                              )
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+                                    )),
+                              ),
+                            ],
+                          ),
+                        )),
+                  ],
+                ),
+              )),
         );
       },
     );
@@ -121,7 +176,12 @@ class AdminWarehouseScreen extends StatelessWidget {
 
 class ProductCard extends StatelessWidget {
   const ProductCard({
-    Key key, this.code, this.quantity, this.name, this.totalProductValue, this.imagePath,
+    Key key,
+    this.code,
+    this.quantity,
+    this.name,
+    this.totalProductValue,
+    this.imagePath,
   }) : super(key: key);
 
   final String code;
@@ -133,9 +193,7 @@ class ProductCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height:
-          MediaQuery.of(context).size.height *
-              0.2,
+      height: MediaQuery.of(context).size.height * 0.2,
       color: Colors.white,
       child: Column(
         children: [
@@ -146,32 +204,25 @@ class ProductCard extends StatelessWidget {
                 Expanded(
                   flex: 8,
                   child: Padding(
-                    padding:
-                        const EdgeInsets.only(
-                            top: 10, right: 10),
+                    padding: const EdgeInsets.only(top: 10, right: 10),
                     child: Column(
-                      mainAxisAlignment:
-                          MainAxisAlignment
-                              .spaceBetween,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       crossAxisAlignment: CrossAxisAlignment.end,
                       children: [
                         Directionality(
-                          textDirection:
-                              TextDirection.rtl,
+                          textDirection: TextDirection.rtl,
                           child: Row(
                             children: [
                               Text(
                                 'الكود : ',
-                                style: TextStyle(
-                                    color: kBlueColor,
-                                    fontSize: 17),
+                                style:
+                                    TextStyle(color: kBlueColor, fontSize: 17),
                               ),
-                              SizedBox(
-                                  width: 10),
+                              SizedBox(width: 10),
                               Text(
                                 code,
                                 style: TextStyle(
-                                  fontFamily: 'roboto',
+                                    fontFamily: 'roboto',
                                     color: kBlueColor,
                                     fontSize: 17),
                               )
@@ -180,11 +231,9 @@ class ProductCard extends StatelessWidget {
                         ),
                         Container(
                           child: Text(
-                              name,
+                            name,
                             style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 15
-                          ),
+                                fontWeight: FontWeight.bold, fontSize: 15),
                             overflow: TextOverflow.clip,
                             textDirection: TextDirection.rtl,
                           ),
@@ -199,8 +248,9 @@ class ProductCard extends StatelessWidget {
                   child: Container(
                     child: Image(
                       image: NetworkImage(
-                          '$kBaseURL$imagePath',),
-                      errorBuilder:(context, error, stackTrace) =>  Container(
+                        '$kBaseURL$imagePath',
+                      ),
+                      errorBuilder: (context, error, stackTrace) => Container(
                         color: Colors.grey.shade300,
                       ),
                     ),
@@ -217,56 +267,58 @@ class ProductCard extends StatelessWidget {
             child: Row(
               children: [
                 Expanded(
-                  flex:3,
+                    flex: 3,
                     child: Directionality(
-                  textDirection:
-                      TextDirection.rtl,
-                  child: Padding(
-                    padding: const EdgeInsets
-                            .symmetric(
-                        horizontal: 16),
-                    child: Row(
-                      children: [
-                        Text('اجمالي الصنف :',style: TextStyle(
-                            fontSize: 15,
-                            fontWeight: FontWeight.w600
-                        ),),
-                        SizedBox(width: 10,),
-                        Text(totalProductValue,style: TextStyle(
-                            fontSize: 15
-                        ),)
-                      ],
-                    ),
-                  ),
-                )),
+                      textDirection: TextDirection.rtl,
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 16),
+                        child: Row(
+                          children: [
+                            Text(
+                              'اجمالي الصنف :',
+                              style: TextStyle(
+                                  fontSize: 15, fontWeight: FontWeight.w600),
+                            ),
+                            SizedBox(
+                              width: 10,
+                            ),
+                            Text(
+                              totalProductValue,
+                              style: TextStyle(fontSize: 15),
+                            )
+                          ],
+                        ),
+                      ),
+                    )),
                 Container(
                   width: 1,
                   height: 35,
                   color: Colors.grey,
                 ),
                 Expanded(
-                  flex: 2,
+                    flex: 2,
                     child: Directionality(
-                  textDirection:
-                      TextDirection.rtl,
-                  child: Padding(
-                    padding: const EdgeInsets
-                            .symmetric(
-                        horizontal: 20),
-                    child: Row(
-                      children: [
-                        Text('العدد :',style: TextStyle(
-                          fontSize: 15,
-                          fontWeight: FontWeight.w600
-                        ),),
-                        SizedBox(width: 8,),
-                        Text(quantity,style: TextStyle(
-                          fontSize: 17
-                        ),)
-                      ],
-                    ),
-                  ),
-                )),
+                      textDirection: TextDirection.rtl,
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 20),
+                        child: Row(
+                          children: [
+                            Text(
+                              'العدد :',
+                              style: TextStyle(
+                                  fontSize: 15, fontWeight: FontWeight.w600),
+                            ),
+                            SizedBox(
+                              width: 8,
+                            ),
+                            Text(
+                              quantity,
+                              style: TextStyle(fontSize: 17),
+                            )
+                          ],
+                        ),
+                      ),
+                    )),
               ],
             ),
           ),

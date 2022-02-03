@@ -1,25 +1,48 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:nil/nil.dart';
-import 'package:polywin/models/get_all_invoices_from_polywin_model.dart';
 import 'package:polywin/shared/components/custom_appbar.dart';
 import 'package:polywin/shared/components/custom_button.dart';
-import 'package:polywin/shared/components/custom_button_2.dart';
 import 'package:polywin/shared/components/defaults.dart';
 import 'package:polywin/shared/constants.dart';
 import 'package:polywin/shared/cubit/app_cubit.dart';
 import 'package:polywin/shared/cubit/app_states.dart';
 
-class SendOrderScreen extends StatelessWidget {
+class SendOrderScreen extends StatefulWidget {
   SendOrderScreen({Key key, this.invoiceIndex}) : super(key: key);
 
   final int invoiceIndex;
 
-  List<TextEditingController> quantityControllers = [];
+  @override
+  State<SendOrderScreen> createState() => _SendOrderScreenState();
+}
+
+class _SendOrderScreenState extends State<SendOrderScreen> {
   TextEditingController descriptionController = TextEditingController();
-  List<bool> isReceived = [];
+
   bool isSent = false;
+  @override
+  void initState() {
+    AppCubit cubit = AppCubit.get(context);
+    cubit.invoiceDetails = [];
+    if (cubit.getPolywinInvoicesModel.payload[widget.invoiceIndex].details
+            .length >
+        0) {
+      cubit.getPolywinInvoicesModel.payload[widget.invoiceIndex].details
+          .forEach((element) {
+        cubit.isReceived.add(false);
+        cubit.quantityControllers
+            .add(TextEditingController(text: element.quantity.toString()));
+        cubit.insertInvoice(
+            id: element.id,
+            description: '',
+            isReceived: false,
+            quantity: element.quantity);
+      });
+    }
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<AppCubit, AppStates>(
@@ -32,11 +55,13 @@ class SendOrderScreen extends StatelessWidget {
               imagePath: 'assets/images/vector1.png',
               buttonText: 'شكرا',
               action: () {
-                cubit.invoiceDetails = [];
                 cubit.getPolywinInvoices();
                 cubit.emit(GetPolywinInvoicesSuccessState());
                 Navigator.pop(context);
                 Navigator.pop(context);
+                cubit.invoiceDetails = [];
+                cubit.isReceived = [];
+                cubit.quantityControllers = [];
               });
         } else if (state is RefuseInvoiceSuccessState) {
           showAlertDialogWithAction(
@@ -47,6 +72,8 @@ class SendOrderScreen extends StatelessWidget {
               buttonText: 'شكرا',
               action: () {
                 cubit.invoiceDetails = [];
+                cubit.isReceived = [];
+                cubit.quantityControllers = [];
                 cubit.getPolywinInvoices();
                 Navigator.pop(context);
                 Navigator.pop(context);
@@ -54,27 +81,12 @@ class SendOrderScreen extends StatelessWidget {
         }
       },
       builder: (context, state) {
+        // List<Detail> products =
+        //     cubit.getPolywinInvoicesModel.payload[invoiceIndex].details;
+        //
+        // double totalInvoice = cubit
+        //     .getPolywinInvoicesModel.payload[invoiceIndex].totalWithInvoices;
         AppCubit cubit = AppCubit.get(context);
-        cubit.invoiceDetails = [];
-        if (cubit.getPolywinInvoicesModel.payload[invoiceIndex].details.length >
-            0) {
-          cubit.getPolywinInvoicesModel.payload[invoiceIndex].details
-              .forEach((element) {
-            isReceived.add(false);
-            quantityControllers
-                .add(TextEditingController(text: element.quantity.toString()));
-            cubit.insertInvoice(
-                id: element.id,
-                description: '',
-                isReceived: false,
-                quantity: element.quantity);
-          });
-        }
-        List<Detail> products =
-            cubit.getPolywinInvoicesModel.payload[invoiceIndex].details;
-
-        double totalInvoice = cubit
-            .getPolywinInvoicesModel.payload[invoiceIndex].totalWithInvoices;
         return Scaffold(
           backgroundColor: Colors.white,
           appBar: CustomAppBar(
@@ -113,7 +125,7 @@ class SendOrderScreen extends StatelessWidget {
                         shrinkWrap: true,
                         physics: NeverScrollableScrollPhysics(),
                         itemCount: cubit.getPolywinInvoicesModel
-                            .payload[invoiceIndex].details.length,
+                            .payload[widget.invoiceIndex].details.length,
                         itemBuilder: (context, index) => Container(
                           padding:
                               EdgeInsets.symmetric(horizontal: 5, vertical: 10),
@@ -130,7 +142,7 @@ class SendOrderScreen extends StatelessWidget {
                                   image: DecorationImage(
                                     fit: BoxFit.cover,
                                     image: NetworkImage('$kBaseURL'
-                                        '${cubit.getPolywinInvoicesModel.payload[invoiceIndex].details[index].imgUrl}'),
+                                        '${cubit.getPolywinInvoicesModel.payload[widget.invoiceIndex].details[index].imgUrl}'),
                                   ),
                                 ),
                               ),
@@ -146,13 +158,13 @@ class SendOrderScreen extends StatelessWidget {
                                     child: Text(
                                       cubit
                                               .getPolywinInvoicesModel
-                                              .payload[invoiceIndex]
+                                              .payload[widget.invoiceIndex]
                                               .details[index]
                                               .productName +
                                           '- ' +
                                           cubit
                                               .getPolywinInvoicesModel
-                                              .payload[invoiceIndex]
+                                              .payload[widget.invoiceIndex]
                                               .details[index]
                                               .color,
                                       style: TextStyle(
@@ -166,7 +178,7 @@ class SendOrderScreen extends StatelessWidget {
                                     textDirection: TextDirection.rtl,
                                     children: [
                                       Text(
-                                        'المطلوب : ${cubit.getPolywinInvoicesModel.payload[invoiceIndex].details[index].quantity.toString()}',
+                                        'المطلوب : ${cubit.getPolywinInvoicesModel.payload[widget.invoiceIndex].details[index].quantity.toString()}',
                                         style: TextStyle(
                                             color: kOrangeColor,
                                             fontSize: 14,
@@ -178,12 +190,12 @@ class SendOrderScreen extends StatelessWidget {
                                       ),
                                       cubit
                                                   .getPolywinInvoicesModel
-                                                  .payload[invoiceIndex]
+                                                  .payload[widget.invoiceIndex]
                                                   .details[index]
                                                   .numberIron !=
                                               0
                                           ? Text(
-                                              'الحديد : ${cubit.getPolywinInvoicesModel.payload[invoiceIndex].details[index].numberIron.toString()}',
+                                              'الحديد : ${cubit.getPolywinInvoicesModel.payload[widget.invoiceIndex].details[index].numberIron.toString()}',
                                               style: TextStyle(
                                                   color: kOrangeColor,
                                                   fontSize: 14,
@@ -209,7 +221,8 @@ class SendOrderScreen extends StatelessWidget {
                                       borderRadius: BorderRadius.circular(5),
                                     ),
                                     child: TextFormField(
-                                      controller: quantityControllers[index],
+                                      controller:
+                                          cubit.quantityControllers[index],
                                       keyboardType: TextInputType.number,
                                       cursorColor: Colors.grey,
                                       style: TextStyle(
@@ -235,23 +248,25 @@ class SendOrderScreen extends StatelessWidget {
                                           fillColor: MaterialStateProperty.all(
                                             Color(0xffFFA41B),
                                           ),
-                                          value: isReceived[index],
+                                          value: cubit.isReceived[index],
                                           onChanged: (bool value) {
                                             setState(() {
-                                              isReceived[index] = value;
+                                              cubit.isReceived[index] = value;
                                               cubit.updateInvoice(
                                                   index: index,
-                                                  quantity: int.parse(
-                                                      quantityControllers[index]
-                                                          .text),
+                                                  quantity: int.parse(cubit
+                                                      .quantityControllers[
+                                                          index]
+                                                      .text),
                                                   id: cubit
                                                       .getPolywinInvoicesModel
-                                                      .payload[invoiceIndex]
+                                                      .payload[
+                                                          widget.invoiceIndex]
                                                       .details[index]
                                                       .id,
                                                   description: '',
                                                   isReceived:
-                                                      isReceived[index]);
+                                                      cubit.isReceived[index]);
                                             });
                                           }),
                                     );
@@ -290,14 +305,18 @@ class SendOrderScreen extends StatelessWidget {
                                   isSent = true;
                                   cubit.sendInvoice(
                                     invoiceId: cubit.getPolywinInvoicesModel
-                                        .payload[invoiceIndex].id,
-                                    totalInvoices: cubit.getPolywinInvoicesModel
-                                        .payload[invoiceIndex].totalInvoices,
-                                    discount: cubit.getPolywinInvoicesModel
-                                        .payload[invoiceIndex].descountInvoices,
+                                        .payload[widget.invoiceIndex].id,
+                                    totalInvoices: cubit
+                                        .getPolywinInvoicesModel
+                                        .payload[widget.invoiceIndex]
+                                        .totalInvoices,
+                                    discount: cubit
+                                        .getPolywinInvoicesModel
+                                        .payload[widget.invoiceIndex]
+                                        .descountInvoices,
                                     totalWithDiscount: cubit
                                         .getPolywinInvoicesModel
-                                        .payload[invoiceIndex]
+                                        .payload[widget.invoiceIndex]
                                         .totalWithInvoices,
                                     description: descriptionController.text,
                                   );
@@ -321,14 +340,18 @@ class SendOrderScreen extends StatelessWidget {
                                   isSent = false;
                                   cubit.refuseInvoice(
                                     invoiceId: cubit.getPolywinInvoicesModel
-                                        .payload[invoiceIndex].id,
-                                    totalInvoices: cubit.getPolywinInvoicesModel
-                                        .payload[invoiceIndex].totalInvoices,
-                                    discount: cubit.getPolywinInvoicesModel
-                                        .payload[invoiceIndex].descountInvoices,
+                                        .payload[widget.invoiceIndex].id,
+                                    totalInvoices: cubit
+                                        .getPolywinInvoicesModel
+                                        .payload[widget.invoiceIndex]
+                                        .totalInvoices,
+                                    discount: cubit
+                                        .getPolywinInvoicesModel
+                                        .payload[widget.invoiceIndex]
+                                        .descountInvoices,
                                     totalWithDiscount: cubit
                                         .getPolywinInvoicesModel
-                                        .payload[invoiceIndex]
+                                        .payload[widget.invoiceIndex]
                                         .totalWithInvoices,
                                     description: descriptionController.text,
                                   );

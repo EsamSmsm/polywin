@@ -58,8 +58,7 @@ class CustomerLayout extends StatelessWidget {
                       BottomNavigationBarItem(
                           icon: Icon(CustomIcons.warehouse), label: 'الورشة'),
                       BottomNavigationBarItem(
-                          icon: Icon(CustomIcons.avatar),
-                          label: 'الملف الشخصي'),
+                          icon: Icon(CustomIcons.avatar), label: 'بياناتي'),
                       BottomNavigationBarItem(
                           icon: Icon(CustomIcons.certificate),
                           label: 'الضمانات'),

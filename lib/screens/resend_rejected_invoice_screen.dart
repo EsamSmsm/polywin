@@ -1,24 +1,50 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:nil/nil.dart';
 import 'package:polywin/shared/components/custom_appbar.dart';
 import 'package:polywin/shared/components/custom_button.dart';
-import 'package:polywin/shared/components/custom_button_2.dart';
 import 'package:polywin/shared/components/defaults.dart';
 import 'package:polywin/shared/constants.dart';
 import 'package:polywin/shared/cubit/app_cubit.dart';
 import 'package:polywin/shared/cubit/app_states.dart';
 
-class ResendRejectedInvoiceScreen extends StatelessWidget {
+class ResendRejectedInvoiceScreen extends StatefulWidget {
   ResendRejectedInvoiceScreen({Key key, this.invoiceIndex}) : super(key: key);
 
   final int invoiceIndex;
 
-  List<TextEditingController> quantityControllers = [];
+  @override
+  State<ResendRejectedInvoiceScreen> createState() =>
+      _ResendRejectedInvoiceScreenState();
+}
+
+class _ResendRejectedInvoiceScreenState
+    extends State<ResendRejectedInvoiceScreen> {
   TextEditingController descriptionController = TextEditingController();
-  List<bool> isReceived = [];
+
   bool isSent = false;
+  @override
+  void initState() {
+    AppCubit cubit = AppCubit.get(context);
+    cubit.invoiceDetails = [];
+    if (cubit.getPolywinRejInvoicesModel.payload[widget.invoiceIndex].details
+            .length >
+        0) {
+      cubit.getPolywinRejInvoicesModel.payload[widget.invoiceIndex].details
+          .forEach((element) {
+        cubit.isReceived.add(false);
+        cubit.quantityControllers
+            .add(TextEditingController(text: element.quantity.toString()));
+        cubit.insertInvoice(
+            id: element.id,
+            description: '',
+            isReceived: false,
+            quantity: element.quantity);
+      });
+    }
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<AppCubit, AppStates>(
@@ -31,31 +57,17 @@ class ResendRejectedInvoiceScreen extends StatelessWidget {
               imagePath: 'assets/images/vector1.png',
               buttonText: 'شكرا',
               action: () {
-                cubit.invoiceDetails = [];
                 AppCubit.get(context).getPolywinRejInvoices();
                 Navigator.pop(context);
                 Navigator.pop(context);
+                cubit.invoiceDetails = [];
+                cubit.isReceived = [];
+                cubit.quantityControllers = [];
               });
         }
       },
       builder: (context, state) {
         AppCubit cubit = AppCubit.get(context);
-        cubit.invoiceDetails = [];
-        if (cubit.getPolywinRejInvoicesModel.payload[invoiceIndex].details
-                .length >
-            0) {
-          cubit.getPolywinRejInvoicesModel.payload[invoiceIndex].details
-              .forEach((element) {
-            isReceived.add(false);
-            quantityControllers
-                .add(TextEditingController(text: element.quantity.toString()));
-            cubit.insertInvoice(
-                id: element.id,
-                description: '',
-                isReceived: false,
-                quantity: element.quantity);
-          });
-        }
         return Scaffold(
           backgroundColor: Colors.white,
           appBar: CustomAppBar(
@@ -88,7 +100,7 @@ class ResendRejectedInvoiceScreen extends StatelessWidget {
                         shrinkWrap: true,
                         physics: NeverScrollableScrollPhysics(),
                         itemCount: cubit.getPolywinRejInvoicesModel
-                            .payload[invoiceIndex].details.length,
+                            .payload[widget.invoiceIndex].details.length,
                         itemBuilder: (context, index) => Container(
                           padding:
                               EdgeInsets.symmetric(horizontal: 5, vertical: 10),
@@ -98,13 +110,14 @@ class ResendRejectedInvoiceScreen extends StatelessWidget {
                             textDirection: TextDirection.rtl,
                             children: [
                               Container(
-                                width: 50,
-                                height: 50,
+                                width: 60,
+                                height: 60,
                                 decoration: BoxDecoration(
                                   color: Colors.white,
                                   image: DecorationImage(
+                                    fit: BoxFit.cover,
                                     image: NetworkImage('$kBaseURL'
-                                        ' ${cubit.getPolywinRejInvoicesModel.payload[invoiceIndex].details[index].imgUrl}'),
+                                        ' ${cubit.getPolywinRejInvoicesModel.payload[widget.invoiceIndex].details[index].imgUrl}'),
                                   ),
                                 ),
                               ),
@@ -120,13 +133,13 @@ class ResendRejectedInvoiceScreen extends StatelessWidget {
                                     child: Text(
                                       cubit
                                               .getPolywinRejInvoicesModel
-                                              .payload[invoiceIndex]
+                                              .payload[widget.invoiceIndex]
                                               .details[index]
                                               .productName +
                                           '- ' +
                                           cubit
                                               .getPolywinRejInvoicesModel
-                                              .payload[invoiceIndex]
+                                              .payload[widget.invoiceIndex]
                                               .details[index]
                                               .color,
                                       style: TextStyle(
@@ -140,7 +153,7 @@ class ResendRejectedInvoiceScreen extends StatelessWidget {
                                     textDirection: TextDirection.rtl,
                                     children: [
                                       Text(
-                                        'المطلوب : ${cubit.getPolywinRejInvoicesModel.payload[invoiceIndex].details[index].quantity.toString()}',
+                                        'المطلوب : ${cubit.getPolywinRejInvoicesModel.payload[widget.invoiceIndex].details[index].quantity.toString()}',
                                         style: TextStyle(
                                             color: kOrangeColor,
                                             fontSize: 14,
@@ -152,12 +165,12 @@ class ResendRejectedInvoiceScreen extends StatelessWidget {
                                       ),
                                       cubit
                                                   .getPolywinRejInvoicesModel
-                                                  .payload[invoiceIndex]
+                                                  .payload[widget.invoiceIndex]
                                                   .details[index]
                                                   .numberIron !=
                                               0
                                           ? Text(
-                                              'الحديد : ${cubit.getPolywinRejInvoicesModel.payload[invoiceIndex].details[index].numberIron.toString()}',
+                                              'الحديد : ${cubit.getPolywinRejInvoicesModel.payload[widget.invoiceIndex].details[index].numberIron.toString()}',
                                               style: TextStyle(
                                                   color: kOrangeColor,
                                                   fontSize: 14,
@@ -183,9 +196,9 @@ class ResendRejectedInvoiceScreen extends StatelessWidget {
                                       borderRadius: BorderRadius.circular(5),
                                     ),
                                     child: TextFormField(
-                                      controller: quantityControllers[index],
-                                      keyboardType:
-                                          TextInputType.numberWithOptions(),
+                                      controller:
+                                          cubit.quantityControllers[index],
+                                      keyboardType: TextInputType.number,
                                       cursorColor: Colors.grey,
                                       style: TextStyle(
                                           fontFamily: 'roboto', fontSize: 14),
@@ -224,23 +237,25 @@ class ResendRejectedInvoiceScreen extends StatelessWidget {
                                           fillColor: MaterialStateProperty.all(
                                             Color(0xffFFA41B),
                                           ),
-                                          value: isReceived[index],
+                                          value: cubit.isReceived[index],
                                           onChanged: (bool value) {
                                             setState(() {
-                                              isReceived[index] = value;
+                                              cubit.isReceived[index] = value;
                                               cubit.updateInvoice(
                                                   index: index,
                                                   id: cubit
                                                       .getPolywinRejInvoicesModel
-                                                      .payload[invoiceIndex]
+                                                      .payload[
+                                                          widget.invoiceIndex]
                                                       .details[index]
                                                       .id,
-                                                  quantity: int.parse(
-                                                      quantityControllers[index]
-                                                          .text),
+                                                  quantity: int.parse(cubit
+                                                      .quantityControllers[
+                                                          index]
+                                                      .text),
                                                   description: '',
                                                   isReceived:
-                                                      isReceived[index]);
+                                                      cubit.isReceived[index]);
                                             });
                                           }),
                                     );
@@ -280,20 +295,20 @@ class ResendRejectedInvoiceScreen extends StatelessWidget {
                                   cubit.sendInvoice(
                                       invoiceId: cubit
                                           .getPolywinRejInvoicesModel
-                                          .payload[invoiceIndex]
+                                          .payload[widget.invoiceIndex]
                                           .id,
                                       description: descriptionController.text,
                                       totalInvoices: cubit
                                           .getPolywinRejInvoicesModel
-                                          .payload[invoiceIndex]
+                                          .payload[widget.invoiceIndex]
                                           .totalInvoices,
                                       discount: cubit
                                           .getPolywinRejInvoicesModel
-                                          .payload[invoiceIndex]
+                                          .payload[widget.invoiceIndex]
                                           .descountInvoices,
                                       totalWithDiscount: cubit
                                           .getPolywinRejInvoicesModel
-                                          .payload[invoiceIndex]
+                                          .payload[widget.invoiceIndex]
                                           .totalWithInvoices);
                                 },
                               ),

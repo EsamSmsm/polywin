@@ -49,6 +49,7 @@ class _AgentOrdersScreenState extends State<AgentOrdersScreen> {
               return Future.delayed(Duration(seconds: 0));
             },
             child: SingleChildScrollView(
+              physics: AlwaysScrollableScrollPhysics(),
               child: Column(
                 children: [
                   Padding(

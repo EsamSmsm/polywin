@@ -214,7 +214,7 @@ class AppCubit extends Cubit<AppStates> {
   GetColorsModel colorsModel;
   void getColors() {
     emit(GetColorsLoadingState());
-    DioHelper.getData(url: 'api/Colors/GetAllColors').then((value) {
+    DioHelper.getData(url: 'api/Colors/GetColorsForWorkShop').then((value) {
       colorsModel = GetColorsModel.fromJson(value.data);
       emit(GetColorsSuccessState());
     }).catchError((error) {
@@ -385,6 +385,8 @@ class AppCubit extends Cubit<AppStates> {
     //print(invoiceDetails);
   }
 
+  List<bool> isReceived = [];
+  List<TextEditingController> quantityControllers = [];
   void updateInvoice(
       {int index, int id, String description, bool isReceived, int quantity}) {
     invoiceDetails.insert(index, {
@@ -394,6 +396,7 @@ class AppCubit extends Cubit<AppStates> {
       "qty": quantity,
     });
     invoiceDetails.removeAt(index + 1);
+    emit(EditInvoiceState());
     print('$invoiceDetails\n');
   }
 
@@ -433,6 +436,7 @@ class AppCubit extends Cubit<AppStates> {
     }).then((value) {
       updateInvoiceResponseModel =
           UpdateInvoiceResponseModel.fromJson(value.data);
+      print('$invoiceDetails\n');
       updateInvoiceDetails(invoiceId: invoiceId);
       emit(SendInvoiceSuccessState());
     }).catchError((error) {

@@ -80,139 +80,156 @@ class _AdminOrdersScreenState extends State<AdminOrdersScreen> {
                     fallback: (context) => LinearProgressIndicator(
                       backgroundColor: kOrangeColor,
                     ),
-                    builder: (context) => ListView.builder(
-                      reverse: true,
-                      shrinkWrap: true,
-                      physics: NeverScrollableScrollPhysics(),
-                      itemCount: cubit.getPolywinInvoicesModel.payload.length,
-                      itemBuilder: (context, index) => Container(
-                        margin: EdgeInsets.symmetric(vertical: 10),
-                        padding:
-                            EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-                        decoration: BoxDecoration(
-                            color: Color(0xffF8F8F8),
-                            boxShadow: [
-                              BoxShadow(color: Colors.grey, blurRadius: 0.5)
-                            ]),
-                        child: Column(
-                          children: [
-                            ///data column
-                            Column(
-                              children: [
-                                Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Text(
-                                      '${index + 1}',
-                                      style: TextStyle(
-                                          color: Color(0xff707070),
-                                          fontSize: 17),
-                                    ),
-                                    SizedBox(width: 80),
-                                    Text(
-                                      'تسلسل',
-                                      style: TextStyle(fontSize: 17),
-                                      textDirection: TextDirection.rtl,
-                                    )
-                                  ],
-                                ),
-                                SizedBox(
-                                  height: 10,
-                                ),
-                                Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Text(
-                                      cubit.getPolywinInvoicesModel
-                                              .payload[index].agent ??
-                                          '',
-                                      style: TextStyle(
-                                          color: Color(0xff707070),
-                                          fontSize: 17),
-                                    ),
-                                    SizedBox(width: 50),
-                                    Text(
-                                      'اسم الوكيل',
-                                      style: TextStyle(fontSize: 17),
-                                      textDirection: TextDirection.rtl,
-                                    )
-                                  ],
-                                ),
-                                SizedBox(
-                                  height: 10,
-                                ),
-                                Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Text(
-                                      cubit.getPolywinInvoicesModel
-                                          .payload[index].invoicesDate
-                                          .toString()
-                                          .substring(0, 10),
-                                      style: TextStyle(
-                                          color: Color(0xff707070),
-                                          fontSize: 17),
-                                    ),
-                                    SizedBox(width: 50),
-                                    Text(
-                                      'تاريخ الطلب',
-                                      style: TextStyle(fontSize: 17),
-                                      textDirection: TextDirection.rtl,
-                                    )
-                                  ],
-                                ),
-                                SizedBox(
-                                  height: 10,
-                                ),
-                                Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Text(
-                                      cubit.getPolywinInvoicesModel
-                                              .payload[index].totalWithInvoices
-                                              .toString() +
-                                          '  ج.م',
-                                      textDirection: TextDirection.rtl,
-                                      style: TextStyle(
-                                          color: Color(0xff707070),
-                                          fontSize: 17),
-                                    ),
-                                    SizedBox(width: 50),
-                                    Text(
-                                      'الاجمالي ',
-                                      style: TextStyle(fontSize: 17),
-                                      textDirection: TextDirection.rtl,
-                                    )
-                                  ],
-                                ),
-                                SizedBox(
-                                  height: 20,
-                                ),
-                              ],
+                    builder: (context) => cubit
+                                .getPolywinInvoicesModel.payload.length !=
+                            0
+                        ? ListView.builder(
+                            reverse: true,
+                            shrinkWrap: true,
+                            physics: NeverScrollableScrollPhysics(),
+                            itemCount:
+                                cubit.getPolywinInvoicesModel.payload.length,
+                            itemBuilder: (context, index) => Container(
+                              margin: EdgeInsets.symmetric(vertical: 10),
+                              padding: EdgeInsets.symmetric(
+                                  horizontal: 20, vertical: 10),
+                              decoration: BoxDecoration(
+                                  color: Color(0xffF8F8F8),
+                                  boxShadow: [
+                                    BoxShadow(
+                                        color: Colors.grey, blurRadius: 0.5)
+                                  ]),
+                              child: Column(
+                                children: [
+                                  ///data column
+                                  Column(
+                                    children: [
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Text(
+                                            '${index + 1}',
+                                            style: TextStyle(
+                                                color: Color(0xff707070),
+                                                fontSize: 17),
+                                          ),
+                                          SizedBox(width: 80),
+                                          Text(
+                                            'تسلسل',
+                                            style: TextStyle(fontSize: 17),
+                                            textDirection: TextDirection.rtl,
+                                          )
+                                        ],
+                                      ),
+                                      SizedBox(
+                                        height: 10,
+                                      ),
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Text(
+                                            cubit.getPolywinInvoicesModel
+                                                    .payload[index].agent ??
+                                                '',
+                                            style: TextStyle(
+                                                color: Color(0xff707070),
+                                                fontSize: 17),
+                                          ),
+                                          SizedBox(width: 50),
+                                          Text(
+                                            'اسم الوكيل',
+                                            style: TextStyle(fontSize: 17),
+                                            textDirection: TextDirection.rtl,
+                                          )
+                                        ],
+                                      ),
+                                      SizedBox(
+                                        height: 10,
+                                      ),
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Text(
+                                            cubit.getPolywinInvoicesModel
+                                                .payload[index].invoicesDate
+                                                .toString()
+                                                .substring(0, 10),
+                                            style: TextStyle(
+                                                color: Color(0xff707070),
+                                                fontSize: 17),
+                                          ),
+                                          SizedBox(width: 50),
+                                          Text(
+                                            'تاريخ الطلب',
+                                            style: TextStyle(fontSize: 17),
+                                            textDirection: TextDirection.rtl,
+                                          )
+                                        ],
+                                      ),
+                                      SizedBox(
+                                        height: 10,
+                                      ),
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Text(
+                                            cubit
+                                                    .getPolywinInvoicesModel
+                                                    .payload[index]
+                                                    .totalWithInvoices
+                                                    .toString() +
+                                                '  ج.م',
+                                            textDirection: TextDirection.rtl,
+                                            style: TextStyle(
+                                                color: Color(0xff707070),
+                                                fontSize: 17),
+                                          ),
+                                          SizedBox(width: 50),
+                                          Text(
+                                            'الاجمالي ',
+                                            style: TextStyle(fontSize: 17),
+                                            textDirection: TextDirection.rtl,
+                                          )
+                                        ],
+                                      ),
+                                      SizedBox(
+                                        height: 20,
+                                      ),
+                                    ],
+                                  ),
+                                  Row(
+                                    children: [
+                                      CustomButton2(
+                                        color: Color(0xffFFA41B),
+                                        label: 'عرض الطلبية',
+                                        onTab: () {
+                                          navigateTo(
+                                              context,
+                                              SendOrderScreen(
+                                                invoiceIndex: index,
+                                              ));
+                                        },
+                                      ),
+                                    ],
+                                  )
+                                ],
+                              ),
                             ),
-                            Row(
-                              children: [
-                                CustomButton2(
-                                  color: Color(0xffFFA41B),
-                                  label: 'عرض الطلبية',
-                                  onTab: () {
-                                    navigateTo(
-                                        context,
-                                        SendOrderScreen(
-                                          invoiceIndex: index,
-                                        ));
-                                  },
-                                ),
-                              ],
-                            )
-                          ],
-                        ),
-                      ),
-                    ),
+                          )
+                        : Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 200),
+                            child: Text(
+                              'لا يوجد طلبيات',
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 20,
+                                  color: Colors.black26),
+                            ),
+                          ),
                   )
                 ],
               ),

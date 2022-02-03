@@ -138,19 +138,8 @@ class ReceiveOrderScreen extends StatelessWidget {
                           textDirection: TextDirection.rtl,
                         ),
                         subtitle: Text(
-                          (cubit.getAllInvoicesModel.payload[invoiceIndex]
-                                          .details[index].totalOrder -
-                                      (cubit
-                                              .getAllInvoicesModel
-                                              .payload[invoiceIndex]
-                                              .details[index]
-                                              .totalOrder *
-                                          (cubit
-                                                  .getAllInvoicesModel
-                                                  .payload[invoiceIndex]
-                                                  .details[index]
-                                                  .descount /
-                                              100)))
+                          cubit.getAllInvoicesModel.payload[invoiceIndex]
+                                  .details[index].totalOrder
                                   .toStringAsFixed(2) +
                               ' جنيه',
                           textDirection: TextDirection.rtl,
@@ -182,9 +171,7 @@ class ReceiveOrderScreen extends StatelessWidget {
                                 pricePerMeter: element.pricePerMeter,
                                 pricePerOne: element.pricePerOne,
                                 priceWithDiscount: element.priceWithDescount,
-                                totalOrder: element.totalOrder -
-                                    (element.totalOrder *
-                                        (element.descount / 100)));
+                                totalOrder: element.totalOrder);
                           });
                           navigateTo(context, NewOrderPricingScreen());
                           navigateTo(context, OrderDetailsScreen());

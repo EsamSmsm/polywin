@@ -163,33 +163,41 @@ class WorkshopCalculatePricingScreen extends StatelessWidget {
                     ),
 
                     /// Color
-                    BlocBuilder<AppCubit, AppStates>(
-                      builder: (context, state) => StatefulBuilder(
-                          builder: (context, setState) => CustomDropdownField(
-                                hint: 'اللون',
-                                itemsList: AppCubit.get(context)
-                                        .colorsModel
-                                        .payload
-                                        .map((e) {
-                                      return DropdownMenuItem(
-                                        child: Text(
-                                          e.colorName,
-                                          textDirection: TextDirection.rtl,
-                                        ),
-                                        value: e,
-                                        alignment: Alignment.centerRight,
-                                      );
-                                    }).toList() ??
-                                    [],
-                                value: cubit.colorId,
-                                onChanged: (value) {
-                                  setState(() {
-                                    cubit.colorId = value;
-                                    print(value.id);
-                                  });
-                                },
-                              )),
-                    ),
+                    AppCubit.get(context).colorsModel == null
+                        ? Center(
+                            child: CircularProgressIndicator(
+                              color: kBlueColor,
+                            ),
+                          )
+                        : BlocBuilder<AppCubit, AppStates>(
+                            builder: (context, state) => StatefulBuilder(
+                                builder: (context, setState) =>
+                                    CustomDropdownField(
+                                      hint: 'اللون',
+                                      itemsList: AppCubit.get(context)
+                                              .colorsModel
+                                              .payload
+                                              .map((e) {
+                                            return DropdownMenuItem(
+                                              child: Text(
+                                                e.colorName,
+                                                textDirection:
+                                                    TextDirection.rtl,
+                                              ),
+                                              value: e,
+                                              alignment: Alignment.centerRight,
+                                            );
+                                          }).toList() ??
+                                          [],
+                                      value: cubit.colorId,
+                                      onChanged: (value) {
+                                        setState(() {
+                                          cubit.colorId = value;
+                                          print(value.id);
+                                        });
+                                      },
+                                    )),
+                          ),
                     SizedBox(
                       height: 30,
                     ),

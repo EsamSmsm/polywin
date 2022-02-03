@@ -41,6 +41,48 @@ void showLoadingDialogue(BuildContext context) {
   );
 }
 
+void showEnsureMessage({context, onTap, String text}) {
+  showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+            backgroundColor: Color(0xffF8F8F8),
+            title: Center(
+                child: Text(
+              text,
+              textDirection: TextDirection.rtl,
+              style: TextStyle(
+                color: kDarkBlueColor,
+                fontWeight: FontWeight.bold,
+              ),
+            )),
+            actionsAlignment: MainAxisAlignment.spaceEvenly,
+            actions: [
+              TextButton(
+                child: Text(
+                  'تراجع',
+                  style: TextStyle(color: Colors.white),
+                ),
+                style: ButtonStyle(
+                  backgroundColor: MaterialStateProperty.all(kOrangeColor),
+                ),
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+              ),
+              TextButton(
+                child: Text(
+                  'تأكيد',
+                  style: TextStyle(color: Colors.white),
+                ),
+                style: ButtonStyle(
+                  backgroundColor: MaterialStateProperty.all(kDarkBlueColor),
+                ),
+                onPressed: onTap,
+              ),
+            ],
+          ));
+}
+
 void showAlertDialog(
     {BuildContext context,
     Color messageColor = kBlueColor,

@@ -127,15 +127,16 @@ class ContractDetailsScreen extends StatelessWidget {
                             textDirection: TextDirection.rtl,
                             children: [
                               Text(
-                                cubit.contractInfoModel.itemList[index]
-                                    .productName,
+                                '${index + 1} - ' +
+                                    cubit.contractInfoModel.itemList[index]
+                                        .productName,
                                 style: TextStyle(
                                     letterSpacing: 1,
                                     wordSpacing: 3,
                                     height: 1.6,
                                     color: kBlueColor,
                                     fontWeight: FontWeight.bold,
-                                    fontSize: 18),
+                                    fontSize: 14),
                                 textDirection: TextDirection.rtl,
                               ),
                             ],
@@ -220,7 +221,7 @@ class ContractDetailsScreen extends StatelessWidget {
                                         cubit
                                             .installmentByContractIdModel[index]
                                             .costPerMonth
-                                            .toString(),
+                                            .toStringAsFixed(2),
                                         style: TextStyle(
                                             color: Colors.black54,
                                             fontSize: 18,
