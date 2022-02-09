@@ -1,3 +1,4 @@
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -229,6 +230,11 @@ class LoginScreen extends StatelessWidget {
                                   userName: userNameController.text,
                                   password: passwordController.text);
                             }
+                            var messaging = FirebaseMessaging.instance;
+                            messaging.getToken().then((value) {
+                              print(
+                                  value); //this is the push notification token
+                            });
                           },
                           child: Container(
                             height: 49,

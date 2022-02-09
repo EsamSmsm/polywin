@@ -1,4 +1,5 @@
 import 'package:bloc/bloc.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_phoenix/flutter_phoenix.dart';
@@ -17,39 +18,66 @@ import 'package:polywin/shared/cubit/customer_cubit.dart';
 import 'package:polywin/shared/cubit/polywin_admin_cubit.dart';
 import 'package:polywin/shared/cubit/workshop_cubit.dart';
 
-void main() async{
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   Bloc.observer = MyBlocObserver();
   DioHelper.init();
   await CacheHelper.init();
-  kToken= CacheHelper.getData('token');
+  kToken = CacheHelper.getData('token');
   runApp(Phoenix(child: MyApp()));
 }
-
 
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-
-    Widget getCurrentUser(){
-      switch(kUserType){
-        case 1: {return PolywinAdminLayout();} break;
-        case 2:{return AgentLayout();} break;
-        case 3: {return WorkShopLayout();} break;
-        case 4: {return CustomerLayout();} break;
-        default : {return HomeScreen();}
+    Widget getCurrentUser() {
+      switch (kUserType) {
+        case 1:
+          {
+            return PolywinAdminLayout();
+          }
+          break;
+        case 2:
+          {
+            return AgentLayout();
+          }
+          break;
+        case 3:
+          {
+            return WorkShopLayout();
+          }
+          break;
+        case 4:
+          {
+            return CustomerLayout();
+          }
+          break;
+        default:
+          {
+            return HomeScreen();
+          }
         //return null;
       }
     }
+
     return MultiBlocProvider(
-     providers: [
-       BlocProvider( create: (context) => AppCubit()..fetchData()),
-       BlocProvider( create: (context) => WorkshopCubit()..fetchData(),),
-       BlocProvider( create: (context) => PolywinAdminCubit()..fetchData(),),
-       BlocProvider( create: (context) => AgentCubit()..fetchData(),),
-       BlocProvider( create: (context) => CustomerCubit()..fetchData(),),
-     ],
+      providers: [
+        BlocProvider(create: (context) => AppCubit()..fetchData()),
+        BlocProvider(
+          create: (context) => WorkshopCubit()..fetchData(),
+        ),
+        BlocProvider(
+          create: (context) => PolywinAdminCubit()..fetchData(),
+        ),
+        BlocProvider(
+          create: (context) => AgentCubit()..fetchData(),
+        ),
+        BlocProvider(
+          create: (context) => CustomerCubit()..fetchData(),
+        ),
+      ],
       child: MaterialApp(
         title: 'Polywin',
         debugShowCheckedModeBanner: false,
@@ -57,10 +85,9 @@ class MyApp extends StatelessWidget {
           fontFamily: 'GE_SS',
           primarySwatch: Colors.blue,
         ),
-        home: kToken ==''?HomeScreen():getCurrentUser(),
+        home: kToken == '' ? HomeScreen() : getCurrentUser(),
         //
       ),
     );
   }
 }
-

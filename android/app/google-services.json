@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "28309588653",
+    "project_id": "polywin-ca811",
+    "storage_bucket": "polywin-ca811.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:28309588653:android:aa714f427e4bf9b71d5424",
+        "android_client_info": {
+          "package_name": "com.polywin.polywin"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "28309588653-b3f43n0f5dokr08vhcgivssl4n4nev63.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.polywin.polywin",
+            "certificate_hash": "fd7465182e00b8502a67150639b042711da16cf2"
+          }
+        },
+        {
+          "client_id": "28309588653-445ff3i2ua45rdqkr6ss3gt5vbh6fuq7.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC3g-1nt8z3t-Ek0W8ssXOwCbzgr67k8Q4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "28309588653-445ff3i2ua45rdqkr6ss3gt5vbh6fuq7.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
